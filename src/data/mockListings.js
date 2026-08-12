@@ -34,7 +34,7 @@ export const mockListings = [
     owner: 'Miguel',
     category: 'Power Tools',
     price: 9,
-    imageUrl: 'https://placehold.co/800x600?text=Router+%231',
+    imageUrl: 'https://via.placeholder.com/800x600?text=Router',
     available: true,
   },
   {
@@ -43,7 +43,7 @@ export const mockListings = [
     owner: 'Joy',
     category: 'Power Tools',
     price: 14,
-    imageUrl: 'https://placehold.co/800x600?text=Air+Compressor+%231',
+    imageUrl: 'https://via.placeholder.com/800x600?text=Air+Compressor',
     available: true,
   },
   {
@@ -79,7 +79,7 @@ export const mockListings = [
     owner: 'Michelle',
     category: 'Hand Tools',
     price: 5,
-    imageUrl: 'https://placehold.co/800x600?text=Pipe+Wrench+%231',
+    imageUrl: 'https://via.placeholder.com/800x600?text=Pipe+Wrench',
     available: true,
   },
   {
