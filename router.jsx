@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import App from "./App";
-import Home from "./src/pages/Home";
+import Landing from "./src/pages/Landing";
+import Catalog from "./src/pages/Catalog";
 import SignIn from "./src/pages/SignIn";
 import SignUp from "./src/pages/SignUp";
 import UserAccount from "./src/pages/UserAccount";
@@ -26,7 +27,8 @@ export const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Landing /> },
+      { path: "catalog", element: <Catalog /> },
       { path: "login", element: <SignIn /> },
       { path: "register", element: <SignUp /> },
       { path: "listings/new", element: <OwnerListing /> },

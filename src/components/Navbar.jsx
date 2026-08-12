@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-export default function Navbar({ isAuthenticated = false, userName = "", onLogout }) {
+export default function Navbar({ isAuthenticated = false, userName = "", onLogout, hideAuthLinks = false }) {
   return (
     <header className="navbar">
       <NavLink to="/" className="navbar__brand">
@@ -10,8 +10,7 @@ export default function Navbar({ isAuthenticated = false, userName = "", onLogou
 
       <nav className="navbar__links" aria-label="Main">
         <NavLink
-          to="/"
-          end
+          to="/catalog"
           className={({ isActive }) => `navbar__link${isActive ? " navbar__link--active" : ""}`}
         >
           Browse Tools
@@ -29,14 +28,16 @@ export default function Navbar({ isAuthenticated = false, userName = "", onLogou
             </button>
           </>
         ) : (
-          <>
-            <NavLink to="/login" className="navbar__link">
-              Sign In
-            </NavLink>
-            <NavLink to="/register" className="navbar__link navbar__link--cta">
-              Sign Up
-            </NavLink>
-          </>
+          !hideAuthLinks && (
+            <>
+              <NavLink to="/login" className="navbar__link">
+                Sign In
+              </NavLink>
+              <NavLink to="/register" className="navbar__link navbar__link--cta">
+                Sign Up
+              </NavLink>
+            </>
+          )
         )}
       </div>
     </header>

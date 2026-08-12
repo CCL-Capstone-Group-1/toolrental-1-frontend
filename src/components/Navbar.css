@@ -4,14 +4,13 @@
   justify-content: space-between;
   gap: var(--space-lg);
   padding: var(--space-md) var(--space-lg);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-bg);
+  background: var(--color-text);
+  color: #eaeae2;
 }
 
 .navbar__brand {
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--color-primary-dark);
 }
 
 .navbar__links {
@@ -21,24 +20,24 @@
 }
 
 .navbar__link {
-  color: var(--color-text-muted);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
+  opacity: 0.85;
 }
 
 .navbar__link:hover,
 .navbar__link--active {
-  color: var(--color-primary-dark);
+  opacity: 1;
 }
 
 .navbar__link--cta {
-  background: var(--color-primary);
-  color: #fff;
+  background: #eaeae2;
+  color: var(--color-text);
+  opacity: 1;
 }
 
 .navbar__link--cta:hover {
-  background: var(--color-primary-dark);
-  color: #fff;
+  opacity: 0.85;
 }
 
 .navbar__actions {
@@ -48,13 +47,13 @@
 }
 
 .navbar__user {
-  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
 .navbar__logout {
   background: none;
-  border: 1px solid var(--color-border);
+  border: 1px solid currentColor;
+  color: inherit;
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-sm);
   cursor: pointer;

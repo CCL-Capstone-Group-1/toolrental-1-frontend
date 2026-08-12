@@ -1,10 +1,10 @@
-.home {
+.catalog {
   padding: var(--space-lg);
   max-width: 1100px;
   margin: 0 auto;
 }
 
-.home__header {
+.catalog__header {
   display: flex;
   align-items: center;
   justify-content: space-between;

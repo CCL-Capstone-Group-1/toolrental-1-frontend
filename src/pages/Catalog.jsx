@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { useListings } from "../hooks/useListings";
 import FilterDropdown from "../listings/FilterDropdown";
 import ListingGrid from "../listings/ListingGrid";
-import "./Home.css";
+import "./Catalog.css";
 
-export default function Home() {
+export default function Catalog() {
   const { listings, isLoading, error, fetchListings } = useListings();
   const [filters, setFilters] = useState({ search: "", category: "" });
 
@@ -27,8 +27,8 @@ export default function Home() {
   }, [listings, filters]);
 
   return (
-    <main className="home">
-      <div className="home__header">
+    <main className="catalog">
+      <div className="catalog__header">
         <h1>Browse Tools</h1>
         <Link to="/listings/new">+ List a Tool</Link>
       </div>
