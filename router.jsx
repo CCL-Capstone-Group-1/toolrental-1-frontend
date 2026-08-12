@@ -1,10 +1,10 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import App from "./App";
-import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import UserAccount from "./pages/UserAccount";
-import { useAuth } from "./context/AuthContext";
+import Home from "./src/pages/Home";
+import SignIn from "./src/pages/SignIn";
+import SignUp from "./src/pages/SignUp";
+import UserAccount from "./src/pages/UserAccount";
+import { useAuth } from "./src/context/AuthContext";
 
 function ProtectedRoute() {
   const { user, isLoading } = useAuth();
