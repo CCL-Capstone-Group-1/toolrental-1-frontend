@@ -1,0 +1,33 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.field__label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.field__control {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.field__control:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+}
+
+.field__control--error {
+  border-color: var(--color-danger);
+}
+
+.field__error {
+  font-size: 0.8rem;
+  color: var(--color-danger);
+}

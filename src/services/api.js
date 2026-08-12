@@ -32,7 +32,11 @@ async function fetchWrapper(endpoint, options = {}) {
 
     if (!response.ok) {
       // 🛑 Throw an error that your UI components can easily catch and display
-      throw new Error(data.message || 'An unexpected error occurred during the request.');
+      const error = new Error(data.message || 'An unexpected error occurred during the request.');
+      // Field-level validation errors, if the backend sends them (e.g. { errors: { title: '...' } })
+      error.fieldErrors = data.errors || null;
+      error.status = response.status;
+      throw error;
     }
 
     return data;
