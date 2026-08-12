@@ -1,30 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../services/supabaseClient";
+import { createContext, useContext } from "react";
+import { useAuth as useAuthHook } from "../hooks/useAuth";
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const auth = useAuthHook();
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data?.user || null);
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user || null);
-      }
-    );
-
-    return () => listener.subscription.unsubscribe();
-  }, []);
-
-  return (
-    <AuthContext.Provider value={{ user }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

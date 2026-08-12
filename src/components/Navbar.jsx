@@ -21,17 +21,19 @@ export default function Navbar({ isAuthenticated = false, userName = "", onLogou
       <div className="navbar__actions">
         {isAuthenticated ? (
           <>
-            <span className="navbar__user">{userName}</span>
+            <NavLink to="/account" className="navbar__user">
+              {userName || "Profile"}
+            </NavLink>
             <button type="button" className="navbar__logout" onClick={onLogout}>
               Sign Out
             </button>
           </>
         ) : (
           <>
-            <NavLink to="/signin" className="navbar__link">
+            <NavLink to="/login" className="navbar__link">
               Sign In
             </NavLink>
-            <NavLink to="/signup" className="navbar__link navbar__link--cta">
+            <NavLink to="/register" className="navbar__link navbar__link--cta">
               Sign Up
             </NavLink>
           </>
