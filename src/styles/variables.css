@@ -3,7 +3,7 @@
   --color-primary-dark: #234f38;
   --color-text: #254644;
   --color-text-muted: #6b6b6b;
-  --color-border: #e0e0e0;
+  --color-border: var(--color-text);
   --color-bg: #eaeae2;
   --color-bg-muted: #f6f6f4;
   --color-danger: #b3261e;
@@ -17,5 +17,6 @@
   --radius-sm: 4px;
   --radius-md: 8px;
 
-  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-family-heading: "Fraunces", Georgia, "Times New Roman", serif;
 }

@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-export default function Navbar({ isAuthenticated = false, userName = "", onLogout, hideAuthLinks = false }) {
+export default function Navbar({
+  isAuthenticated = false,
+  userName = "",
+  onLogout,
+  authMode = "default",
+}) {
   return (
     <header className="navbar">
       <NavLink to="/" className="navbar__brand">
@@ -27,17 +32,33 @@ export default function Navbar({ isAuthenticated = false, userName = "", onLogou
               Sign Out
             </button>
           </>
+        ) : authMode === "hidden" ? null : authMode === "promptSignUp" ? (
+          <>
+            <span className="navbar__prompt">Not a member yet?</span>
+            <NavLink to="/register" className="navbar__link navbar__link--cta">
+              Sign Up
+            </NavLink>
+          </>
+        ) : authMode === "promptSignIn" ? (
+          <>
+            <span className="navbar__prompt">Already a member?</span>
+            <NavLink to="/login" className="navbar__link navbar__link--cta">
+              Sign In
+            </NavLink>
+          </>
+        ) : authMode === "hideSignUp" ? (
+          <NavLink to="/login" className="navbar__link">
+            Sign In
+          </NavLink>
         ) : (
-          !hideAuthLinks && (
-            <>
-              <NavLink to="/login" className="navbar__link">
-                Sign In
-              </NavLink>
-              <NavLink to="/register" className="navbar__link navbar__link--cta">
-                Sign Up
-              </NavLink>
-            </>
-          )
+          <>
+            <NavLink to="/login" className="navbar__link">
+              Sign In
+            </NavLink>
+            <NavLink to="/register" className="navbar__link navbar__link--cta">
+              Sign Up
+            </NavLink>
+          </>
         )}
       </div>
     </header>

@@ -1,7 +1,13 @@
 import ListingCard from "./ListingCard";
 import "./ListingGrid.css";
 
-export default function ListingGrid({ listings, isLoading, error, emptyMessage = "No tools found." }) {
+export default function ListingGrid({
+  listings,
+  isLoading,
+  error,
+  emptyMessage = "No tools found.",
+  isAuthenticated = false,
+}) {
   if (isLoading) {
     return <p className="listing-grid__status">Loading tools…</p>;
   }
@@ -17,7 +23,7 @@ export default function ListingGrid({ listings, isLoading, error, emptyMessage =
   return (
     <div className="listing-grid">
       {listings.map((listing) => (
-        <ListingCard key={listing.id} listing={listing} />
+        <ListingCard key={listing.id} listing={listing} isAuthenticated={isAuthenticated} />
       ))}
     </div>
   );

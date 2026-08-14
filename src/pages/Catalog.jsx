@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useListings } from "../hooks/useListings";
+import { useAuth } from "../context/AuthContext";
 import FilterDropdown from "../listings/FilterDropdown";
 import ListingGrid from "../listings/ListingGrid";
 import "./Catalog.css";
 
 export default function Catalog() {
+  const { user } = useAuth();
   const { listings, isLoading, error, fetchListings } = useListings();
   const [filters, setFilters] = useState({ search: "", category: "" });
 
@@ -34,7 +36,12 @@ export default function Catalog() {
       </div>
 
       <FilterDropdown categories={categories} onFilterChange={setFilters} />
-      <ListingGrid listings={filteredListings} isLoading={isLoading} error={error} />
+      <ListingGrid
+        listings={filteredListings}
+        isLoading={isLoading}
+        error={error}
+        isAuthenticated={Boolean(user)}
+      />
     </main>
   );
 }

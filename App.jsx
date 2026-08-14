@@ -2,6 +2,13 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "./src/context/AuthContext";
 import Navbar from "./src/components/Navbar";
 
+const AUTH_MODE_BY_PATH = {
+  "/catalog": "hidden",
+  "/": "hideSignUp",
+  "/login": "promptSignUp",
+  "/register": "promptSignIn",
+};
+
 export default function App() {
   const { user, logout } = useAuth();
   const { pathname } = useLocation();
@@ -12,7 +19,7 @@ export default function App() {
         isAuthenticated={Boolean(user)}
         userName={user?.name || user?.email}
         onLogout={logout}
-        hideAuthLinks={pathname === "/catalog"}
+        authMode={AUTH_MODE_BY_PATH[pathname] || "default"}
       />
       <Outlet />
     </div>

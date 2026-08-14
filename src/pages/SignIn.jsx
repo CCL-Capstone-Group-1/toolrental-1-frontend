@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import "./SignIn.css";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -22,37 +25,35 @@ export default function SignIn() {
   };
 
   return (
-    <div className="auth-page">
+    <main className="auth-page">
       <h1>Sign In</h1>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            required
-          />
-        </label>
 
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-        </label>
-
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Signing in..." : "Sign In"}
-        </button>
-
-        <div className="form-error">
-          {formError || error}
-        </div>
+      <form id="signin-form" className="auth-card" onSubmit={handleSubmit}>
+        <Input
+          label="Email"
+          name="email"
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          required
+        />
+        <Input
+          label="Password"
+          name="password"
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          required
+        />
       </form>
-    </div>
+
+      {(formError || error) && <p className="auth-page__error">{formError || error}</p>}
+
+      <div className="auth-page__actions">
+        <Button type="submit" form="signin-form" disabled={isLoading}>
+          {isLoading ? "Signing in…" : "Submit"}
+        </Button>
+      </div>
+    </main>
   );
 }

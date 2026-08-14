@@ -1,42 +1,109 @@
 .landing {
-  min-height: calc(100vh - 65px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-xl);
+  flex-direction: column;
 }
 
 .landing__hero {
-  max-width: 480px;
-  text-align: center;
+  position: relative;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-md);
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-xl);
+  background-size: cover;
+  background-position: center;
+  color: #eaeae2;
+}
+
+.landing__hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(37, 70, 68, 0.45);
+}
+
+.landing__hero h1,
+.landing__hero p {
+  position: relative;
+  margin: 0;
 }
 
 .landing__hero h1 {
-  font-size: 2rem;
-  margin: 0;
+  font-size: 2.5rem;
 }
 
 .landing__hero p {
-  color: var(--color-text-muted);
-  margin: 0;
-}
-
-.landing__actions {
-  display: flex;
-  gap: var(--space-md);
   margin-top: var(--space-sm);
+  font-size: 1.1rem;
 }
 
-.landing__browse-link {
-  margin-top: var(--space-md);
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
+.landing__signup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 130px;
+  padding: var(--space-lg);
 }
 
-.landing__browse-link:hover {
-  color: var(--color-primary-dark);
+.landing__signup .btn {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-text);
+}
+
+.landing__signup .btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
+}
+
+.landing__feature {
+  position: relative;
+  min-height: 320px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 130px;
+}
+
+.landing__callout {
+  --callout-width: 320px;
+  position: absolute;
+  bottom: -50px;
+  max-width: var(--callout-width);
+  background: var(--color-text);
+  color: #eaeae2;
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.landing__callout--left {
+  left: calc(12% + var(--callout-width));
+}
+
+.landing__callout--right {
+  right: calc(12% + var(--callout-width));
+}
+
+.landing__closing {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg) 130px;
+}
+
+.landing__closing p {
+  max-width: 640px;
+  background: var(--color-text);
+  color: #eaeae2;
+  padding: var(--space-xl);
+  border-radius: var(--radius-md);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.landing__footer {
+  height: 80px;
+  background: var(--color-text);
 }

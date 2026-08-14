@@ -9,8 +9,9 @@
 }
 
 .navbar__brand {
+  font-family: var(--font-family-heading);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 .navbar__links {
@@ -31,6 +32,8 @@
 }
 
 .navbar__link--cta {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.85rem;
   background: #eaeae2;
   color: var(--color-text);
   opacity: 1;
@@ -48,6 +51,11 @@
 
 .navbar__user {
   font-size: 0.9rem;
+}
+
+.navbar__prompt {
+  font-size: 0.85rem;
+  opacity: 0.85;
 }
 
 .navbar__logout {

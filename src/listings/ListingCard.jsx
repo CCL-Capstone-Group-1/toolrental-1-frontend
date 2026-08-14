@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import "./ListingCard.css";
 
-export default function ListingCard({ listing }) {
+export default function ListingCard({ listing, isAuthenticated = false }) {
   const { id, title, imageUrl, category, pricePerDay, ownerName } = listing;
 
   return (
-    <Link to={`/tools/${id}`} className="listing-card">
+    <Link to={isAuthenticated ? `/tools/${id}` : "/login"} className="listing-card">
       <div className="listing-card__image-wrap">
         {imageUrl ? (
           <img src={imageUrl} alt={title} className="listing-card__image" />
