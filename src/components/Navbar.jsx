@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import logo from "../assets/logo.png";
 import "./Navbar.css";
 
 export default function Navbar({
@@ -10,7 +11,7 @@ export default function Navbar({
   return (
     <header className="navbar">
       <NavLink to="/" className="navbar__brand">
-        toolbnb
+        <img src={logo} alt="toolbnb" className="navbar__logo" />
       </NavLink>
 
       <nav className="navbar__links" aria-label="Main">
