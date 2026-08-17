@@ -6,6 +6,11 @@ import SignIn from "./src/pages/SignIn";
 import SignUp from "./src/pages/SignUp";
 import UserAccount from "./src/pages/UserAccount";
 import OwnerListing from "./src/pages/OwnerListing";
+import ToolDetails from "./src/pages/ToolDetails";
+import Rental from "./src/pages/Rental";
+import Cart from "./src/pages/Cart";
+import Review from "./src/pages/Review";
+import ChatRoom from "./src/pages/ChatRoom";
 import { useAuth } from "./src/context/AuthContext";
 
 function ProtectedRoute() {
@@ -31,11 +36,17 @@ export const router = createBrowserRouter([
       { path: "catalog", element: <Catalog /> },
       { path: "login", element: <SignIn /> },
       { path: "register", element: <SignUp /> },
-      { path: "listings/new", element: <OwnerListing /> },
       {
-        path: "account",
         element: <ProtectedRoute />,
-        children: [{ index: true, element: <UserAccount /> }],
+        children: [
+          { path: "account", element: <UserAccount /> },
+          { path: "listings/new", element: <OwnerListing /> },
+          { path: "tools/:id", element: <ToolDetails /> },
+          { path: "rental/:id", element: <Rental /> },
+          { path: "cart", element: <Cart /> },
+          { path: "review/:id", element: <Review /> },
+          { path: "chat/:id", element: <ChatRoom /> },
+        ],
       },
       { path: "*", element: <Navigate to="/" replace /> },
     ],

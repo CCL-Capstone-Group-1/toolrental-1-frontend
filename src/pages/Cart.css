@@ -1,0 +1,116 @@
+.cart-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg) 80px;
+}
+
+.cart-page h1 {
+  font-size: 1.5rem;
+  margin: 0 0 var(--space-lg);
+}
+
+.cart-box {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xl);
+}
+
+.cart-page__empty {
+  color: var(--color-text-muted);
+}
+
+.cart-items {
+  list-style: none;
+  margin: 0 0 var(--space-lg);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cart-item__thumb {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cart-item__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-item__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-item__name {
+  font-weight: 600;
+}
+
+.cart-item__owner {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cart-item__delete {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-md);
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.cart-item__delete:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.cart-box__actions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-lg);
+}
+
+.cart-page__loans {
+  margin-top: var(--space-xl);
+}
+
+.cart-page__loans h2 {
+  font-size: 1.1rem;
+  margin: 0 0 var(--space-md);
+}
+
+.cart-page__loan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-md);
+}
+
+.cart-page__loan-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+}

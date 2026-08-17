@@ -38,12 +38,10 @@ export default function Landing() {
       <section className="landing__closing">
         <p>
           Find and rent the tools that you might not be able to afford for the job that needs doing. Even
-          better, rent them from your neighbors! Your neighborhood, town or even city can get you set up for
+          better: rent them from your neighbors! Your neighborhood, town or even city can get you set up for
           success in your personal projects. Sign up below to get started!
         </p>
       </section>
-
-      <footer className="landing__footer" />
     </main>
   );
 }

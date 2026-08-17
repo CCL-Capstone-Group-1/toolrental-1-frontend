@@ -12,12 +12,12 @@
 }
 
 .btn--primary {
-  background: var(--color-primary);
+  background: var(--color-text);
   color: #eaeae2;
 }
 
 .btn--primary:hover:not(:disabled) {
-  background: var(--color-primary-dark);
+  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
 
 .btn--secondary {
@@ -27,7 +27,7 @@
 }
 
 .btn--secondary:hover:not(:disabled) {
-  border-color: var(--color-primary);
+  border-color: var(--color-text);
 }
 
 .btn--danger {

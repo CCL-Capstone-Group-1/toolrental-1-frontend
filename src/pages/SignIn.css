@@ -49,11 +49,3 @@
   justify-content: flex-end;
   margin-top: var(--space-lg);
 }
-
-.auth-page__actions .btn {
-  background: var(--color-text);
-}
-
-.auth-page__actions .btn:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
-}

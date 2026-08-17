@@ -51,11 +51,6 @@
   padding: var(--space-sm) var(--space-lg);
   font-size: 1rem;
   border-radius: var(--radius-md);
-  background: var(--color-text);
-}
-
-.landing__signup .btn:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
 
 .landing__feature {
@@ -67,14 +62,14 @@
 }
 
 .landing__callout {
-  --callout-width: 320px;
+  --callout-width: 380px;
   position: absolute;
   bottom: -50px;
   max-width: var(--callout-width);
   background: var(--color-text);
   color: #eaeae2;
-  padding: var(--space-lg);
-  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  border-radius: 0;
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -94,16 +89,11 @@
 }
 
 .landing__closing p {
-  max-width: 640px;
+  max-width: 720px;
   background: var(--color-text);
   color: #eaeae2;
-  padding: var(--space-xl);
-  border-radius: var(--radius-md);
+  padding: 48px;
+  border-radius: 0;
   text-align: center;
   line-height: 1.6;
-}
-
-.landing__footer {
-  height: 80px;
-  background: var(--color-text);
 }

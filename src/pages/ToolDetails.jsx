@@ -1,0 +1,96 @@
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { listingService } from "../services/listingService";
+import { useReviews } from "../hooks/useReviews";
+import { useCart } from "../context/CartContext";
+import Button from "../components/Button";
+import "./ToolDetails.css";
+
+export default function ToolDetails() {
+  const { id } = useParams();
+  const [listing, setListing] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { reviews, fetchReviewsByTool } = useReviews();
+  const { items, addItem } = useCart();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    setIsLoading(true);
+    listingService
+      .getListingById(id)
+      .then((data) => {
+        if (isMounted) setListing(data);
+      })
+      .catch((err) => {
+        if (isMounted) setError(err.message || "Failed to load this tool.");
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
+      });
+
+    fetchReviewsByTool(id);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, fetchReviewsByTool]);
+
+  if (isLoading) return <p className="tool-details__status">Loading…</p>;
+  if (error) return <p className="tool-details__status tool-details__status--error">{error}</p>;
+  if (!listing) return <p className="tool-details__status">Tool not found.</p>;
+
+  const inCart = items.some((item) => item.id === listing.id);
+
+  return (
+    <main className="tool-details">
+      <div className="tool-details__image-wrap">
+        {listing.imageUrl ? (
+          <img src={listing.imageUrl} alt={listing.title} />
+        ) : (
+          <span>Tool Picture</span>
+        )}
+      </div>
+
+      <div className="tool-details__info">
+        <h1>{listing.title}</h1>
+        {listing.category && <p className="tool-details__category">{listing.category}</p>}
+        <p className="tool-details__price">${listing.pricePerDay}/day</p>
+        {listing.ownerName && <p className="tool-details__owner">Owner: {listing.ownerName}</p>}
+        {listing.description && <p className="tool-details__description">{listing.description}</p>}
+
+        <div className="tool-details__actions">
+          <Button type="button" onClick={() => addItem(listing)}>
+            {inCart ? "In Cart" : "Add To Cart"}
+          </Button>
+          <Link to={`/rental/${listing.id}`} className="tool-details__rent-link">
+            Rent this tool
+          </Link>
+        </div>
+      </div>
+
+      <aside className="tool-details__reviews">
+        <h2>Reviews</h2>
+        {reviews.length === 0 ? (
+          <p className="tool-details__status">No reviews yet.</p>
+        ) : (
+          <ul className="tool-details__review-list">
+            {reviews.map((review) => (
+              <li key={review.id} className="tool-details__review">
+                <div className="tool-details__review-head">
+                  <span>{review.reviewerName || "Reviewer"}</span>
+                  <span>{"★".repeat(review.rating || 0)}</span>
+                </div>
+                <p>{review.comment}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link to={`/review/${listing.id}`} className="tool-details__leave-review">
+          Leave a review
+        </Link>
+      </aside>
+    </main>
+  );
+}

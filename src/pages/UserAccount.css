@@ -1,0 +1,98 @@
+.account-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg) 80px;
+}
+
+.account-page__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.account-page__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-bg-muted);
+  color: var(--color-text);
+  font-size: 1.3rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.account-page__header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.account-page__address {
+  margin: var(--space-xs) 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.account-page__section {
+  margin-bottom: var(--space-xl);
+}
+
+.account-page__section h2 {
+  font-size: 1.1rem;
+  margin: 0 0 var(--space-md);
+  text-align: center;
+}
+
+.account-page__empty {
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.account-page__loan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-md);
+}
+
+.account-page__loan-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+}
+
+.account-page__loan-thumb {
+  aspect-ratio: 4 / 3;
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  overflow: hidden;
+}
+
+.account-page__loan-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-page__loan-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.account-page__loan-owner {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}

@@ -13,6 +13,11 @@
   transform: translateY(-2px);
 }
 
+.listing-card__link {
+  display: flex;
+  flex-direction: column;
+}
+
 .listing-card__image-wrap {
   aspect-ratio: 4 / 3;
   background: var(--color-bg-muted);
@@ -68,4 +73,24 @@
 .listing-card__price {
   font-weight: 600;
   color: var(--color-text);
+}
+
+.listing-card__footer {
+  padding: 0 var(--space-md) var(--space-md);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.listing-card__add-btn {
+  padding: var(--space-xs) var(--space-md);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-text);
+  color: #eaeae2;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.listing-card__add-btn:hover {
+  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }

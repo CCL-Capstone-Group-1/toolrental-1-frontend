@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "./src/context/AuthContext";
 import Navbar from "./src/components/Navbar";
+import Footer from "./src/components/Footer";
 
 const AUTH_MODE_BY_PATH = {
   "/catalog": "hidden",
@@ -22,6 +23,7 @@ export default function App() {
         authMode={AUTH_MODE_BY_PATH[pathname] || "default"}
       />
       <Outlet />
+      <Footer />
     </div>
   );
 }
