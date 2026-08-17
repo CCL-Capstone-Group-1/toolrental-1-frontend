@@ -8,8 +8,8 @@ import "./SignIn.css";
 export default function SignIn() {
   const navigate = useNavigate();
   const { login, error, isLoading } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("user@email.com");
+  const [password, setPassword] = useState("toolbnb");
   const [formError, setFormError] = useState(null);
 
   const handleSubmit = async (event) => {
@@ -27,6 +27,7 @@ export default function SignIn() {
   return (
     <main className="auth-page">
       <h1>Sign In</h1>
+      <p>Demo login: user@email.com / toolbnb</p>
 
       <form id="signin-form" className="auth-card" onSubmit={handleSubmit}>
         <Input

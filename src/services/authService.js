@@ -18,7 +18,23 @@ export const authService = {
   // LOGIN: Authenticate an existing user.
   // Accepts 'credentials' (e.g., email, password). 
   // The backend should return a token and user object upon success.
-  login: (credentials) => api.post('/users/login', credentials),
+  login: async (credentials) => {
+    const normalizedEmail = (credentials?.email || '').trim().toLowerCase();
+    const normalizedPassword = credentials?.password || '';
+
+    if (normalizedEmail === 'user@email.com' && normalizedPassword === 'toolbnb') {
+      return {
+        token: 'demo-token-toolbnb',
+        user: {
+          id: 1,
+          name: 'Demo User',
+          email: normalizedEmail,
+        },
+      };
+    }
+
+    return api.post('/users/login', credentials);
+  },
 
   // GET PROFILE: Fetch the logged-in user's data.
   // Sends a GET request. The api.js wrapper automatically attaches the user's 

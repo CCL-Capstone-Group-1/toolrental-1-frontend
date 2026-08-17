@@ -3,110 +3,111 @@
 // API is unreachable, so the Catalog page has real cards to show during
 // development. Safe to delete once a backend is available to hit.
 
+import airCompressorImage from '../images/airCompressorImage.png';
+import clawHammerImage from '../images/claw-hammer.png';
+import drillImage from '../images/drill.png';
+import lawnMowerImage from '../images/lawnmower.png';
+import leafBlowerImage from '../images/leafblower.png';
+import miterSawImage from '../images/milterSawImage.png';
+import pipeWrenchImage from '../images/pipewrench.png';
+import socketSetImage from '../images/socketset.png';
+import tableSawImage from '../images/tablesaw.png';
+
 export const mockListings = [
   {
     id: 1,
-    title: "Cordless Drill/Driver Combo",
-    ownerName: "Kendall",
-    category: "Power Tools",
+    title: 'Cordless Drill/Driver Combo',
+    ownerName: 'Kendall',
+    category: 'Power Tools',
     pricePerDay: 8,
-    imageUrl:
-      "https://images.pexels.com/photos/1249610/pexels-photo-1249610.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: drillImage,
   },
   {
     id: 2,
-    title: "Circular Saw",
-    ownerName: "Kendall",
-    category: "Power Tools",
+    title: 'Circular Saw',
+    ownerName: 'Kendall',
+    category: 'Power Tools',
     pricePerDay: 12,
-    imageUrl:
-      "https://images.pexels.com/photos/8820180/pexels-photo-8820180.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: tableSawImage,
   },
   {
     id: 3,
-    title: "Table Saw",
-    ownerName: "Miguel",
-    category: "Power Tools",
+    title: 'Table Saw',
+    ownerName: 'Miguel',
+    category: 'Power Tools',
     pricePerDay: 18,
-    imageUrl:
-      "https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: tableSawImage,
   },
   {
     id: 4,
-    title: "Router",
-    ownerName: "Miguel",
-    category: "Power Tools",
+    title: 'Router',
+    ownerName: 'Miguel',
+    category: 'Power Tools',
     pricePerDay: 9,
-    imageUrl: "https://placehold.co/800x600?text=Router",
+    imageUrl: drillImage,
   },
   {
     id: 5,
-    title: "Air Compressor",
-    ownerName: "Joy",
-    category: "Power Tools",
+    title: 'Air Compressor',
+    ownerName: 'Joy',
+    category: 'Power Tools',
     pricePerDay: 14,
-    imageUrl: "https://placehold.co/800x600?text=Air+Compressor",
+    imageUrl: airCompressorImage,
   },
   {
     id: 6,
-    title: "Miter Saw",
-    ownerName: "Dennis",
-    category: "Power Tools",
+    title: 'Miter Saw',
+    ownerName: 'Dennis',
+    category: 'Power Tools',
     pricePerDay: 15,
-    imageUrl:
-      "https://images.pexels.com/photos/8447855/pexels-photo-8447855.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: miterSawImage,
   },
   {
     id: 7,
-    title: "Socket Set",
-    ownerName: "Kdusan",
-    category: "Hand Tools",
+    title: 'Socket Set',
+    ownerName: 'Kdusan',
+    category: 'Hand Tools',
     pricePerDay: 6,
-    imageUrl:
-      "https://images.pexels.com/photos/4792482/pexels-photo-4792482.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: socketSetImage,
   },
   {
     id: 8,
-    title: "Claw Hammer",
-    ownerName: "Kdusan",
-    category: "Hand Tools",
+    title: 'Claw Hammer',
+    ownerName: 'Kdusan',
+    category: 'Hand Tools',
     pricePerDay: 3,
-    imageUrl:
-      "https://images.pexels.com/photos/5974343/pexels-photo-5974343.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: clawHammerImage,
   },
   {
     id: 9,
-    title: "Pipe Wrench",
-    ownerName: "Michelle",
-    category: "Hand Tools",
+    title: 'Pipe Wrench',
+    ownerName: 'Michelle',
+    category: 'Hand Tools',
     pricePerDay: 5,
-    imageUrl: "https://placehold.co/800x600?text=Pipe+Wrench",
+    imageUrl: pipeWrenchImage,
   },
   {
     id: 10,
-    title: "Push Lawn Mower",
-    ownerName: "Shahem",
-    category: "Yard Tools",
+    title: 'Push Lawn Mower',
+    ownerName: 'Shahem',
+    category: 'Yard Tools',
     pricePerDay: 20,
-    imageUrl:
-      "https://images.pexels.com/photos/4162016/pexels-photo-4162016.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: lawnMowerImage,
   },
   {
     id: 11,
-    title: "Leaf Blower",
-    ownerName: "Shahem",
-    category: "Yard Tools",
+    title: 'Leaf Blower',
+    ownerName: 'Shahem',
+    category: 'Yard Tools',
     pricePerDay: 12,
-    imageUrl:
-      "https://images.pexels.com/photos/1623214/pexels-photo-1623214.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: leafBlowerImage,
   },
   {
     id: 12,
-    title: "Chainsaw",
-    ownerName: "Jordan",
-    category: "Yard Tools",
+    title: 'Chainsaw',
+    ownerName: 'Jordan',
+    category: 'Yard Tools',
     pricePerDay: 18,
-    imageUrl:
-      "https://images.pexels.com/photos/8820192/pexels-photo-8820192.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+    imageUrl: lawnMowerImage,
   },
 ];
