@@ -27,6 +27,7 @@
 
 .navbar__browse-link {
   margin-right: var(--space-lg);
+  font-size: .85rem;
 }
 
 .navbar__link:hover,
@@ -35,10 +36,11 @@
 }
 
 .navbar__link--cta {
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
   font-size: 0.85rem;
   background: #eaeae2;
   color: var(--color-text);
+  border-radius: var(--radius-md);
   opacity: 1;
 }
 

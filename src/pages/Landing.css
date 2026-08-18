@@ -49,7 +49,7 @@
 
 .landing__signup .btn {
   padding: var(--space-sm) var(--space-lg);
-  font-size: 1rem;
+  font-size: .85rem;
   border-radius: var(--radius-md);
 }
 
