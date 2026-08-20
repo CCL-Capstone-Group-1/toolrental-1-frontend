@@ -70,6 +70,12 @@ export function useAuth() {
       return;
     }
 
+    // Skip profile fetch for demo token (offline mode)
+    if (currentToken === 'demo-token-toolbnb') {
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 

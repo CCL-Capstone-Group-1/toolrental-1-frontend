@@ -27,6 +27,7 @@ export default function SignIn() {
   return (
     <main className="signin-page">
       <h1>Sign In</h1>
+      <p>Demo login: user@email.com / toolbnb</p>
 
       <form id="signin-form" className="signin-card" onSubmit={handleSubmit}>
         <Input
