@@ -4,16 +4,19 @@ import { useListings } from "../hooks/useListings";
 import { useAuth } from "../context/AuthContext";
 import { mockListings } from "../data/mockListings";
 import FilterDropdown from "../listings/FilterDropdown";
-import ListingGrid from "../listings/ListingGrid";
+import ListingCarousel from "../listings/ListingCarousel";
+import "../listings/ListingGrid.css";
 import "./Catalog.css";
-
-const PAGE_SIZE = 8;
 
 export default function Catalog() {
   const { user } = useAuth();
   const { listings, isLoading, error, fetchListings } = useListings();
-  const [filters, setFilters] = useState({ search: "", category: "" });
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [filters, setFilters] = useState({
+    search: "",
+    category: "",
+    availability: "",
+    availabilityOption: "",
+  });
 
   useEffect(() => {
     fetchListings();
@@ -29,20 +32,40 @@ export default function Catalog() {
   );
 
   const filteredListings = useMemo(() => {
+    // There's no per-date booking data yet, so the availability filter is a
+    // stand-in: requesting a date or picking "Flexible Rates and Dates" just
+    // narrows to listings marked available. Replace once real date-based
+    // availability exists on the backend.
+    const wantsAvailable = Boolean(filters.availability) || Boolean(filters.availabilityOption);
+
     return sourceListings.filter((listing) => {
       const matchesSearch = listing.title?.toLowerCase().includes(filters.search.toLowerCase());
       const matchesCategory =
         !categories.includes(filters.category) || listing.category === filters.category;
-      return matchesSearch && matchesCategory;
+      const matchesAvailability = !wantsAvailable || listing.available !== false;
+      return matchesSearch && matchesCategory && matchesAvailability;
     });
   }, [sourceListings, filters, categories]);
 
-  const initialListings = filteredListings.slice(0, PAGE_SIZE);
-  const extraListings = filteredListings.slice(PAGE_SIZE);
+  // rentalCount/seasonal are placeholder fields from mock data — see
+  // src/data/mockListings.js. Swap for real backend-derived data once
+  // it exists.
+  const mostPopularListings = useMemo(
+    () =>
+      [...sourceListings]
+        .filter((listing) => typeof listing.rentalCount === "number")
+        .sort((a, b) => b.rentalCount - a.rentalCount)
+        .slice(0, 8),
+    [sourceListings]
+  );
+
+  const seasonalListings = useMemo(
+    () => sourceListings.filter((listing) => listing.seasonal),
+    [sourceListings]
+  );
 
   const handleFilterChange = (nextFilters) => {
     setFilters(nextFilters);
-    setIsExpanded(false);
   };
 
   return (
@@ -53,31 +76,29 @@ export default function Catalog() {
       </div>
 
       <FilterDropdown categories={categories} onFilterChange={handleFilterChange} />
-      <ListingGrid
-        listings={initialListings}
-        isLoading={isLoading}
-        error={null}
+
+      {isLoading ? (
+        <p className="listing-grid__status">Loading tools…</p>
+      ) : filteredListings.length === 0 ? (
+        <p className="listing-grid__status">No tools found.</p>
+      ) : (
+        <ListingCarousel
+          title="Main Catalog"
+          listings={filteredListings}
+          isAuthenticated={Boolean(user)}
+        />
+      )}
+
+      <ListingCarousel
+        title="Most Popular"
+        listings={mostPopularListings}
         isAuthenticated={Boolean(user)}
       />
-
-      {extraListings.length > 0 && (
-        <>
-          <div className={`catalog__extra${isExpanded ? " catalog__extra--open" : ""}`}>
-            <ListingGrid
-              listings={extraListings}
-              isLoading={false}
-              error={null}
-              isAuthenticated={Boolean(user)}
-            />
-          </div>
-
-          <div className="catalog__more">
-            <button type="button" className="catalog__more-btn" onClick={() => setIsExpanded((v) => !v)}>
-              {isExpanded ? "Less ▴" : "More ▾"}
-            </button>
-          </div>
-        </>
-      )}
+      <ListingCarousel
+        title="Seasonal"
+        listings={seasonalListings}
+        isAuthenticated={Boolean(user)}
+      />
     </main>
   );
 }

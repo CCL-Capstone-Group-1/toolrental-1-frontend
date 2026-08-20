@@ -129,6 +129,14 @@ export function useAuth() {
     clearAuth();
   }, [clearAuth]);
 
+  // Dev-only helper: signs in as a mock user without hitting the backend,
+  // for browsing authenticated pages while the API isn't running locally.
+  const devLogin = useCallback(() => {
+    const mockUser = { id: "dev-1", name: "Test User", email: "test@example.com" };
+    persistAuth(null, mockUser);
+    setUser(mockUser);
+  }, []);
+
   return {
     user,
     token,
@@ -139,5 +147,6 @@ export function useAuth() {
     logout,
     loadProfile,
     clearAuth,
+    devLogin,
   };
 }

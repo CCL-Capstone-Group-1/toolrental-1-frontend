@@ -1,4 +1,5 @@
 .auth-page {
+  width: 100%;
   max-width: 720px;
   margin: 0 auto;
   padding: var(--space-xl) var(--space-lg) 80px;
@@ -10,13 +11,14 @@
 }
 
 .auth-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
   padding: 40px;
 }
 
 .auth-card .field__control {
-  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
 }
 
 .auth-page__error {
@@ -59,6 +61,15 @@
   padding-top: 1.6rem;
 }
 
+.signup-photo .btn {
+  box-shadow: var(--shadow-card);
+}
+
+.signup-photo .btn:hover:not(:disabled) {
+  box-shadow: var(--shadow-card);
+  opacity: 0.85;
+}
+
 .signup-photo__input {
   display: none;
 }
@@ -86,6 +97,23 @@
   font-size: 0.9rem;
 }
 
+.signup-disclosure__checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  background: var(--color-bg);
+  cursor: pointer;
+}
+
+.signup-disclosure__checkbox input[type="checkbox"]:checked {
+  background: var(--color-text);
+  box-shadow: var(--shadow-card);
+}
+
 .signup-disclosure__link {
   background: none;
   border: none;
@@ -100,6 +128,18 @@
 .signup-disclosure .field {
   margin-bottom: 0;
 }
+
+.signup-disclosure-modal__divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  opacity: 0.3;
+  margin: var(--space-md) 0;
+}
+
+.signup-disclosure-modal__close {
+  margin-top: var(--space-sm);
+}
+
 
 @media (max-width: 560px) {
   .signup-row,

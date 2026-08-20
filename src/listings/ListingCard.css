@@ -1,7 +1,9 @@
 .listing-card {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-border);
+  height: 100%;
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   overflow: hidden;
   color: var(--color-text);
@@ -16,6 +18,7 @@
 .listing-card__link {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .listing-card__image-wrap {

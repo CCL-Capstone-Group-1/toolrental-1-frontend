@@ -1,18 +1,20 @@
 .cart-page {
-  max-width: 900px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--space-xl) var(--space-lg) 80px;
 }
 
 .cart-page h1 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin: 0 0 var(--space-lg);
 }
 
 .cart-box {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-xl);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+  padding: calc(var(--space-xl) * 1.5);
 }
 
 .cart-page__empty {
@@ -25,25 +27,25 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-xl);
 }
 
 .cart-item {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
 .cart-item__thumb {
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
   flex-shrink: 0;
   background: var(--color-bg-muted);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   color: var(--color-text-muted);
   text-align: center;
   overflow: hidden;
@@ -59,29 +61,30 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .cart-item__name {
   font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .cart-item__owner {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--color-text-muted);
 }
 
 .cart-item__delete {
-  background: none;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-xs) var(--space-md);
+  background: var(--color-text);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-xl);
   cursor: pointer;
-  color: var(--color-text);
+  color: #eaeae2;
 }
 
 .cart-item__delete:hover {
-  border-color: var(--color-danger);
-  color: var(--color-danger);
+  background: var(--color-danger);
 }
 
 .cart-box__actions {
@@ -89,6 +92,11 @@
   justify-content: flex-end;
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-lg);
+}
+
+.cart-box__actions .btn {
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-xl);
 }
 
 .cart-page__loans {
@@ -110,7 +118,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  border: 1px solid var(--color-border);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-sm);
   padding: var(--space-sm);
 }

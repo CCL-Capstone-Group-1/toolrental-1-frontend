@@ -1,4 +1,5 @@
 .account-page {
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
   padding: var(--space-xl) var(--space-lg) 80px;
@@ -8,10 +9,50 @@
   display: flex;
   align-items: center;
   gap: var(--space-lg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
   padding: var(--space-xl);
   margin-bottom: var(--space-xl);
+}
+
+.account-page__chat-highlight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  background: var(--color-text);
+  color: #eaeae2;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.account-page__chat-highlight h2 {
+  margin: 0 0 var(--space-xs);
+  font-size: 1.1rem;
+}
+
+.account-page__chat-highlight p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.account-page__chat-highlight-btn {
+  background: #eaeae2;
+  color: var(--color-text);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-xl);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.account-page__chat-highlight-btn:hover {
+  opacity: 0.85;
 }
 
 .account-page__avatar {
@@ -63,10 +104,34 @@
 .account-page__loan-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  border: 1px solid var(--color-border);
+  height: 100%;
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-sm);
   padding: var(--space-sm);
+}
+
+.account-page__loan-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.account-page__loan-chat-btn {
+  background: var(--color-text);
+  color: #eaeae2;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-top: var(--space-sm);
+  align-self: flex-start;
+}
+
+.account-page__loan-chat-btn:hover {
+  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
 
 .account-page__loan-thumb {

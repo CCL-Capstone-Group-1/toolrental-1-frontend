@@ -13,34 +13,53 @@ export default function Landing() {
   return (
     <main className="landing">
       <section className="landing__hero" style={{ backgroundImage: `url(${heroImage})` }}>
-        <h1>Welcome to toolbnb</h1>
-        <p>Building community one neighborhood at a time</p>
-      </section>
-
-      <section className="landing__signup">
-        <Link to="/register">
-          <Button variant="primary">Sign Up</Button>
-        </Link>
-      </section>
-
-      <section className="landing__feature" style={{ backgroundImage: `url(${findToolsImage})` }}>
-        <div className="landing__callout landing__callout--left">
-          Find the tools you need in your area and borrow them for the time they can spare.
+        <div className="landing__hero-box">
+          <h1>Welcome to toolbnb</h1>
+          <p>Building community one neighborhood at a time</p>
+          <Link to="/register" className="landing__hero-signup">
+            <Button variant="secondary">Sign Up</Button>
+          </Link>
         </div>
       </section>
 
-      <section className="landing__feature" style={{ backgroundImage: `url(${borrowImage})` }}>
-        <div className="landing__callout landing__callout--right">
-          Borrow for less than what you would pay full price for a tool you may never use again.
+      <div className="landing__feature">
+        <div className="landing__callout">
+          <span className="landing__callout-text">
+            Borrow for less than what you would pay full price for a tool you may never use again.
+          </span>
         </div>
-      </section>
+        <div className="landing__feature-image" style={{ backgroundImage: `url(${borrowImage})` }} />
+      </div>
+
+      <div className="landing__feature landing__feature--last">
+        <div className="landing__callout">
+          <span className="landing__callout-text">
+            Find the tools you need from people in your area and borrow them for the time they can spare.
+          </span>
+        </div>
+        <div className="landing__feature-image" style={{ backgroundImage: `url(${findToolsImage})` }} />
+      </div>
 
       <section className="landing__closing">
-        <p>
-          Find and rent the tools that you might not be able to afford for the job that needs doing. Even
-          better: rent them from your neighbors! Your neighborhood, town or even city can get you set up for
-          success in your personal projects. Sign up below to get started!
-        </p>
+        <Link to="/catalog" className="landing__closing-browse">
+          <span className="landing__closing-browse-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+          </span>
+          <span className="landing__closing-browse-label">Browse Catalog</span>
+        </Link>
       </section>
     </main>
   );

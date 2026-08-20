@@ -1,7 +1,7 @@
 .btn {
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-md);
-  border: 1px solid transparent;
+  border: none;
   font-size: 0.85rem;
   cursor: pointer;
 }
@@ -23,11 +23,11 @@
 .btn--secondary {
   background: var(--color-bg);
   color: var(--color-text);
-  border-color: var(--color-border);
+  box-shadow: 0 0 0 2px var(--color-border);
 }
 
 .btn--secondary:hover:not(:disabled) {
-  border-color: var(--color-text);
+  box-shadow: 0 0 0 2px var(--color-text);
 }
 
 .btn--danger {

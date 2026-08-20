@@ -15,14 +15,16 @@ export default function App() {
   const { pathname } = useLocation();
 
   return (
-    <div>
+    <div className="app-shell">
       <Navbar
         isAuthenticated={Boolean(user)}
         userName={user?.name || user?.email}
         onLogout={logout}
         authMode={AUTH_MODE_BY_PATH[pathname] || "default"}
       />
-      <Outlet />
+      <div className="app-shell__content">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

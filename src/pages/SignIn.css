@@ -1,4 +1,4 @@
-.auth-page {
+.signin-page {
   min-height: calc(100vh - 65px);
   display: flex;
   flex-direction: column;
@@ -8,33 +8,34 @@
   margin-top: -32px;
 }
 
-.auth-page h1 {
+.signin-page h1 {
   font-size: 2rem;
   margin: 0 0 var(--space-lg);
 }
 
-.auth-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 56px 32px;
+.signin-card {
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
   width: 100%;
   max-width: 580px;
+  padding: 56px 32px;
 }
 
-.auth-card .field {
+.signin-card .field {
   max-width: 320px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.auth-card .field__control {
-  border: 1px solid var(--color-border);
+.signin-card .field__control {
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   padding: var(--space-sm) var(--space-md);
   font-size: 0.9rem;
 }
 
-.auth-page__error {
+.signin-page__error {
   color: var(--color-danger);
   font-size: 0.9rem;
   margin: var(--space-md) 0 0;
@@ -42,7 +43,7 @@
   max-width: 580px;
 }
 
-.auth-page__actions {
+.signin-page__actions {
   width: 100%;
   max-width: 580px;
   display: flex;

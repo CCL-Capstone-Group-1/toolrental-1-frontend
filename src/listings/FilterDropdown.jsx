@@ -1,8 +1,6 @@
 import { useState } from "react";
 import "./FilterDropdown.css";
 
-const EXTRA_SORT_OPTIONS = ["Most Popular", "Seasonal"];
-
 export default function FilterDropdown({ categories = [], onFilterChange }) {
   const [product, setProduct] = useState("");
   const [availability, setAvailability] = useState("");
@@ -11,7 +9,7 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onFilterChange?.({ search: product, category });
+    onFilterChange?.({ search: product, category, availability, availabilityOption });
   };
 
   return (
@@ -43,11 +41,6 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
               {categories.map((c) => (
                 <option key={c} value={c}>
                   {c}
-                </option>
-              ))}
-              {EXTRA_SORT_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
                 </option>
               ))}
             </select>

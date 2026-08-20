@@ -1,30 +1,21 @@
-.chat-room {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: var(--space-lg);
+.chat-box {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 65px);
-}
-
-.chat-room h1 {
-  text-align: center;
-  font-size: 1.2rem;
-  background: var(--color-text);
-  color: #eaeae2;
-  margin: calc(var(--space-lg) * -1) calc(var(--space-lg) * -1) var(--space-lg);
-  padding: var(--space-md);
-}
-
-.chat-room__messages {
   flex: 1;
+  min-height: 0;
+}
+
+.chat-box__messages {
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
+  padding-right: var(--space-xs);
 }
 
-.chat-room__status {
+.chat-box__status {
   color: var(--color-text-muted);
   text-align: center;
 }
@@ -33,7 +24,7 @@
   align-self: flex-start;
   max-width: 70%;
   background: var(--color-bg-muted);
-  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
 }
@@ -45,39 +36,50 @@
   border-color: var(--color-text);
 }
 
-.chat-room__composer {
+.chat-box__composer {
   display: flex;
   gap: var(--space-sm);
   align-items: flex-end;
-  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-sm);
   padding: var(--space-sm);
 }
 
-.chat-room__composer textarea {
+.chat-box__composer textarea {
   flex: 1;
   border: none;
   resize: none;
   font-family: inherit;
   font-size: 0.95rem;
   padding: var(--space-xs);
+  background: none;
 }
 
-.chat-room__composer textarea:focus {
+.chat-box__composer textarea:focus {
   outline: none;
 }
 
-.chat-room__send {
+.chat-box__send {
   background: var(--color-text);
   color: #eaeae2;
   border: none;
   border-radius: 50%;
   width: 36px;
   height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   cursor: pointer;
   flex-shrink: 0;
 }
 
-.chat-room__send:hover {
+.chat-box__send svg {
+  width: 18px;
+  height: 18px;
+}
+
+.chat-box__send:hover {
   background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }

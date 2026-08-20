@@ -1,6 +1,7 @@
 .owner-listing {
+  width: 100%;
   padding: var(--space-xl) var(--space-lg) 80px;
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
@@ -10,14 +11,31 @@
 }
 
 .owner-listing-form h2 {
+  font-size: 1.1rem;
+  margin: 0 0 var(--space-lg);
+}
+
+.owner-listing-form h3 {
   font-size: 1rem;
   margin: 0 0 var(--space-md);
+}
+
+.owner-listing-section {
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+  padding: calc(var(--space-xl) * 1.5);
+  margin-bottom: var(--space-xl);
+}
+
+.owner-listing-section .field {
+  margin-bottom: var(--space-lg);
 }
 
 .owner-listing-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-lg);
+  gap: var(--space-xl);
 }
 
 .owner-listing-form__textarea {
@@ -27,23 +45,36 @@
 
 .owner-listing-payment {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
-  margin: var(--space-lg) 0;
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--color-border);
+  grid-template-columns: minmax(0, 440px) minmax(140px, 1fr);
+  gap: calc(var(--space-xl) * 1.5);
+}
+
+.owner-listing-payment__card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.owner-listing-payment__card .owner-listing-row {
+  width: 100%;
 }
 
 .owner-listing-payment__alt {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  align-items: flex-start;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+  padding: 0 var(--space-lg);
+}
+
+.owner-listing-payment__alt .btn {
+  width: 140px;
+  white-space: nowrap;
 }
 
 .owner-listing-payment__alt-btn--active {
-  outline: 2px solid var(--color-text);
-  outline-offset: -2px;
+  outline: 2px solid #eaeae2;
+  outline-offset: -4px;
 }
 
 .owner-listing__error {
@@ -61,5 +92,10 @@
   .owner-listing-row,
   .owner-listing-payment {
     grid-template-columns: 1fr;
+  }
+
+  .owner-listing-payment__card {
+    width: 100%;
+    max-width: none;
   }
 }

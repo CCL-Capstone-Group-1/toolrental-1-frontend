@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: var(--space-xs);
   margin-bottom: var(--space-md);
+  min-width: 0;
 }
 
 .field__label {
@@ -12,7 +13,8 @@
 
 .field__control {
   padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-border);
+  border: none;
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
   font-family: inherit;

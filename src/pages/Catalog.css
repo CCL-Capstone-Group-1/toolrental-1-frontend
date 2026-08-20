@@ -1,5 +1,6 @@
 .catalog {
-  padding: var(--space-lg);
+  width: 100%;
+  padding: var(--space-lg) var(--space-lg) calc(var(--space-xl) * 2);
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -11,34 +12,3 @@
   margin-bottom: var(--space-lg);
 }
 
-.catalog__extra {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
-}
-
-.catalog__extra .listing-grid {
-  margin-top: var(--space-lg);
-}
-
-.catalog__extra--open {
-  max-height: 3000px;
-  opacity: 1;
-}
-
-.catalog__more {
-  display: flex;
-  justify-content: center;
-  border-top: 1px solid var(--color-border);
-  margin-top: var(--space-xl);
-  padding-top: var(--space-lg);
-}
-
-.catalog__more-btn {
-  background: none;
-  border: none;
-  color: var(--color-text);
-  font-size: 0.95rem;
-  cursor: pointer;
-}

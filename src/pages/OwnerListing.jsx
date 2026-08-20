@@ -71,71 +71,79 @@ export default function OwnerListing() {
       <h1>List a Tool</h1>
 
       <form className="owner-listing-form" onSubmit={handleSubmit}>
-        <div className="owner-listing-row">
-          <Input label="Tool Name" name="title" value={values.title} onChange={handleChange} error={errors.title} />
-          <Input label="Tool Type" name="toolType" value={values.toolType} onChange={handleChange} />
-        </div>
+        <div className="owner-listing-section">
+          <h2>List a Tool</h2>
 
-        <div className="owner-listing-row">
-          <Input label="Category" name="category" value={values.category} onChange={handleChange} />
-          <Input
-            label="Availability"
-            name="availability"
-            type="date"
-            value={values.availability}
-            onChange={handleChange}
-          />
-        </div>
-
-        <Input
-          label="Price per day ($)"
-          name="pricePerDay"
-          type="number"
-          min="0"
-          step="0.01"
-          value={values.pricePerDay}
-          onChange={handleChange}
-          error={errors.pricePerDay}
-        />
-
-        <div className="field">
-          <label htmlFor="description" className="field__label">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            className="field__control owner-listing-form__textarea"
-            rows={4}
-            value={values.description}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="owner-listing-payment">
-          <div className="owner-listing-payment__card">
-            <h2>Card Information</h2>
-            <Input label="Name on card" name="name" value={payoutInfo.name} onChange={handlePayoutChange} />
-            <Input label="Card Number" name="number" value={payoutInfo.number} onChange={handlePayoutChange} />
-            <div className="owner-listing-row">
-              <Input label="Exp Date" name="expDate" value={payoutInfo.expDate} onChange={handlePayoutChange} />
-              <Input label="CVV" name="cvv" value={payoutInfo.cvv} onChange={handlePayoutChange} />
-            </div>
+          <div className="owner-listing-row">
+            <Input label="Tool Name" name="title" value={values.title} onChange={handleChange} error={errors.title} />
+            <Input label="Tool Type" name="toolType" value={values.toolType} onChange={handleChange} />
           </div>
 
-          <div className="owner-listing-payment__alt">
-            <h2>Or get paid with:</h2>
-            {PAYOUT_METHODS.map((method) => (
-              <Button
-                key={method}
-                type="button"
-                variant="secondary"
-                className={payoutMethod === method ? "owner-listing-payment__alt-btn--active" : ""}
-                onClick={() => setPayoutMethod(method)}
-              >
-                {method}
-              </Button>
-            ))}
+          <div className="owner-listing-row">
+            <Input label="Category" name="category" value={values.category} onChange={handleChange} />
+            <Input
+              label="Availability"
+              name="availability"
+              type="date"
+              value={values.availability}
+              onChange={handleChange}
+            />
+          </div>
+
+          <Input
+            label="Price per day ($)"
+            name="pricePerDay"
+            type="number"
+            min="0"
+            step="0.01"
+            value={values.pricePerDay}
+            onChange={handleChange}
+            error={errors.pricePerDay}
+          />
+
+          <div className="field">
+            <label htmlFor="description" className="field__label">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              className="field__control owner-listing-form__textarea"
+              rows={4}
+              value={values.description}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="owner-listing-section">
+          <h2>Payment</h2>
+
+          <div className="owner-listing-payment">
+            <div className="owner-listing-payment__card">
+              <h3>Card Information</h3>
+              <Input label="Name on card" name="name" value={payoutInfo.name} onChange={handlePayoutChange} />
+              <Input label="Card Number" name="number" value={payoutInfo.number} onChange={handlePayoutChange} />
+              <div className="owner-listing-row">
+                <Input label="Exp Date" name="expDate" value={payoutInfo.expDate} onChange={handlePayoutChange} />
+                <Input label="CVV" name="cvv" value={payoutInfo.cvv} onChange={handlePayoutChange} />
+              </div>
+            </div>
+
+            <div className="owner-listing-payment__alt">
+              <h3>Or get paid with:</h3>
+              {PAYOUT_METHODS.map((method) => (
+                <Button
+                  key={method}
+                  type="button"
+                  variant="primary"
+                  className={payoutMethod === method ? "owner-listing-payment__alt-btn--active" : ""}
+                  onClick={() => setPayoutMethod(method)}
+                >
+                  {method}
+                </Button>
+              ))}
+            </div>
           </div>
         </div>
 

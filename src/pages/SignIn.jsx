@@ -7,7 +7,7 @@ import "./SignIn.css";
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { login, error, isLoading } = useAuth();
+  const { login, devLogin, error, isLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState(null);
@@ -25,10 +25,10 @@ export default function SignIn() {
   };
 
   return (
-    <main className="auth-page">
+    <main className="signin-page">
       <h1>Sign In</h1>
 
-      <form id="signin-form" className="auth-card" onSubmit={handleSubmit}>
+      <form id="signin-form" className="signin-card" onSubmit={handleSubmit}>
         <Input
           label="Email"
           name="email"
@@ -47,11 +47,21 @@ export default function SignIn() {
         />
       </form>
 
-      {(formError || error) && <p className="auth-page__error">{formError || error}</p>}
+      {(formError || error) && <p className="signin-page__error">{formError || error}</p>}
 
-      <div className="auth-page__actions">
+      <div className="signin-page__actions">
         <Button type="submit" form="signin-form" disabled={isLoading}>
           {isLoading ? "Signing in…" : "Submit"}
+        </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => {
+            devLogin();
+            navigate("/account", { replace: true });
+          }}
+        >
+          Continue as Test User
         </Button>
       </div>
     </main>

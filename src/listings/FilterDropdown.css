@@ -1,7 +1,8 @@
 .filter-bar {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-lg);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+  padding: calc(var(--space-xl) * 1.5);
   margin-bottom: var(--space-lg);
   display: flex;
   flex-direction: column;
@@ -30,8 +31,8 @@
   box-sizing: border-box;
   height: 40px;
   padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-border);
-  border-right: none;
+  border: none;
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-sm) 0 0 var(--radius-sm);
   font-size: 0.95rem;
   font-family: inherit;
@@ -59,7 +60,8 @@
   width: 220px;
   height: 40px;
   padding: var(--space-sm) calc(var(--space-md) * 2 + var(--space-xs)) var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-border);
+  border: none;
+  box-shadow: var(--shadow-card);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.95rem;
   font-family: inherit;

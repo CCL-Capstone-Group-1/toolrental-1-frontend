@@ -1,0 +1,50 @@
+.listing-carousel {
+  margin-top: var(--space-xl);
+}
+
+.listing-carousel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.listing-carousel__header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.listing-carousel__controls {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.listing-carousel__nav {
+  width: 32px;
+  height: 32px;
+  border: none;
+  box-shadow: var(--shadow-card);
+  border-radius: 50%;
+  background: var(--color-text);
+  color: #eaeae2;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.listing-carousel__nav:hover {
+  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
+}
+
+.listing-carousel__track {
+  display: flex;
+  gap: var(--space-lg);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--space-sm);
+}
+
+.listing-carousel__item {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+}

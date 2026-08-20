@@ -9,10 +9,14 @@
   z-index: 100;
 }
 
+.modal-overlay.modal--chat {
+  background: rgba(251, 246, 234, 0.55);
+}
+
 .modal {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   max-width: 560px;
   width: 100%;
@@ -26,7 +30,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-lg);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
 }
 
 .modal__title {
@@ -43,9 +47,22 @@
   color: var(--color-text);
 }
 
+.modal--chat .modal__header {
+  background: var(--color-text);
+  color: #eaeae2;
+  border-bottom: none;
+}
+
+.modal--chat .modal__close {
+  color: #eaeae2;
+}
+
 .modal__body {
   padding: var(--space-lg);
   overflow-y: auto;
   font-size: 0.9rem;
   line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }

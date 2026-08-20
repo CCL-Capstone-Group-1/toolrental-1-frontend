@@ -2,17 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useLoans } from "../hooks/useLoans";
 import { useEffect } from "react";
+import { getMockLoans } from "../data/mockLoanStore";
 import Button from "../components/Button";
 import "./Cart.css";
 
 export default function Cart() {
   const navigate = useNavigate();
   const { items, removeItem } = useCart();
-  const { loans, isLoading, fetchUserLoans } = useLoans();
+  const { loans, isLoading, error, fetchUserLoans } = useLoans();
 
   useEffect(() => {
     fetchUserLoans();
   }, [fetchUserLoans]);
+
+  // No live backend yet — fall back to locally-stored dev loans (created via
+  // the "Skip Payment (Dev)" button on the Rental page) so history isn't
+  // empty. Remove once loanService.getUserLoans() has a real API to hit.
+  const sourceLoans = error ? getMockLoans() : loans;
 
   const handleCheckout = () => {
     if (items.length === 0) return;
@@ -60,11 +66,11 @@ export default function Cart() {
         <h2>Previous Tools Rented</h2>
         {isLoading ? (
           <p className="cart-page__empty">Loading…</p>
-        ) : loans.length === 0 ? (
+        ) : sourceLoans.length === 0 ? (
           <p className="cart-page__empty">No rental history yet.</p>
         ) : (
           <div className="cart-page__loan-grid">
-            {loans.map((loan) => (
+            {sourceLoans.map((loan) => (
               <div key={loan.id} className="cart-page__loan-card">
                 <div className="cart-item__thumb">
                   {loan.imageUrl ? <img src={loan.imageUrl} alt={loan.toolName} /> : <span>Tool Picture</span>}

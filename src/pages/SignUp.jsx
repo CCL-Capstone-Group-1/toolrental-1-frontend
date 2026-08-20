@@ -239,28 +239,101 @@ export default function SignUp() {
         </Button>
       </div>
 
-      <Modal isOpen={isDisclosureOpen} onClose={() => setIsDisclosureOpen(false)} title="Terms & Conditions">
-        <h3>Rental Terms</h3>
+      <Modal
+        isOpen={isDisclosureOpen}
+        onClose={() => setIsDisclosureOpen(false)}
+        title="Tool Lending Library — Terms of Rental"
+      >
         <p>
-          By creating an account, I agree to be bound by the following terms, which govern the rental,
-          borrowing, and lending of tools through this platform.
+          By creating an account, I agree to the following terms, which apply whenever I rent a tool from
+          another member (as a Renter) or list a tool for others to rent (as an Owner).
         </p>
-        <h3>Loan of Tools</h3>
+
+        <hr className="signup-disclosure-modal__divider" />
+
+        <h3>As a Renter</h3>
+
         <p>
-          I agree to return any borrowed tool in the condition it was received, by the agreed-upon return
-          date, and to notify the owner promptly of any damage or malfunction.
+          <strong>Rental Period.</strong> I will return any tool I rent by the agreed return date and time,
+          in the same condition it was received, allowing for normal wear and tear.
         </p>
-        <h3>Liability</h3>
         <p>
-          I understand that I am responsible for any damage, loss, or theft of a tool while it is in my
-          possession, and that the platform is not liable for injuries or damages resulting from tool use.
+          <strong>Security Deposit.</strong> A refundable security deposit equal to 25% of a tool's
+          replacement value (minimum $50) will be held at checkout for each rental. This deposit is security
+          against provable loss or damage, not a penalty, and will be refunded in full within 3 business days
+          of a confirmed, undamaged, on-time return.
         </p>
-        <h3>Payments</h3>
         <p>
-          I authorize the platform to process payments and fees associated with my rentals and listings as
-          described at checkout.
+          <strong>Lost or Stolen Items.</strong> If a tool I've rented is lost, stolen, or not returned, I am
+          obligated to reimburse its full replacement value. This charge applies in addition to any rental
+          fees already paid, and is separate from the security deposit, which will also be forfeited.
         </p>
-        <Button type="button" onClick={() => setIsDisclosureOpen(false)}>
+        <p>
+          <strong>Damaged Items.</strong> If a tool is returned damaged beyond normal wear and tear, I agree
+          to pay the cost of repair, or the tool's full replacement value if it is damaged beyond repair, at
+          the owner's reasonable discretion. Repair or replacement costs are charged in addition to the
+          rental fee, not instead of it.
+        </p>
+        <p>
+          <strong>Late Returns.</strong> If a tool is not returned by its agreed due date, I will be charged
+          1.5x the daily rental rate for each additional day it is kept, deducted first from my security
+          deposit. If a tool is not returned within 7 days of the due date with no communication, it will be
+          treated as lost under the terms above.
+        </p>
+        <p>
+          <strong>Responsible Use.</strong> I will use any rented tool only for its intended purpose, in a
+          safe and lawful manner, and will not lend, sublet, or transfer it to anyone else during my rental
+          period.
+        </p>
+
+        <hr className="signup-disclosure-modal__divider" />
+
+        <h3>As an Owner</h3>
+
+        <p>
+          <strong>Accurate Listings.</strong> I will accurately describe each tool's condition, functionality,
+          and fair replacement value when creating a listing. I understand that any damage or loss claim will
+          be based on the replacement value I provide, so I agree to set it honestly.
+        </p>
+        <p>
+          <strong>Condition Documentation.</strong> I will document each tool's condition with photos before
+          handing it off for a rental, and again upon its return, so that any dispute can be resolved fairly
+          using that record rather than either party's word alone.
+        </p>
+        <p>
+          <strong>Working Order.</strong> I will only list tools that are in safe, working condition, and will
+          disclose any known defects, damage, or limitations to a renter before the rental begins.
+        </p>
+        <p>
+          <strong>Responsiveness.</strong> I will respond to renter questions and coordinate pickup/return in
+          good faith and in a timely manner.
+        </p>
+        <p>
+          <strong>Deposit &amp; Fee Disputes.</strong> If I believe a tool was returned damaged, lost, or
+          late, I agree to provide documentation (photos, dates, communication) to support any deposit
+          deduction or additional charge, rather than assessing charges arbitrarily.
+        </p>
+
+        <hr className="signup-disclosure-modal__divider" />
+
+        <h3>Shared Terms</h3>
+
+        <p>
+          <strong>Condition Documentation.</strong> Photos of a tool's condition, taken at pickup and return
+          by either party, are the basis for resolving any damage dispute — deductions or charges will be
+          itemized and tied to documented condition.
+        </p>
+        <p>
+          <strong>Liability.</strong> Tools are rented "as is." Renters assume the risk of injury or property
+          damage from a tool's use, except where caused by a defect the Owner knew about and failed to
+          disclose. Tool Lending Library facilitates rentals between members but is not a party to individual
+          rental transactions and is not responsible for disputes between renter and owner.
+        </p>
+        <p>
+          I have read and agree to these Terms of Rental, both as a Renter and as an Owner.
+        </p>
+
+        <Button type="button" className="signup-disclosure-modal__close" onClick={() => setIsDisclosureOpen(false)}>
           Close
         </Button>
       </Modal>
