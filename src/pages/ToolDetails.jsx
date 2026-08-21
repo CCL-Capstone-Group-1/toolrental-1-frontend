@@ -41,6 +41,7 @@ export default function ToolDetails() {
   if (error) return <p className="tool-details__status tool-details__status--error">{error}</p>;
   if (!listing) return <p className="tool-details__status">Tool not found.</p>;
 
+  const imageUrl = listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image;
   const inCart = items.some((item) => item.id === listing.id);
 
   return (

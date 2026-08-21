@@ -3,7 +3,8 @@ import { useCart } from "../context/CartContext";
 import "./ListingCard.css";
 
 export default function ListingCard({ listing, isAuthenticated = false }) {
-  const { id, title, imageUrl, category, pricePerDay, ownerName } = listing;
+  const { id, title, category, pricePerDay, ownerName } = listing;
+  const imageUrl = listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image;
   const navigate = useNavigate();
   const { items, addItem } = useCart();
   const inCart = items.some((item) => item.id === id);
