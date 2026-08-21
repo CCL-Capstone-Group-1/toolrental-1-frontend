@@ -3,11 +3,13 @@
 // API is unreachable, so the Catalog page has real cards to show during
 // development. Safe to delete once a backend is available to hit.
 
-// `rentalCount` and `seasonal` are placeholder fields — the real backend
-// schema (Tool/Listing/Loan) has no such fields yet. `rentalCount` should
-// eventually come from a `count(loans) group by listingId` query, and
-// `seasonal` would need a real column or tagging convention added to the
-// Tool model. Remove/replace these once that backend support exists.
+// `rentalCount`, `seasonal`, and `rating` are placeholder fields — the real
+// backend schema (Tool/Listing/Loan/Review) has no such fields yet.
+// `rentalCount` should eventually come from a `count(loans) group by
+// listingId` query, `seasonal` would need a real column or tagging
+// convention added to the Tool model, and `rating` should come from
+// averaging that listing's Review rows. Remove/replace these once that
+// backend support exists.
 import airCompressorImage from '../images/airCompressorImage.png';
 import clawHammerImage from '../images/claw-hammer.png';
 import drillImage from '../images/drill.png';
@@ -27,6 +29,7 @@ export const mockListings = [
     pricePerDay: 8,
     rentalCount: 42,
     seasonal: false,
+    rating: 4.8,
     available: true,
     imageUrl: drillImage,
   },
@@ -38,6 +41,7 @@ export const mockListings = [
     pricePerDay: 12,
     rentalCount: 27,
     seasonal: false,
+    rating: 4.2,
     available: true,
     imageUrl: tableSawImage,
   },
@@ -49,6 +53,7 @@ export const mockListings = [
     pricePerDay: 18,
     rentalCount: 15,
     seasonal: false,
+    rating: 4.6,
     available: true,
     imageUrl: tableSawImage,
   },
@@ -60,6 +65,7 @@ export const mockListings = [
     pricePerDay: 9,
     rentalCount: 9,
     seasonal: false,
+    rating: 3.9,
     available: true,
     imageUrl: drillImage,
   },
@@ -71,6 +77,7 @@ export const mockListings = [
     pricePerDay: 14,
     rentalCount: 19,
     seasonal: false,
+    rating: 4.4,
     available: true,
     imageUrl: airCompressorImage,
   },
@@ -82,6 +89,7 @@ export const mockListings = [
     pricePerDay: 15,
     rentalCount: 11,
     seasonal: false,
+    rating: 4.0,
     available: false,
     imageUrl: miterSawImage,
   },
@@ -93,6 +101,7 @@ export const mockListings = [
     pricePerDay: 6,
     rentalCount: 33,
     seasonal: false,
+    rating: 4.9,
     available: true,
     imageUrl: socketSetImage,
   },
@@ -104,6 +113,7 @@ export const mockListings = [
     pricePerDay: 3,
     rentalCount: 24,
     seasonal: false,
+    rating: 4.7,
     available: true,
     imageUrl: clawHammerImage,
   },
@@ -115,6 +125,7 @@ export const mockListings = [
     pricePerDay: 5,
     rentalCount: 7,
     seasonal: false,
+    rating: 3.6,
     available: false,
     imageUrl: pipeWrenchImage,
   },
@@ -126,6 +137,7 @@ export const mockListings = [
     pricePerDay: 20,
     rentalCount: 21,
     seasonal: true,
+    rating: 4.5,
     available: true,
     imageUrl: lawnMowerImage,
   },
@@ -137,6 +149,7 @@ export const mockListings = [
     pricePerDay: 12,
     rentalCount: 18,
     seasonal: true,
+    rating: 4.1,
     available: true,
     imageUrl: leafBlowerImage,
   },
@@ -148,6 +161,7 @@ export const mockListings = [
     pricePerDay: 18,
     rentalCount: 13,
     seasonal: true,
+    rating: 4.3,
     available: true,
     imageUrl: lawnMowerImage,
   },

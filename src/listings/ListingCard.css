@@ -64,6 +64,20 @@
   border-radius: var(--radius-sm);
 }
 
+.listing-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.8rem;
+  color: var(--color-text);
+}
+
+.listing-card__rating-number {
+  margin-left: var(--space-xs);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
 .listing-card__meta {
   display: flex;
   justify-content: space-between;

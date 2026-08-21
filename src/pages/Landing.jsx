@@ -15,7 +15,7 @@ export default function Landing() {
       <section className="landing__hero" style={{ backgroundImage: `url(${heroImage})` }}>
         <div className="landing__hero-box">
           <h1>Welcome to toolbnb</h1>
-          <p>Building community one neighborhood at a time</p>
+          <p>a peer-to-peer tool lending library for you and your neighbors</p>
           <Link to="/register" className="landing__hero-signup">
             <Button variant="secondary">Sign Up</Button>
           </Link>
@@ -39,6 +39,44 @@ export default function Landing() {
         </div>
         <div className="landing__feature-image" style={{ backgroundImage: `url(${findToolsImage})` }} />
       </div>
+
+      <section className="landing__trust">
+        <span className="landing__trust-eyebrow">Trust &amp; Safety</span>
+        <h2>Every rental is backed by an agreement</h2>
+
+        <div className="landing__trust-stats">
+          <div className="landing__trust-stat">
+            <span className="landing__trust-stat-number">25%</span>
+            <span className="landing__trust-stat-label">
+              security deposit
+              <br />
+              (min. $50)
+            </span>
+          </div>
+          <div className="landing__trust-stat">
+            <span className="landing__trust-stat-number">1.5×</span>
+            <span className="landing__trust-stat-label">
+              daily rate charged
+              <br />
+              per day late
+            </span>
+          </div>
+          <div className="landing__trust-stat">
+            <span className="landing__trust-stat-number">100%</span>
+            <span className="landing__trust-stat-label">
+              replacement value
+              <br />
+              if lost or stolen
+            </span>
+          </div>
+        </div>
+
+        <p className="landing__trust-copy">
+          Every renter agrees to platform-wide rental terms at signup — covering deposits, late fees,
+          damage, and loss — so both sides of the transaction know exactly what's expected before a tool
+          changes hands.
+        </p>
+      </section>
 
       <section className="landing__closing">
         <Link to="/catalog" className="landing__closing-browse">

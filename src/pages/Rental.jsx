@@ -176,6 +176,28 @@ export default function Rental() {
         <div className="rental-section">
           <h2>Payment</h2>
 
+          <div className="rental-terms">
+            <div className="rental-terms__card">
+              <span className="rental-terms__number">25%</span>
+              <span className="rental-terms__label">
+                Refundable security deposit (min. $50) held at checkout, returned after an on-time,
+                undamaged return.
+              </span>
+            </div>
+            <div className="rental-terms__card">
+              <span className="rental-terms__number">1.5×</span>
+              <span className="rental-terms__label">
+                Daily rate charged for each day a tool is returned late, deducted from your deposit first.
+              </span>
+            </div>
+            <div className="rental-terms__card">
+              <span className="rental-terms__number">100%</span>
+              <span className="rental-terms__label">
+                Full replacement value owed if a tool is lost or stolen while in your care.
+              </span>
+            </div>
+          </div>
+
           <div className="rental-payment">
             <div className="rental-payment__card">
               <h3>Pay With Card</h3>

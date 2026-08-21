@@ -8,6 +8,7 @@
 .review-page h1 {
   font-size: 1.3rem;
   text-align: center;
+  text-decoration: underline;
   margin: 0 0 var(--space-xl);
 }
 
@@ -25,6 +26,29 @@
   margin-bottom: var(--space-md);
 }
 
+.review-card__owner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.95rem;
+}
+
+.review-card__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.review-card__owner-name {
+  font-weight: 600;
+}
+
 .review-card__stars {
   display: flex;
 }
@@ -33,13 +57,9 @@
   background: none;
   border: none;
   font-size: 1.3rem;
-  color: var(--color-border);
+  color: var(--color-text);
   cursor: pointer;
   line-height: 1;
-}
-
-.review-card__star--filled {
-  color: var(--color-text);
 }
 
 .review-card__textarea {

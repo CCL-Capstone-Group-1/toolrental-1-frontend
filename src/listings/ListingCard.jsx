@@ -3,7 +3,7 @@ import { useCart } from "../context/CartContext";
 import "./ListingCard.css";
 
 export default function ListingCard({ listing, isAuthenticated = false }) {
-  const { id, title, imageUrl, category, pricePerDay, ownerName } = listing;
+  const { id, title, imageUrl, category, pricePerDay, ownerName, rating } = listing;
   const navigate = useNavigate();
   const { items, addItem } = useCart();
   const inCart = items.some((item) => item.id === id);
@@ -30,6 +30,16 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
         <div className="listing-card__body">
           <h3 className="listing-card__title">{title}</h3>
           {category && <span className="listing-card__category">{category}</span>}
+          {typeof rating === "number" && (
+            <div className="listing-card__rating" aria-label={`${rating.toFixed(1)} out of 5 stars`}>
+              {[1, 2, 3, 4, 5].map((value) => (
+                <span key={value} aria-hidden="true">
+                  {value <= Math.round(rating) ? "★" : "☆"}
+                </span>
+              ))}
+              <span className="listing-card__rating-number">{rating.toFixed(1)}</span>
+            </div>
+          )}
           <div className="listing-card__meta">
             <span className="listing-card__price">${pricePerDay}/day</span>
             {ownerName && <span className="listing-card__owner">by {ownerName}</span>}
