@@ -24,7 +24,23 @@ export default function Catalog() {
 
   // No live backend yet — fall back to local seed data so the catalog isn't
   // empty. Remove once listingService.getAllListings() has a real API to hit.
-  const sourceListings = error ? mockListings : listings;
+  const sourceListings = error
+    ? mockListings
+    : listings.map((listing, index) => {
+        const matchingMock = mockListings.find(
+          (mockListing) => mockListing.id === listing.id || mockListing.title === listing.title
+        );
+        const imageUrl =
+          listing.imageUrl ||
+          listing.image_url ||
+          listing.photoUrl ||
+          listing.photo_url ||
+          listing.image ||
+          matchingMock?.imageUrl ||
+          mockListings[index]?.imageUrl;
+
+        return { ...listing, imageUrl };
+      });
 
   const categories = useMemo(
     () => [...new Set(sourceListings.map((listing) => listing.category).filter(Boolean))],

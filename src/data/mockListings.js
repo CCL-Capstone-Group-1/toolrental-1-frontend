@@ -8,15 +8,21 @@
 // eventually come from a `count(loans) group by listingId` query, and
 // `seasonal` would need a real column or tagging convention added to the
 // Tool model. Remove/replace these once that backend support exists.
-import airCompressorImage from '../images/airCompressorImage.png';
-import clawHammerImage from '../images/claw-hammer.png';
-import drillImage from '../images/drill.png';
-import lawnMowerImage from '../images/lawnmower.png';
-import leafBlowerImage from '../images/leafblower.png';
-import miterSawImage from '../images/milterSawImage.png';
-import pipeWrenchImage from '../images/pipewrench.png';
-import socketSetImage from '../images/socketset.png';
-import tableSawImage from '../images/tablesaw.png';
+
+const toolImageSets = {
+  cordlessDrill: 'https://images.pexels.com/photos/1249610/pexels-photo-1249610.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  circularSaw: 'https://images.pexels.com/photos/8820180/pexels-photo-8820180.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  tableSaw: 'https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  router: 'https://placehold.co/800x600?text=Router+%231',
+  airCompressor: 'https://placehold.co/800x600?text=Air+Compressor+%231',
+  miterSaw: 'https://images.pexels.com/photos/8447855/pexels-photo-8447855.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  socketSet: 'https://images.pexels.com/photos/4792482/pexels-photo-4792482.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  clawHammer: 'https://images.pexels.com/photos/5974343/pexels-photo-5974343.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  pipeWrench: 'https://placehold.co/800x600?text=Pipe+Wrench+%231',
+  pushLawnMower: 'https://images.pexels.com/photos/4162016/pexels-photo-4162016.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  leafBlower: 'https://images.pexels.com/photos/1623214/pexels-photo-1623214.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+  chainsaw: 'https://images.pexels.com/photos/8820192/pexels-photo-8820192.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
+};
 
 export const mockListings = [
   {
@@ -28,7 +34,7 @@ export const mockListings = [
     rentalCount: 42,
     seasonal: false,
     available: true,
-    imageUrl: drillImage,
+    imageUrl: toolImageSets.cordlessDrill,
   },
   {
     id: 2,
@@ -39,7 +45,7 @@ export const mockListings = [
     rentalCount: 27,
     seasonal: false,
     available: true,
-    imageUrl: tableSawImage,
+    imageUrl: toolImageSets.circularSaw,
   },
   {
     id: 3,
@@ -50,7 +56,7 @@ export const mockListings = [
     rentalCount: 15,
     seasonal: false,
     available: true,
-    imageUrl: tableSawImage,
+    imageUrl: toolImageSets.tableSaw,
   },
   {
     id: 4,
@@ -61,7 +67,7 @@ export const mockListings = [
     rentalCount: 9,
     seasonal: false,
     available: true,
-    imageUrl: drillImage,
+    imageUrl: toolImageSets.router,
   },
   {
     id: 5,
@@ -72,7 +78,7 @@ export const mockListings = [
     rentalCount: 19,
     seasonal: false,
     available: true,
-    imageUrl: airCompressorImage,
+    imageUrl: toolImageSets.airCompressor,
   },
   {
     id: 6,
@@ -83,7 +89,7 @@ export const mockListings = [
     rentalCount: 11,
     seasonal: false,
     available: false,
-    imageUrl: miterSawImage,
+    imageUrl: toolImageSets.miterSaw,
   },
   {
     id: 7,
@@ -94,7 +100,7 @@ export const mockListings = [
     rentalCount: 33,
     seasonal: false,
     available: true,
-    imageUrl: socketSetImage,
+    imageUrl: toolImageSets.socketSet,
   },
   {
     id: 8,
@@ -105,7 +111,7 @@ export const mockListings = [
     rentalCount: 24,
     seasonal: false,
     available: true,
-    imageUrl: clawHammerImage,
+    imageUrl: toolImageSets.clawHammer,
   },
   {
     id: 9,
@@ -116,7 +122,7 @@ export const mockListings = [
     rentalCount: 7,
     seasonal: false,
     available: false,
-    imageUrl: pipeWrenchImage,
+    imageUrl: toolImageSets.pipeWrench,
   },
   {
     id: 10,
@@ -127,7 +133,7 @@ export const mockListings = [
     rentalCount: 21,
     seasonal: true,
     available: true,
-    imageUrl: lawnMowerImage,
+    imageUrl: toolImageSets.pushLawnMower,
   },
   {
     id: 11,
@@ -138,7 +144,7 @@ export const mockListings = [
     rentalCount: 18,
     seasonal: true,
     available: true,
-    imageUrl: leafBlowerImage,
+    imageUrl: toolImageSets.leafBlower,
   },
   {
     id: 12,
@@ -149,6 +155,6 @@ export const mockListings = [
     rentalCount: 13,
     seasonal: true,
     available: true,
-    imageUrl: lawnMowerImage,
+    imageUrl: toolImageSets.chainsaw,
   },
 ];

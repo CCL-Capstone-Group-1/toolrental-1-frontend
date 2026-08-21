@@ -47,8 +47,8 @@ export default function ToolDetails() {
   return (
     <main className="tool-details">
       <div className="tool-details__image-wrap">
-        {listing.imageUrl ? (
-          <img src={listing.imageUrl} alt={listing.title} />
+        {imageUrl ? (
+          <img src={imageUrl} alt={listing.title} />
         ) : (
           <span>Tool Picture</span>
         )}
