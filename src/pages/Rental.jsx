@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { listingService } from "../services/listingService";
 import { useLoans } from "../hooks/useLoans";
 import { usePayments } from "../hooks/usePayments";
+import { useCart } from "../context/CartContext";
 import { mockListings } from "../data/mockListings";
 import { addMockLoan, addMockMessage } from "../data/mockLoanStore";
 import Input from "../components/Input";
@@ -17,6 +18,7 @@ export default function Rental() {
   const [listing, setListing] = useState(null);
   const { requestNewLoan, isLoading: isLoanLoading } = useLoans();
   const { processNewPayment, isLoading: isPaymentLoading } = usePayments();
+  const { removeItem } = useCart();
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -82,6 +84,7 @@ export default function Rental() {
         method: payMethod,
         ...(payMethod === "card" ? { card, billing, saveInfo } : {}),
       });
+      removeItem(id);
       setCompletedLoan({ id: loan?.id, toolName: listing?.title });
     } catch (err) {
       setFormError(err.message || "Failed to complete the rental request.");
@@ -116,6 +119,7 @@ export default function Rental() {
       text: `Hi! Thanks for renting the ${loan.toolName}. Let me know if you have any questions!`,
     });
 
+    removeItem(id);
     setCompletedLoan({ id: loanId, toolName: loan.toolName });
   };
 

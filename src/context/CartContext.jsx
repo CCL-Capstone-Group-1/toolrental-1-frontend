@@ -13,7 +13,7 @@ export function CartProvider({ children }) {
   };
 
   const removeItem = (id) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
+    setItems((prev) => prev.filter((item) => String(item.id) !== String(id)));
   };
 
   const clearCart = () => setItems([]);
