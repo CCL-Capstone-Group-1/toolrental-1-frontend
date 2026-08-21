@@ -22,7 +22,7 @@ export default function Cart() {
 
   const handleCheckout = () => {
     if (items.length === 0) return;
-    navigate(`/rental/${items[0].id}`);
+    navigate("/rental");
   };
 
   return (

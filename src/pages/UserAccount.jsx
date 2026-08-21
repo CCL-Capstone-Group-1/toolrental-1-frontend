@@ -53,9 +53,7 @@ export default function UserAccount() {
   const { loans, isLoading, error, fetchUserLoans } = useLoans();
   const [activeChatLoan, setActiveChatLoan] = useState(null);
   const location = useLocation();
-  const newLoan = location.state?.newLoanId
-    ? { id: location.state.newLoanId, toolName: location.state.toolName }
-    : null;
+  const newLoans = location.state?.newLoans?.length ? location.state.newLoans : null;
 
   useEffect(() => {
     fetchUserLoans();
@@ -87,19 +85,28 @@ export default function UserAccount() {
         </div>
       </div>
 
-      {newLoan && (
+      {newLoans && (
         <div className="account-page__chat-highlight">
           <div>
             <h2>You're all set!</h2>
-            <p>Your request for {newLoan.toolName || "this tool"} was sent. Say hello to the owner.</p>
+            <p>
+              Your request{newLoans.length > 1 ? "s" : ""} for{" "}
+              {newLoans.map((loan) => loan.toolName || "this tool").join(", ")} {newLoans.length > 1 ? "were" : "was"} sent.
+              Say hello to the owner{newLoans.length > 1 ? "s" : ""}.
+            </p>
           </div>
-          <button
-            type="button"
-            className="account-page__chat-highlight-btn"
-            onClick={() => setActiveChatLoan(newLoan)}
-          >
-            Chat with tool owner
-          </button>
+          <div className="account-page__chat-highlight-actions">
+            {newLoans.map((loan) => (
+              <button
+                key={loan.id}
+                type="button"
+                className="account-page__chat-highlight-btn"
+                onClick={() => setActiveChatLoan(loan)}
+              >
+                Chat about {loan.toolName || "this tool"}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 

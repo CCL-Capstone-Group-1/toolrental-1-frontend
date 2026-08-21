@@ -39,6 +39,12 @@
   opacity: 0.9;
 }
 
+.account-page__chat-highlight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
 .account-page__chat-highlight-btn {
   background: #eaeae2;
   color: var(--color-text);

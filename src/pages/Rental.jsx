@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { listingService } from "../services/listingService";
+import { useNavigate } from "react-router-dom";
 import { useLoans } from "../hooks/useLoans";
 import { usePayments } from "../hooks/usePayments";
 import { useCart } from "../context/CartContext";
-import { mockListings } from "../data/mockListings";
 import { addMockLoan, addMockMessage } from "../data/mockLoanStore";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -12,13 +10,17 @@ import "./Rental.css";
 
 const PAYOUT_METHODS = ["Cash App", "PayPal", "Venmo"];
 
+function imageUrlFor(item) {
+  return (
+    item?.imageUrl || item?.image_url || item?.photoUrl || item?.photo_url || item?.image || ""
+  );
+}
+
 export default function Rental() {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const [listing, setListing] = useState(null);
+  const { items, clearCart } = useCart();
   const { requestNewLoan, isLoading: isLoanLoading } = useLoans();
   const { processNewPayment, isLoading: isPaymentLoading } = usePayments();
-  const { removeItem } = useCart();
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -27,24 +29,15 @@ export default function Rental() {
   const [billing, setBilling] = useState({ homeAddress: "", aptNumber: "", city: "", state: "" });
   const [saveInfo, setSaveInfo] = useState(false);
   const [formError, setFormError] = useState(null);
-  const [completedLoan, setCompletedLoan] = useState(null);
+  const [completedLoans, setCompletedLoans] = useState(null);
 
   useEffect(() => {
-    listingService
-      .getListingById(id)
-      .then(setListing)
-      .catch(() => setListing(mockListings.find((item) => String(item.id) === String(id)) || null));
-  }, [id]);
-
-  useEffect(() => {
-    if (!completedLoan) return;
+    if (!completedLoans) return;
     const timer = setTimeout(() => {
-      navigate("/account", {
-        state: { newLoanId: completedLoan.id, toolName: completedLoan.toolName },
-      });
+      navigate("/account", { state: { newLoans: completedLoans } });
     }, 1500);
     return () => clearTimeout(timer);
-  }, [completedLoan, navigate]);
+  }, [completedLoans, navigate]);
 
   const days = useMemo(() => {
     if (!startDate || !endDate) return 0;
@@ -52,8 +45,11 @@ export default function Rental() {
     return diff > 0 ? Math.ceil(diff) : 0;
   }, [startDate, endDate]);
 
-  const pricePerDay = Number(listing?.pricePerDay) || 0;
-  const subtotal = days * pricePerDay;
+  const itemSubtotals = useMemo(
+    () => items.map((item) => days * (Number(item.pricePerDay) || 0)),
+    [items, days]
+  );
+  const subtotal = useMemo(() => itemSubtotals.reduce((sum, value) => sum + value, 0), [itemSubtotals]);
   const serviceFee = subtotal > 0 ? 5 : 0;
   const total = subtotal + serviceFee;
 
@@ -77,64 +73,90 @@ export default function Rental() {
     }
 
     try {
-      const loan = await requestNewLoan({ toolId: id, startDate, endDate });
-      await processNewPayment({
-        loanId: loan?.id,
-        amount: total,
-        method: payMethod,
-        ...(payMethod === "card" ? { card, billing, saveInfo } : {}),
-      });
-      removeItem(id);
-      setCompletedLoan({ id: loan?.id, toolName: listing?.title });
+      const newLoans = [];
+      for (let i = 0; i < items.length; i += 1) {
+        const item = items[i];
+        const amount = itemSubtotals[i] + (i === 0 ? serviceFee : 0);
+        const loan = await requestNewLoan({ toolId: item.id, startDate, endDate });
+        await processNewPayment({
+          loanId: loan?.id,
+          amount,
+          method: payMethod,
+          ...(payMethod === "card" ? { card, billing, saveInfo } : {}),
+        });
+        newLoans.push({ id: loan?.id, toolName: item.title });
+      }
+      clearCart();
+      setCompletedLoans(newLoans);
     } catch (err) {
       setFormError(err.message || "Failed to complete the rental request.");
     }
   };
 
-  // Dev-only helper: fabricates a completed loan locally (no backend call)
+  // Dev-only helper: fabricates completed loans locally (no backend call)
   // so the Cart/Account history and Chat pages can be clicked through.
   const handleDevSkip = () => {
     const today = new Date();
     const inThreeDays = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
-    const loanId = `dev-${Date.now()}`;
+    const newLoans = [];
 
-    const loan = {
-      id: loanId,
-      toolId: id,
-      toolName: listing?.title || "Tool",
-      ownerName: listing?.ownerName || "Owner",
-      imageUrl: listing?.imageUrl || "",
-      startDate: startDate || today.toISOString().slice(0, 10),
-      endDate: endDate || inThreeDays.toISOString().slice(0, 10),
-      status: "active",
-      totalPrice: total || Number(listing?.pricePerDay) || 0,
-      role: "borrower",
-      borrowerId: "dev-1",
-    };
+    items.forEach((item, index) => {
+      const loanId = `dev-${Date.now()}-${index}`;
+      const loan = {
+        id: loanId,
+        toolId: item.id,
+        toolName: item.title || "Tool",
+        ownerName: item.ownerName || "Owner",
+        imageUrl: imageUrlFor(item),
+        startDate: startDate || today.toISOString().slice(0, 10),
+        endDate: endDate || inThreeDays.toISOString().slice(0, 10),
+        status: "active",
+        totalPrice: itemSubtotals[index] + (index === 0 ? serviceFee : 0) || Number(item.pricePerDay) || 0,
+        role: "borrower",
+        borrowerId: "dev-1",
+      };
 
-    addMockLoan(loan);
-    addMockMessage(loanId, {
-      id: 1,
-      senderId: "owner-1",
-      text: `Hi! Thanks for renting the ${loan.toolName}. Let me know if you have any questions!`,
+      addMockLoan(loan);
+      addMockMessage(loanId, {
+        id: 1,
+        senderId: "owner-1",
+        text: `Hi! Thanks for renting the ${loan.toolName}. Let me know if you have any questions!`,
+      });
+
+      newLoans.push({ id: loanId, toolName: loan.toolName });
     });
 
-    removeItem(id);
-    setCompletedLoan({ id: loanId, toolName: loan.toolName });
+    clearCart();
+    setCompletedLoans(newLoans);
   };
 
-  if (completedLoan) {
+  if (completedLoans) {
     return (
       <main className="rental-page">
         <h1>Request sent!</h1>
-        <p>Your rental request has been submitted. Taking you to your account…</p>
+        <p>
+          Your rental request{completedLoans.length > 1 ? "s" : ""} for{" "}
+          {completedLoans.map((loan) => loan.toolName).join(", ")} ha
+          {completedLoans.length > 1 ? "ve" : "s"} been submitted. Taking you to your account…
+        </p>
+      </main>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <main className="rental-page">
+        <h1>Your cart is empty</h1>
+        <p>Add a tool to your cart before checking out.</p>
       </main>
     );
   }
 
   return (
     <main className="rental-page">
-      <h1>{listing ? `Rent ${listing.title}` : "Rent this tool"}</h1>
+      <h1>
+        {items.length === 1 ? `Rent ${items[0].title}` : `Rent ${items.length} Tools`}
+      </h1>
 
       <form className="rental-form" onSubmit={handleSubmit}>
         <div className="rental-section">
@@ -158,10 +180,14 @@ export default function Rental() {
 
           <div className="rental-summary">
             <h3>Price Summary</h3>
-            <div className="rental-summary__row">
-              <span>Price Calculation ({days} day{days === 1 ? "" : "s"})</span>
-              <span>${subtotal.toFixed(2)}</span>
-            </div>
+            {items.map((item, index) => (
+              <div className="rental-summary__row" key={item.id}>
+                <span>
+                  {item.title} ({days} day{days === 1 ? "" : "s"})
+                </span>
+                <span>${itemSubtotals[index].toFixed(2)}</span>
+              </div>
+            ))}
             <div className="rental-summary__row">
               <span>Additional Costs</span>
               <span>${serviceFee.toFixed(2)}</span>
