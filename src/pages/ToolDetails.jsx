@@ -45,14 +45,15 @@ export default function ToolDetails() {
   if (isLoading) return <p className="tool-details__status">Loading…</p>;
   if (!listing) return <p className="tool-details__status">Tool not found.</p>;
 
+  const imageUrl = listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image;
   const inCart = items.some((item) => item.id === listing.id);
 
   return (
     <main className="tool-details">
       <div className="tool-details__card">
         <div className="tool-details__image-wrap">
-          {listing.imageUrl ? (
-            <img src={listing.imageUrl} alt={listing.title} />
+          {imageUrl ? (
+            <img src={imageUrl} alt={listing.title} />
           ) : (
             <span>Tool Picture</span>
           )}

@@ -60,3 +60,6 @@ Supabase authentication
 
 🗒️ Notes
 This README aligns with the Capstone Project task list stored in shared Google Doc. Track frontend tasks and update README as new components and pages are added.
+
+## ⚠️ Build Status
+The production build could not run because dependencies are missing and the install was cancelled.
