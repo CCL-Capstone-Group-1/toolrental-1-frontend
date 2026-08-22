@@ -27,7 +27,7 @@ export default function Catalog() {
     const combined = [...mockListings, ...(listings || [])];
     const seen = new Set();
 
-    return combined
+    const mapped = combined
       .filter((listing) => {
         const key = String(listing.id ?? listing.title);
 
@@ -56,6 +56,16 @@ export default function Catalog() {
 
         return { ...listing, imageUrl };
       });
+
+    // Newly created listings (from "List a Tool") have a createdAt
+    // timestamp; put those first, most recent first, so a tool you just
+    // added shows up right away instead of buried at the end.
+    const newlyCreated = mapped
+      .filter((listing) => listing.createdAt)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const rest = mapped.filter((listing) => !listing.createdAt);
+
+    return [...newlyCreated, ...rest];
   }, [listings]);
 
   const categories = useMemo(
@@ -125,6 +135,7 @@ export default function Catalog() {
           title="Main Catalog"
           listings={filteredListings}
           isAuthenticated={Boolean(user)}
+          currentUserId={user?.id}
         />
       )}
 
@@ -132,12 +143,14 @@ export default function Catalog() {
         title="Most Popular"
         listings={mostPopularListings}
         isAuthenticated={Boolean(user)}
+        currentUserId={user?.id}
       />
 
       <ListingCarousel
         title="Seasonal"
         listings={seasonalListings}
         isAuthenticated={Boolean(user)}
+        currentUserId={user?.id}
       />
     </main>
   );
