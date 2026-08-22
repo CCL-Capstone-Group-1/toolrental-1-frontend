@@ -32,6 +32,8 @@ export default function SignUp() {
   const { register, error, isLoading } = useAuth();
   const [values, setValues] = useState(emptyForm);
   const [photoName, setPhotoName] = useState("");
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [photoUploading, setPhotoUploading] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState(null);
   const [isDisclosureOpen, setIsDisclosureOpen] = useState(false);
@@ -42,9 +44,29 @@ export default function SignUp() {
     setValues((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
-  const handlePhotoChange = (e) => {
+  const handlePhotoChange = async (e) => {
     const file = e.target.files?.[0];
-    setPhotoName(file ? file.name : "");
+    if (!file) return;
+    setPhotoName(file.name);
+    setPhotoUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        { method: "POST", body: formData }
+      );
+      const data = await res.json();
+      setPhotoUrl(data.secure_url);
+    } catch (err) {
+      setPhotoUrl(null);
+      setFormError("Photo upload failed — you can still sign up without one.");
+    } finally {
+      setPhotoUploading(false);
+    }
   };
 
   const validate = () => {
@@ -88,6 +110,7 @@ export default function SignUp() {
         state: values.state,
         password: values.password,
         eSignature: values.eSignature,
+        avatarUrl: photoUrl,
       });
       navigate("/account", { replace: true });
     } catch (err) {
@@ -137,7 +160,11 @@ export default function SignUp() {
             <Button type="button" variant="secondary" onClick={() => photoInputRef.current?.click()}>
               Upload profile photo
             </Button>
-            {photoName && <span className="signup-photo__name">{photoName}</span>}
+            {photoName && (
+              <span className="signup-photo__name">
+                {photoUploading ? "Uploading..." : photoName}
+              </span>
+            )}
           </div>
         </div>
 
