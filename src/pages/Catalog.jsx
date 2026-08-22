@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useListings } from "../hooks/useListings";
 import { useAuth } from "../context/AuthContext";
 import { mockListings } from "../data/mockListings";
-import { resolveImageUrl } from "../services/api";
 import FilterDropdown from "../listings/FilterDropdown";
 import ListingCarousel from "../listings/ListingCarousel";
 import "../listings/ListingGrid.css";
@@ -11,7 +10,8 @@ import "./Catalog.css";
 
 export default function Catalog() {
   const { user } = useAuth();
-  const { listings, isLoading, error, fetchListings } = useListings();
+  const { listings, fetchListings } = useListings();
+
   const [filters, setFilters] = useState({
     search: "",
     category: "",
@@ -23,52 +23,71 @@ export default function Catalog() {
     fetchListings();
   }, [fetchListings]);
 
-  // No live backend yet — fall back to local seed data so the catalog isn't
-  // empty. Remove once listingService.getAllListings() has a real API to hit.
-  const sourceListings =
-  error || !listings || listings.length === 0
-    ? mockListings
-    : listings.map((listing, index) => {
+  const sourceListings = useMemo(() => {
+    const combined = [...mockListings, ...(listings || [])];
+    const seen = new Set();
+
+    return combined
+      .filter((listing) => {
+        const key = String(listing.id ?? listing.title);
+
+        if (seen.has(key)) {
+          return false;
+        }
+
+        seen.add(key);
+        return true;
+      })
+      .map((listing, index) => {
         const matchingMock = mockListings.find(
-          (mockListing) => mockListing.id === listing.id || mockListing.title === listing.title
+          (mockListing) =>
+            mockListing.id === listing.id ||
+            mockListing.title === listing.title
         );
-        const imageUrl = resolveImageUrl(
+
+        const imageUrl =
           listing.imageUrl ||
-            listing.image_url ||
-            listing.photoUrl ||
-            listing.photo_url ||
-            listing.image
-        ) ||
+          listing.image_url ||
+          listing.photoUrl ||
+          listing.photo_url ||
+          listing.image ||
           matchingMock?.imageUrl ||
           mockListings[index]?.imageUrl;
 
         return { ...listing, imageUrl };
       });
+  }, [listings]);
 
   const categories = useMemo(
-    () => [...new Set(sourceListings.map((listing) => listing.category).filter(Boolean))],
+    () =>
+      [
+        ...new Set(
+          sourceListings.map((listing) => listing.category).filter(Boolean)
+        ),
+      ],
     [sourceListings]
   );
 
   const filteredListings = useMemo(() => {
-    // There's no per-date booking data yet, so the availability filter is a
-    // stand-in: requesting a date range just narrows to listings marked
-    // available. Replace once real date-based availability exists on the
-    // backend.
-    const wantsAvailable = Boolean(filters.availabilityStart) || Boolean(filters.availabilityEnd);
+    const wantsAvailable =
+      Boolean(filters.availabilityStart) ||
+      Boolean(filters.availabilityEnd);
 
     return sourceListings.filter((listing) => {
-      const matchesSearch = listing.title?.toLowerCase().includes(filters.search.toLowerCase());
+      const matchesSearch = listing.title
+        ?.toLowerCase()
+        .includes(filters.search.toLowerCase());
+
       const matchesCategory =
-        !categories.includes(filters.category) || listing.category === filters.category;
-      const matchesAvailability = !wantsAvailable || listing.available !== false;
+        !filters.category || listing.category === filters.category;
+
+      const matchesAvailability =
+        !wantsAvailable || listing.available !== false;
+
       return matchesSearch && matchesCategory && matchesAvailability;
     });
-  }, [sourceListings, filters, categories]);
+  }, [sourceListings, filters]);
 
-  // rentalCount/seasonal are placeholder fields from mock data — see
-  // src/data/mockListings.js. Swap for real backend-derived data once
-  // it exists.
   const mostPopularListings = useMemo(
     () =>
       [...sourceListings]
@@ -94,11 +113,12 @@ export default function Catalog() {
         <Link to="/listings/new">+ List a Tool</Link>
       </div>
 
-      <FilterDropdown categories={categories} onFilterChange={handleFilterChange} />
+      <FilterDropdown
+        categories={categories}
+        onFilterChange={handleFilterChange}
+      />
 
-      {isLoading ? (
-        <p className="listing-grid__status">Loading tools…</p>
-      ) : filteredListings.length === 0 ? (
+      {filteredListings.length === 0 ? (
         <p className="listing-grid__status">No tools found.</p>
       ) : (
         <ListingCarousel
@@ -113,6 +133,7 @@ export default function Catalog() {
         listings={mostPopularListings}
         isAuthenticated={Boolean(user)}
       />
+
       <ListingCarousel
         title="Seasonal"
         listings={seasonalListings}
