@@ -10,6 +10,36 @@
   margin: 0 0 var(--space-lg);
 }
 
+.owner-terms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.owner-terms__card {
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.owner-terms__label {
+  font-family: var(--font-family-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.owner-terms__text {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
 .owner-listing-form h2 {
   font-size: 1.1rem;
   margin: 0 0 var(--space-lg);
@@ -90,7 +120,8 @@
 
 @media (max-width: 560px) {
   .owner-listing-row,
-  .owner-listing-payment {
+  .owner-listing-payment,
+  .owner-terms {
     grid-template-columns: 1fr;
   }
 

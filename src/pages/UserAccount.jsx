@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLoans } from "../hooks/useLoans";
 import { getMockLoans } from "../data/mockLoanStore";
@@ -24,8 +24,9 @@ function LoanGrid({ loans, emptyMessage, onOpenChat }) {
 
   return (
     <div className="account-page__loan-grid">
-      {loans.map((loan) => (
-        <div key={loan.id} className="account-page__loan-card">
+      {loans.map((loan) => {
+        const toolId = loan.toolId || loan.listingId;
+        const cardContent = (
           <div className="account-page__loan-card-content">
             <div className="account-page__loan-thumb">
               {loan.imageUrl ? <img src={loan.imageUrl} alt={loan.toolName} /> : <span>Tool Picture</span>}
@@ -33,17 +34,29 @@ function LoanGrid({ loans, emptyMessage, onOpenChat }) {
             <span className="account-page__loan-name">{loan.toolName || loan.title || "Tool"}</span>
             {loan.ownerName && <span className="account-page__loan-owner">{loan.ownerName}</span>}
           </div>
-          {onOpenChat && (
-            <button
-              type="button"
-              className="account-page__loan-chat-btn"
-              onClick={() => onOpenChat(loan)}
-            >
-              Chat
-            </button>
-          )}
-        </div>
-      ))}
+        );
+
+        return (
+          <div key={loan.id} className="account-page__loan-card">
+            {toolId ? (
+              <Link to={`/tools/${toolId}`} className="account-page__loan-card-link">
+                {cardContent}
+              </Link>
+            ) : (
+              cardContent
+            )}
+            {onOpenChat && (
+              <button
+                type="button"
+                className="account-page__loan-chat-btn"
+                onClick={() => onOpenChat(loan)}
+              >
+                Chat
+              </button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

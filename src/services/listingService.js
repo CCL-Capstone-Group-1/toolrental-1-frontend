@@ -17,6 +17,9 @@ export const listingService = {
   // READ: Fetch a specific listing by its ID.
   getListingById: (id) => api.get(`/listings/${id}`),
 
+  // READ: Fetch the date ranges a listing is already booked for.
+  getListingBookings: (id) => api.get(`/listings/${id}/bookings`),
+
   // CREATE: Post a new tool as available for rent.
   // Accepts a 'listingData' object (e.g., tool ID, price per day, available dates)
   // and sends a POST request to create the listing in the database.

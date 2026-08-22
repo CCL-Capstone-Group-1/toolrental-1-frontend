@@ -70,6 +70,30 @@ export default function OwnerListing() {
     <main className="owner-listing">
       <h1>List a Tool</h1>
 
+      <div className="owner-terms">
+        <div className="owner-terms__card">
+          <span className="owner-terms__label">Accurate Listings</span>
+          <span className="owner-terms__text">
+            Describe each tool's condition, functionality, and fair replacement value honestly —
+            damage and loss claims are based on the value you provide.
+          </span>
+        </div>
+        <div className="owner-terms__card">
+          <span className="owner-terms__label">Working Order</span>
+          <span className="owner-terms__text">
+            Only list tools that are safe and in working condition, and disclose any known defects
+            before a rental begins.
+          </span>
+        </div>
+        <div className="owner-terms__card">
+          <span className="owner-terms__label">Document Condition</span>
+          <span className="owner-terms__text">
+            Photograph each tool before handoff and after return — this record is what any deposit
+            or damage dispute is resolved against.
+          </span>
+        </div>
+      </div>
+
       <form className="owner-listing-form" onSubmit={handleSubmit}>
         <div className="owner-listing-section">
           <h2>List a Tool</h2>

@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useLoans } from "../hooks/useLoans";
 import { usePayments } from "../hooks/usePayments";
 import { useCart } from "../context/CartContext";
-import { addMockLoan, addMockMessage } from "../data/mockLoanStore";
+import { listingService } from "../services/listingService";
+import { addMockLoan, addMockMessage, getMockLoans } from "../data/mockLoanStore";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import "./Rental.css";
@@ -30,6 +31,51 @@ export default function Rental() {
   const [saveInfo, setSaveInfo] = useState(false);
   const [formError, setFormError] = useState(null);
   const [completedLoans, setCompletedLoans] = useState(null);
+  const [bookingsByItem, setBookingsByItem] = useState({});
+
+  useEffect(() => {
+    let isMounted = true;
+
+    Promise.all(
+      items.map((item) =>
+        listingService
+          .getListingBookings(item.id)
+          .then((data) => [item.id, Array.isArray(data) ? data : []])
+          .catch(() => [
+            item.id,
+            getMockLoans()
+              .filter((loan) => String(loan.toolId) === String(item.id) && loan.status !== "cancelled")
+              .map((loan) => ({ start_date: loan.startDate, end_date: loan.endDate })),
+          ])
+      )
+    ).then((results) => {
+      if (isMounted) setBookingsByItem(Object.fromEntries(results));
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [items]);
+
+  const conflictsByItem = useMemo(() => {
+    if (!startDate || !endDate) return {};
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const result = {};
+
+    items.forEach((item) => {
+      const bookings = bookingsByItem[item.id] || [];
+      result[item.id] = bookings.some((booking) => {
+        const bookedStart = new Date(booking.start_date || booking.startDate);
+        const bookedEnd = new Date(booking.end_date || booking.endDate);
+        return start < bookedEnd && bookedStart < end;
+      });
+    });
+
+    return result;
+  }, [items, bookingsByItem, startDate, endDate]);
+
+  const hasConflict = Object.values(conflictsByItem).some(Boolean);
 
   useEffect(() => {
     if (!completedLoans) return;
@@ -72,6 +118,11 @@ export default function Rental() {
       return;
     }
 
+    if (hasConflict) {
+      setFormError("One or more tools are already booked for part of your selected dates.");
+      return;
+    }
+
     try {
       const newLoans = [];
       for (let i = 0; i < items.length; i += 1) {
@@ -96,6 +147,11 @@ export default function Rental() {
   // Dev-only helper: fabricates completed loans locally (no backend call)
   // so the Cart/Account history and Chat pages can be clicked through.
   const handleDevSkip = () => {
+    if (hasConflict) {
+      setFormError("One or more tools are already booked for part of your selected dates.");
+      return;
+    }
+
     const today = new Date();
     const inThreeDays = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
     const newLoans = [];
@@ -184,6 +240,12 @@ export default function Rental() {
               <div className="rental-summary__row" key={item.id}>
                 <span>
                   {item.title} ({days} day{days === 1 ? "" : "s"})
+                  {conflictsByItem[item.id] && (
+                    <span className="rental-summary__conflict">
+                      {" "}
+                      — already booked for part of these dates
+                    </span>
+                  )}
                 </span>
                 <span>${itemSubtotals[index].toFixed(2)}</span>
               </div>
@@ -280,10 +342,10 @@ export default function Rental() {
         {formError && <p className="rental-page__error">{formError}</p>}
 
         <div className="rental-page__actions">
-          <Button type="button" variant="secondary" onClick={handleDevSkip}>
+          <Button type="button" variant="secondary" onClick={handleDevSkip} disabled={hasConflict}>
             Skip Payment (Dev)
           </Button>
-          <Button type="submit" disabled={isLoanLoading || isPaymentLoading}>
+          <Button type="submit" disabled={isLoanLoading || isPaymentLoading || hasConflict}>
             {isLoanLoading || isPaymentLoading ? "Submitting…" : "Submit"}
           </Button>
         </div>

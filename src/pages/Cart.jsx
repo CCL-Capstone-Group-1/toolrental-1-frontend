@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useLoans } from "../hooks/useLoans";
 import { useEffect } from "react";
@@ -36,17 +36,19 @@ export default function Cart() {
           <ul className="cart-items">
             {items.map((item) => (
               <li key={item.id} className="cart-item">
-                <div className="cart-item__thumb">
-                  {item.imageUrl ? (
-                    <img src={item.imageUrl} alt={item.title} />
-                  ) : (
-                    <span>Tool Picture</span>
-                  )}
-                </div>
-                <div className="cart-item__info">
-                  <span className="cart-item__name">{item.title}</span>
-                  {item.ownerName && <span className="cart-item__owner">{item.ownerName}</span>}
-                </div>
+                <Link to={`/tools/${item.id}`} className="cart-item__link">
+                  <div className="cart-item__thumb">
+                    {item.imageUrl ? (
+                      <img src={item.imageUrl} alt={item.title} />
+                    ) : (
+                      <span>Tool Picture</span>
+                    )}
+                  </div>
+                  <div className="cart-item__info">
+                    <span className="cart-item__name">{item.title}</span>
+                    {item.ownerName && <span className="cart-item__owner">{item.ownerName}</span>}
+                  </div>
+                </Link>
                 <button type="button" className="cart-item__delete" onClick={() => removeItem(item.id)}>
                   Delete
                 </button>
@@ -70,14 +72,30 @@ export default function Cart() {
           <p className="cart-page__empty">No rental history yet.</p>
         ) : (
           <div className="cart-page__loan-grid">
-            {sourceLoans.map((loan) => (
-              <div key={loan.id} className="cart-page__loan-card">
-                <div className="cart-item__thumb">
-                  {loan.imageUrl ? <img src={loan.imageUrl} alt={loan.toolName} /> : <span>Tool Picture</span>}
+            {sourceLoans.map((loan) => {
+              const toolId = loan.toolId || loan.listingId;
+              const cardContent = (
+                <>
+                  <div className="cart-item__thumb">
+                    {loan.imageUrl ? <img src={loan.imageUrl} alt={loan.toolName} /> : <span>Tool Picture</span>}
+                  </div>
+                  <span className="cart-item__name">{loan.toolName || loan.title || "Tool"}</span>
+                  {loan.ownerName && <span className="cart-item__owner">{loan.ownerName}</span>}
+                </>
+              );
+
+              return (
+                <div key={loan.id} className="cart-page__loan-card">
+                  {toolId ? (
+                    <Link to={`/tools/${toolId}`} className="cart-page__loan-card-link">
+                      {cardContent}
+                    </Link>
+                  ) : (
+                    cardContent
+                  )}
                 </div>
-                <span className="cart-item__name">{loan.toolName || loan.title || "Tool"}</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>

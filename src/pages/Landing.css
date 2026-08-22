@@ -4,7 +4,7 @@
 }
 
 .landing__hero {
-  min-height: 380px;
+  min-height: 760px;
   width: 100%;
   max-width: 3840px;
   margin: 0 auto;
@@ -13,8 +13,10 @@
   justify-content: center;
   text-align: center;
   padding: var(--space-xl);
-  background-size: cover;
+  background-size: auto 150%;
+  background-repeat: no-repeat;
   background-position: center;
+  overflow: hidden;
 }
 
 .landing__hero-box {
@@ -74,8 +76,10 @@
 .landing__feature-image {
   width: 100%;
   min-height: 320px;
-  background-size: cover;
+  background-size: auto 150%;
+  background-repeat: no-repeat;
   background-position: center;
+  overflow: hidden;
 }
 
 .landing__callout {

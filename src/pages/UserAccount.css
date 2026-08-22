@@ -124,6 +124,14 @@
   flex: 1;
 }
 
+.account-page__loan-card-link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
 .account-page__loan-chat-btn {
   background: var(--color-text);
   color: #eaeae2;

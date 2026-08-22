@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import "./Landing.css";
@@ -9,10 +10,63 @@ const findToolsImage =
 const borrowImage =
   "https://images.pexels.com/photos/4162016/pexels-photo-4162016.jpeg?auto=compress&cs=tinysrgb&w=1600&h=600&fit=crop";
 
+// Pans each framed picture's background vertically as it scrolls through the
+// viewport (top of the image at the top of the scroll pass, bottom of the
+// image at the bottom), instead of a fixed crop.
+function useScrollFrames() {
+  const frameRefs = useRef([]);
+  frameRefs.current = [];
+
+  const registerFrame = (el) => {
+    if (el && !frameRefs.current.includes(el)) frameRefs.current.push(el);
+  };
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+
+    let ticking = false;
+
+    const update = () => {
+      const viewportHeight = window.innerHeight;
+      frameRefs.current.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const total = viewportHeight + rect.height;
+        const traveled = viewportHeight - rect.top;
+        const progress = Math.min(1, Math.max(0, traveled / total));
+        el.style.backgroundPositionY = `${progress * 100}%`;
+      });
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  return registerFrame;
+}
+
 export default function Landing() {
+  const registerFrame = useScrollFrames();
+
   return (
     <main className="landing">
-      <section className="landing__hero" style={{ backgroundImage: `url(${heroImage})` }}>
+      <section
+        className="landing__hero"
+        ref={registerFrame}
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
         <div className="landing__hero-box">
           <h1>Welcome to toolbnb</h1>
           <p>a peer-to-peer tool lending library for you and your neighbors</p>
@@ -28,7 +82,11 @@ export default function Landing() {
             Borrow for less than what you would pay full price for a tool you may never use again.
           </span>
         </div>
-        <div className="landing__feature-image" style={{ backgroundImage: `url(${borrowImage})` }} />
+        <div
+          className="landing__feature-image"
+          ref={registerFrame}
+          style={{ backgroundImage: `url(${borrowImage})` }}
+        />
       </div>
 
       <div className="landing__feature landing__feature--last">
@@ -37,7 +95,11 @@ export default function Landing() {
             Find the tools you need from people in your area and borrow them for the time they can spare.
           </span>
         </div>
-        <div className="landing__feature-image" style={{ backgroundImage: `url(${findToolsImage})` }} />
+        <div
+          className="landing__feature-image"
+          ref={registerFrame}
+          style={{ backgroundImage: `url(${findToolsImage})` }}
+        />
       </div>
 
       <section className="landing__trust">
