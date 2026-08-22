@@ -25,7 +25,8 @@ export default function Catalog() {
 
   // No live backend yet — fall back to local seed data so the catalog isn't
   // empty. Remove once listingService.getAllListings() has a real API to hit.
-  const sourceListings = error
+  const sourceListings =
+  error || !listings || listings.length === 0
     ? mockListings
     : listings.map((listing, index) => {
         const matchingMock = mockListings.find(
