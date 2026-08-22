@@ -130,3 +130,6 @@
     max-width: none;
   }
 }
+.owner-listing-row--nested {
+  gap: var(--space-md);
+}

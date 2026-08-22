@@ -327,3 +327,9 @@
     width: 100%;
   }
 }
+.earnings-report--inline {
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}

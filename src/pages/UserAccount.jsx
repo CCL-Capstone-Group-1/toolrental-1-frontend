@@ -151,6 +151,7 @@ export default function UserAccount() {
   const [editPhotoUrl, setEditPhotoUrl] = useState(null);
   const [editError, setEditError] = useState(null);
   const [isSavingEdit, setIsSavingEdit] = useState(false);
+  const [isReportExpanded, setIsReportExpanded] = useState(false);
 
   const location = useLocation();
   const newLoans = location.state?.newLoans?.length ? location.state.newLoans : null;
@@ -273,8 +274,58 @@ export default function UserAccount() {
         <div className="account-page__stat">
           <span className="account-page__stat-number">${totalEarned.toFixed(0)}</span>
           <span className="account-page__stat-label">earned</span>
+          <button
+            type="button"
+            className="account-page__stat-report-link"
+            onClick={() => setIsReportExpanded((prev) => !prev)}
+          >
+            {isReportExpanded ? "Hide report" : "View report"}
+          </button>
         </div>
       </div>
+
+      {isReportExpanded && (
+        <div className="earnings-report earnings-report--inline">
+          {lentOut.length === 0 ? (
+            <p className="account-page__empty">
+              You haven't earned anything yet.{" "}
+              <Link to="/listings/new" className="account-page__empty-link">
+                List your first tool →
+              </Link>
+            </p>
+          ) : (
+            <>
+              <div className="earnings-report__list">
+                {lentOut.map((loan) => (
+                  <div key={loan.id} className="earnings-report__row">
+                    <span className="earnings-report__row-name">{loan.toolName || loan.title || "Tool"}</span>
+                    <span className="earnings-report__row-status">
+                      {loan.returnedAt ? "Completed" : "Active"}
+                    </span>
+                    <span className="earnings-report__row-amount">
+                      ${(Number(loan.totalPrice) || Number(loan.price) || 0).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="earnings-report__total">
+                <span>Total earned</span>
+                <span>${totalEarned.toFixed(2)}</span>
+              </div>
+            </>
+          )}
+
+          <div className="earnings-report__suggestions">
+            <h3>Ways to earn more</h3>
+            <ul>
+              <li>List more than one tool — owners with several listings get discovered more often.</li>
+              <li>Respond quickly to rental requests to build a strong reputation.</li>
+              <li>Keep your availability calendar up to date so renters can book without asking first.</li>
+              <li>Add clear photos and an honest description — listings with more detail get rented more often.</li>
+            </ul>
+          </div>
+        </div>
+      )}
 
       {newLoans && (
         <div className="account-page__chat-highlight">

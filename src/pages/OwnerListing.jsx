@@ -1,24 +1,51 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { listingService } from "../services/listingService";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import ImageUpload from "../components/ImageUpload";
 import "./OwnerListing.css";
 
 const PAYOUT_METHODS = ["Cash App", "PayPal", "Venmo"];
+
+const CATEGORY_OPTIONS = ["Power Tools", "Hand Tools", "Yard Tools", "Other"];
+
+const TOOL_TYPE_OPTIONS = [
+  "Drill",
+  "Circular Saw",
+  "Miter Saw",
+  "Sander",
+  "Router",
+  "Air Compressor",
+  "Hammer",
+  "Wrench Set",
+  "Screwdriver Set",
+  "Level",
+  "Pipe Wrench",
+  "Push Lawn Mower",
+  "String Trimmer",
+  "Leaf Blower",
+  "Chainsaw",
+  "Pressure Washer",
+  "Other",
+];
 
 const emptyForm = {
   title: "",
   toolType: "",
   category: "",
-  availability: "",
+  availabilityStart: "",
+  availabilityEnd: "",
   description: "",
   pricePerDay: "",
 };
 
 export default function OwnerListing() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [values, setValues] = useState(emptyForm);
+  const [photoUrl, setPhotoUrl] = useState(null);
   const [payoutMethod, setPayoutMethod] = useState("card");
   const [payoutInfo, setPayoutInfo] = useState({ name: "", number: "", expDate: "", cvv: "" });
   const [errors, setErrors] = useState({});
@@ -38,8 +65,15 @@ export default function OwnerListing() {
   const validate = () => {
     const nextErrors = {};
     if (!values.title.trim()) nextErrors.title = "Title is required.";
+    if (!values.category) nextErrors.category = "Please select a category.";
+    if (!values.toolType) nextErrors.toolType = "Please select a tool type.";
     if (!values.pricePerDay || Number(values.pricePerDay) <= 0) {
       nextErrors.pricePerDay = "Enter a price greater than 0.";
+    }
+    if (values.availabilityStart && values.availabilityEnd) {
+      if (new Date(values.availabilityEnd) < new Date(values.availabilityStart)) {
+        nextErrors.availabilityEnd = "End date must be after start date.";
+      }
     }
     return nextErrors;
   };
@@ -55,6 +89,8 @@ export default function OwnerListing() {
     try {
       await listingService.createListing({
         ...values,
+        imageUrl: photoUrl,
+        ownerId: user?.id,
         payoutMethod,
         ...(payoutMethod === "card" ? { payoutCard: payoutInfo } : {}),
       });
@@ -98,20 +134,72 @@ export default function OwnerListing() {
         <div className="owner-listing-section">
           <h2>List a Tool</h2>
 
+          <ImageUpload label="Tool photo" onUploaded={setPhotoUrl} />
+
           <div className="owner-listing-row">
             <Input label="Tool Name" name="title" value={values.title} onChange={handleChange} error={errors.title} />
-            <Input label="Tool Type" name="toolType" value={values.toolType} onChange={handleChange} />
+
+            <div className="field">
+              <label htmlFor="toolType" className="field__label">
+                Tool Type
+              </label>
+              <select
+                id="toolType"
+                name="toolType"
+                className="field__control"
+                value={values.toolType}
+                onChange={handleChange}
+              >
+                <option value="">Select…</option>
+                {TOOL_TYPE_OPTIONS.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+              {errors.toolType && <span className="field__error">{errors.toolType}</span>}
+            </div>
           </div>
 
           <div className="owner-listing-row">
-            <Input label="Category" name="category" value={values.category} onChange={handleChange} />
-            <Input
-              label="Availability"
-              name="availability"
-              type="date"
-              value={values.availability}
-              onChange={handleChange}
-            />
+            <div className="field">
+              <label htmlFor="category" className="field__label">
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                className="field__control"
+                value={values.category}
+                onChange={handleChange}
+              >
+                <option value="">Select…</option>
+                {CATEGORY_OPTIONS.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+              {errors.category && <span className="field__error">{errors.category}</span>}
+            </div>
+
+            <div className="owner-listing-row owner-listing-row--nested">
+              <Input
+                label="Available From"
+                name="availabilityStart"
+                type="date"
+                value={values.availabilityStart}
+                onChange={handleChange}
+              />
+              <Input
+                label="Available Until"
+                name="availabilityEnd"
+                type="date"
+                value={values.availabilityEnd}
+                onChange={handleChange}
+                error={errors.availabilityEnd}
+              />
+            </div>
           </div>
 
           <Input
