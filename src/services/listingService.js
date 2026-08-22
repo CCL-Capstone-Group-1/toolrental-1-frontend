@@ -1,35 +1,51 @@
-// src/services/listingService.js 📋
-
-// 1. IMPORT THE BASE API
-// This imports the fetch wrapper that automatically applies your VITE_API_URL 
-// and attaches the Bearer token from localStorage.
 import { api } from './api';
+import { mockListings } from '../data/mockListings';
+import {
+  getMockListings,
+  getMockListingById,
+  addMockListing,
+  updateMockListing,
+  deleteMockListing,
+} from '../data/mockListingStore';
 
-// 2. EXPORT THE SERVICE OBJECT
-// We group all listing-related API calls into 'listingService'.
-// This will be imported into your custom hooks (like useListings.js) or directly into components.
 export const listingService = {
-  
-  // READ: Retrieve all active tool rental listings.
-  // Sends a GET request to http://localhost:3000/api/listings
-  getAllListings: () => api.get('/listings'),
 
-  // READ: Fetch a specific listing by its ID.
-  getListingById: (id) => api.get(`/listings/${id}`),
+  getAllListings: async () => {
+    const localListings = getMockListings();
+    let realArray = [];
+    try {
+      const realListings = await api.get('/listings');
+      realArray = Array.isArray(realListings) ? realListings : realListings?.data || [];
+    } catch (err) {
+      console.warn('Real listings API failed, using mock catalog only:', err.message);
+    }
+    return [...mockListings, ...realArray, ...localListings];
+  },
 
-  // READ: Fetch the date ranges a listing is already booked for.
-  getListingBookings: (id) => api.get(`/listings/${id}/bookings`),
+  getListingById: async (id) => {
+    const local = getMockListingById(id);
+    if (local) return local;
+    try {
+      return await api.get(`/listings/${id}`);
+    } catch (err) {
+      return mockListings.find((listing) => String(listing.id) === String(id)) || null;
+    }
+  },
 
-  // CREATE: Post a new tool as available for rent.
-  // Accepts a 'listingData' object (e.g., tool ID, price per day, available dates)
-  // and sends a POST request to create the listing in the database.
-  createListing: (listingData) => api.post('/listings', listingData),
+  getListingBookings: async (_id) => {
+    return [];
+  },
 
-  // UPDATE: Edit the parameters of a specific listing.
-  // Requires the 'id' of the listing to update, and the new 'listingData' to replace the old data.
-  updateListing: (id, listingData) => api.put(`/listings/${id}`, listingData),
+  createListing: async (listingData) => {
+    return addMockListing(listingData);
+  },
 
-  // DELETE: Remove a listing from the marketplace.
-  // Requires the 'id' of the listing to delete and sends a DELETE request.
-  deleteListing: (id) => api.delete(`/listings/${id}`),
+  updateListing: async (id, listingData) => {
+    return updateMockListing(id, listingData);
+  },
+
+  deleteListing: async (id) => {
+    deleteMockListing(id);
+    return { success: true };
+  },
 };
