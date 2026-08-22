@@ -3,6 +3,17 @@
 // 🌐 Define the base URL using Vite environment variables, falling back to localhost for development
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
+// 🖼️ The backend returns uploaded images as paths relative to its own host
+// (e.g. "/uploads/tool.jpg"), not the frontend's. Resolve those against the
+// API's origin so <img> tags don't try to load them from the frontend itself.
+const API_ORIGIN = BASE_URL.replace(/\/api\/?$/, '');
+
+export function resolveImageUrl(url) {
+  if (!url) return url;
+  if (/^(https?:)?\/\//i.test(url) || url.startsWith('data:')) return url;
+  return `${API_ORIGIN}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
 /**
  * ⚙️ Core Fetch Wrapper to handle headers, tokens, and errors globally
  */

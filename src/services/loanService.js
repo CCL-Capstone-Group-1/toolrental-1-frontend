@@ -3,7 +3,7 @@
 // 1. IMPORT THE BASE API
 // This imports the fetch wrapper that automatically applies your VITE_API_URL 
 // and attaches the Bearer token from localStorage.
-import { api } from './api';
+import { api, resolveImageUrl } from './api';
 
 // The backend returns loans in their raw Prisma shape — snake_case fields,
 // with tool/owner details nested under `listings`/`listings.users` rather
@@ -23,7 +23,7 @@ function normalizeLoan(loan) {
     toolId: loan.listing_id ?? loan.toolId ?? listing.id,
     toolName: listing.title ?? loan.toolName,
     ownerName: owner.name ?? loan.ownerName,
-    imageUrl: listing.image_url ?? loan.imageUrl,
+    imageUrl: resolveImageUrl(listing.image_url ?? loan.imageUrl),
     startDate: loan.start_date ?? loan.startDate,
     endDate: loan.end_date ?? loan.endDate,
     status: loan.status,

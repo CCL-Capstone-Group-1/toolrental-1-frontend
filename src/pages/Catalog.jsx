@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useListings } from "../hooks/useListings";
 import { useAuth } from "../context/AuthContext";
 import { mockListings } from "../data/mockListings";
+import { resolveImageUrl } from "../services/api";
 import FilterDropdown from "../listings/FilterDropdown";
 import ListingCarousel from "../listings/ListingCarousel";
 import "../listings/ListingGrid.css";
@@ -30,12 +31,13 @@ export default function Catalog() {
         const matchingMock = mockListings.find(
           (mockListing) => mockListing.id === listing.id || mockListing.title === listing.title
         );
-        const imageUrl =
+        const imageUrl = resolveImageUrl(
           listing.imageUrl ||
-          listing.image_url ||
-          listing.photoUrl ||
-          listing.photo_url ||
-          listing.image ||
+            listing.image_url ||
+            listing.photoUrl ||
+            listing.photo_url ||
+            listing.image
+        ) ||
           matchingMock?.imageUrl ||
           mockListings[index]?.imageUrl;
 

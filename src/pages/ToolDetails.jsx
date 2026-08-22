@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { listingService } from "../services/listingService";
+import { resolveImageUrl } from "../services/api";
 import { useReviews } from "../hooks/useReviews";
 import { useCart } from "../context/CartContext";
 import { mockListings } from "../data/mockListings";
@@ -45,7 +46,9 @@ export default function ToolDetails() {
   if (isLoading) return <p className="tool-details__status">Loading…</p>;
   if (!listing) return <p className="tool-details__status">Tool not found.</p>;
 
-  const imageUrl = listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image;
+  const imageUrl = resolveImageUrl(
+    listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image
+  );
   const inCart = items.some((item) => item.id === listing.id);
 
   return (
@@ -68,7 +71,7 @@ export default function ToolDetails() {
         </div>
 
         <div className="tool-details__actions">
-          <Button type="button" onClick={() => addItem(listing)}>
+          <Button type="button" onClick={() => addItem({ ...listing, imageUrl })}>
             {inCart ? "In Cart" : "Add To Cart"}
           </Button>
         </div>

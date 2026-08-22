@@ -1,10 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { resolveImageUrl } from "../services/api";
 import "./ListingCard.css";
 
 export default function ListingCard({ listing, isAuthenticated = false }) {
   const { id, title, category, pricePerDay, ownerName, rating } = listing;
-  const imageUrl = listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image;
+  const imageUrl = resolveImageUrl(
+    listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image
+  );
   const navigate = useNavigate();
   const { items, addItem } = useCart();
   const inCart = items.some((item) => item.id === id);
@@ -14,7 +17,7 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
       navigate("/login");
       return;
     }
-    addItem(listing);
+    addItem({ ...listing, imageUrl });
   };
 
   return (
