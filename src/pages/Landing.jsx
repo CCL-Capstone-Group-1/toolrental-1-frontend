@@ -25,7 +25,7 @@ export default function Landing() {
       <div className="landing__feature">
         <div className="landing__callout">
           <span className="landing__callout-text">
-            Borrow for less than what you would pay full price for a tool you may never use again.
+            Borrow tools for less. Lend your tools to your neighbors. Make some extra cash.
           </span>
         </div>
         <div className="landing__feature-image" style={{ backgroundImage: `url(${borrowImage})` }} />
@@ -34,7 +34,7 @@ export default function Landing() {
       <div className="landing__feature landing__feature--last">
         <div className="landing__callout">
           <span className="landing__callout-text">
-            Find the tools you need from people in your area and borrow them for the time they can spare.
+            Rent the tools you need from your local neighbors.
           </span>
         </div>
         <div className="landing__feature-image" style={{ backgroundImage: `url(${findToolsImage})` }} />
