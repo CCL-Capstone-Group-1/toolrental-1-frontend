@@ -79,10 +79,10 @@ export default function Landing() {
       <div className="landing__feature">
         <div className="landing__callout">
           <span className="landing__callout-text">
-            Turn your idle tools into extra cash. 
+            Turn your idle tools into extra cash.
           </span>
-          <Link to="/catalog" className="landing__callout-browse">
-            <Button variant="secondary">Browse Tools</Button>
+          <Link to="/listings/new" className="landing__callout-browse">
+            <Button variant="secondary">List Your Tools</Button>
           </Link>
         </div>
         <div
@@ -97,6 +97,9 @@ export default function Landing() {
           <span className="landing__callout-text">
             Got a project? Someone nearby already has the tool for it.
           </span>
+          <Link to="/catalog" className="landing__callout-browse">
+            <Button variant="secondary">Browse Tools</Button>
+          </Link>
         </div>
         <div
           className="landing__feature-image"
