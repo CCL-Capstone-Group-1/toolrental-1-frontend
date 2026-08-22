@@ -66,11 +66,6 @@ export function useAuth() {
       setIsLoading(false);
       return;
     }
-    // Skip profile fetch for any simulated/demo token (offline mode)
-    if (currentToken.startsWith('demo-token-')) {
-      setIsLoading(false);
-      return;
-    }
     setIsLoading(true);
     setError(null);
     try {
@@ -124,12 +119,12 @@ export function useAuth() {
   }, [syncAuth]);
 
   // Merges a partial update (e.g. from an "Edit Profile" form) into the
-  // current user, persists it, and updates state — without needing a
-  // real backend call, matching the rest of this demo's auth flow.
+  // current user via the real backend, then persists it locally.
   const updateUser = useCallback(async (patch) => {
     setError(null);
     try {
-      const updated = await authService.updateProfile(patch);
+      const currentUser = getStoredUser();
+      const updated = await authService.updateProfile(currentUser?.id, patch);
       setUser((prev) => {
         const nextUser = { ...prev, ...updated };
         persistAuth(getStoredToken(), nextUser);

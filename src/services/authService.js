@@ -1,57 +1,78 @@
 // src/services/authService.js 🔐
-// 1. IMPORT THE BASE API
+// Auth itself is handled by Supabase directly (client-side, using the
+// public anon key — safe to expose in frontend code). This service also
+// calls the backend once, right after signup/login, to create or fetch
+// the matching profile row in our own Prisma `users` table.
 import { api } from './api';
+import { supabase } from './supabaseClient';
 
-// 2. EXPORT THE SERVICE OBJECT
 export const authService = {
 
-  // REGISTER: Simulated for this demo environment — no real backend or
-  // Supabase call. Mirrors the same pattern as the demo login below.
-  // Generates a fake token/user so the rest of the app (which expects a
-  // token + user object back) works exactly as if a real account was made.
+  // REGISTER: Creates the real account in Supabase Auth, then creates the
+  // matching Prisma profile row on our own backend.
   register: async (userData) => {
-    const fakeUser = {
-      id: Date.now(), // unique-enough for a demo session
-      name: userData.name || `${userData.firstName || ""} ${userData.lastName || ""}`.trim(),
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      email: userData.email,
-      homeAddress: userData.homeAddress,
-      aptNumber: userData.aptNumber,
-      city: userData.city,
-      state: userData.state,
-      avatarUrl: userData.avatarUrl || null,
-    };
+    const { email, password, name, avatarUrl } = userData;
 
-    return {
-      token: `demo-token-${fakeUser.id}`,
-      user: fakeUser,
-    };
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!data.session) {
+      // This means Supabase's "Confirm email" setting is turned on, so no
+      // active session comes back until the user clicks a confirmation
+      // link in their inbox. For this app, that setting should be off.
+      throw new Error(
+        'Account created, but email confirmation is required before you can sign in. Check your Supabase Auth settings.'
+      );
+    }
+
+    const token = data.session.access_token;
+
+    // Create the Prisma profile row, authenticated with the token we just
+    // got back from Supabase.
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name, image_url: avatarUrl }),
+    });
+    const user = await response.json();
+    if (!response.ok) {
+      throw new Error(user.message || 'Account created, but failed to set up your profile.');
+    }
+
+    return { token, user };
   },
 
-  // LOGIN: Authenticate an existing user.
+  // LOGIN: Authenticates with Supabase directly, then fetches the matching
+  // Prisma profile row from our backend.
   login: async (credentials) => {
-    const normalizedEmail = (credentials?.email || '').trim().toLowerCase();
-    const normalizedPassword = credentials?.password || '';
-    if (normalizedEmail === 'user@email.com' && normalizedPassword === 'toolbnb') {
-      return {
-        token: 'demo-token-toolbnb',
-        user: {
-          id: 1,
-          name: 'Demo User',
-          email: normalizedEmail,
-        },
-      };
+    const { email, password } = credentials;
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      throw new Error('Invalid email or password.');
     }
-    return api.post('/users/login', credentials);
+
+    const token = data.session.access_token;
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const user = await response.json();
+    if (!response.ok) {
+      throw new Error(user.message || 'Logged in, but no profile was found for this account.');
+    }
+
+    return { token, user };
   },
 
   // GET PROFILE: Fetch the logged-in user's data.
   getProfile: () => api.get('/users/profile'),
 
-  // UPDATE PROFILE: Simulated for this demo environment — echoes back
-  // whatever was submitted so the caller can merge it into local state.
-  updateProfile: async (profileData) => {
-    return profileData;
-  },
+  // UPDATE PROFILE: Edit user settings or profile details.
+  updateProfile: (id, profileData) => api.put(`/users/${id}`, profileData),
 };
