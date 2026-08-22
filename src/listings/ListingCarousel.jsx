@@ -2,17 +2,14 @@ import { useRef } from "react";
 import ListingCard from "./ListingCard";
 import "./ListingCarousel.css";
 
-export default function ListingCarousel({ title, listings, isAuthenticated = false }) {
+export default function ListingCarousel({ title, listings, isAuthenticated = false, currentUserId = null }) {
   const trackRef = useRef(null);
-
   const scrollByAmount = (direction) => {
     const track = trackRef.current;
     if (!track) return;
     track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: "smooth" });
   };
-
   if (!listings || listings.length === 0) return null;
-
   return (
     <section className="listing-carousel">
       <div className="listing-carousel__header">
@@ -36,11 +33,10 @@ export default function ListingCarousel({ title, listings, isAuthenticated = fal
           </button>
         </div>
       </div>
-
       <div className="listing-carousel__track" ref={trackRef}>
         {listings.map((listing) => (
           <div className="listing-carousel__item" key={listing.id}>
-            <ListingCard listing={listing} isAuthenticated={isAuthenticated} />
+            <ListingCard listing={listing} isAuthenticated={isAuthenticated} currentUserId={currentUserId} />
           </div>
         ))}
       </div>

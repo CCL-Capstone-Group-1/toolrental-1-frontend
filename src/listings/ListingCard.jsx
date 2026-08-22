@@ -1,62 +1,147 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../context/CartContext";
-import { resolveImageUrl } from "../services/api";
-import "./ListingCard.css";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { useListings } from "../hooks/useListings";
+import { useAuth } from "../context/AuthContext";
+import { mockListings } from "../data/mockListings";
+import FilterDropdown from "../listings/FilterDropdown";
+import ListingCarousel from "../listings/ListingCarousel";
+import "../listings/ListingGrid.css";
+import "./Catalog.css";
 
-export default function ListingCard({ listing, isAuthenticated = false }) {
-  const { id, title, category, pricePerDay, ownerName, rating, rentalCount } = listing;
-  const imageUrl = resolveImageUrl(
-    listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image
+export default function Catalog() {
+  const { user } = useAuth();
+  const { listings, fetchListings } = useListings();
+
+  const [filters, setFilters] = useState({
+    search: "",
+    category: "",
+    availabilityStart: "",
+    availabilityEnd: "",
+  });
+
+  useEffect(() => {
+    fetchListings();
+  }, [fetchListings]);
+
+  const sourceListings = useMemo(() => {
+    const combined = [...mockListings, ...(listings || [])];
+    const seen = new Set();
+
+    return combined
+      .filter((listing) => {
+        const key = String(listing.id ?? listing.title);
+
+        if (seen.has(key)) {
+          return false;
+        }
+
+        seen.add(key);
+        return true;
+      })
+      .map((listing, index) => {
+        const matchingMock = mockListings.find(
+          (mockListing) =>
+            mockListing.id === listing.id ||
+            mockListing.title === listing.title
+        );
+
+        const imageUrl =
+          listing.imageUrl ||
+          listing.image_url ||
+          listing.photoUrl ||
+          listing.photo_url ||
+          listing.image ||
+          matchingMock?.imageUrl ||
+          mockListings[index]?.imageUrl;
+
+        return { ...listing, imageUrl };
+      });
+  }, [listings]);
+
+  const categories = useMemo(
+    () =>
+      [
+        ...new Set(
+          sourceListings.map((listing) => listing.category).filter(Boolean)
+        ),
+      ],
+    [sourceListings]
   );
-  const navigate = useNavigate();
-  const { items, addItem } = useCart();
-  const inCart = items.some((item) => item.id === id);
 
-  const handleAddToCart = () => {
-    if (!isAuthenticated) {
-      navigate("/login");
-      return;
-    }
-    addItem({ ...listing, imageUrl });
+  const filteredListings = useMemo(() => {
+    const wantsAvailable =
+      Boolean(filters.availabilityStart) ||
+      Boolean(filters.availabilityEnd);
+
+    return sourceListings.filter((listing) => {
+      const matchesSearch = listing.title
+        ?.toLowerCase()
+        .includes(filters.search.toLowerCase());
+
+      const matchesCategory =
+        !filters.category || listing.category === filters.category;
+
+      const matchesAvailability =
+        !wantsAvailable || listing.available !== false;
+
+      return matchesSearch && matchesCategory && matchesAvailability;
+    });
+  }, [sourceListings, filters]);
+
+  const mostPopularListings = useMemo(
+    () =>
+      [...sourceListings]
+        .filter((listing) => typeof listing.rentalCount === "number")
+        .sort((a, b) => b.rentalCount - a.rentalCount)
+        .slice(0, 8),
+    [sourceListings]
+  );
+
+  const seasonalListings = useMemo(
+    () => sourceListings.filter((listing) => listing.seasonal),
+    [sourceListings]
+  );
+
+  const handleFilterChange = (nextFilters) => {
+    setFilters(nextFilters);
   };
 
   return (
-    <div className="listing-card">
-      <Link to={isAuthenticated ? `/tools/${id}` : "/login"} className="listing-card__link">
-        <div className="listing-card__image-wrap">
-          {imageUrl ? (
-            <img src={imageUrl} alt={title} className="listing-card__image" />
-          ) : (
-            <div className="listing-card__image-placeholder">No Image</div>
-          )}
-        </div>
-        <div className="listing-card__body">
-          <h3 className="listing-card__title">{title}</h3>
-          {category && <span className="listing-card__category">{category}</span>}
-          {typeof rating === "number" && (
-            <div className="listing-card__rating" aria-label={`${rating.toFixed(1)} out of 5 stars`}>
-              {[1, 2, 3, 4, 5].map((value) => (
-                <span key={value} aria-hidden="true">
-                  {value <= Math.round(rating) ? "★" : "☆"}
-                </span>
-              ))}
-              <span className="listing-card__rating-number">{rating.toFixed(1)}</span>
-              {typeof rentalCount === "number" && (
-                <span className="listing-card__rating-count">({rentalCount})</span>
-              )}
-            </div>
-          )}
-          <div className="listing-card__meta">
-            <span className="listing-card__price">${pricePerDay}/day</span>
-            {ownerName && <span className="listing-card__owner">by {ownerName}</span>}
-          </div>
-        </div>
-      </Link>
-      <div className="listing-card__footer">
-        <button type="button" className="listing-card__add-btn" onClick={handleAddToCart}>
-          {inCart ? "Added to Trip" : "Rent This Tool"}
-        </button>
+    <main className="catalog">
+      <div className="catalog__header">
+        <h1>Browse Tools</h1>
+        <Link to="/listings/new">+ List a Tool</Link>
       </div>
-    </div>
+
+      <FilterDropdown
+        categories={categories}
+        onFilterChange={handleFilterChange}
+      />
+
+      {filteredListings.length === 0 ? (
+        <p className="listing-grid__status">No tools found.</p>
+      ) : (
+        <ListingCarousel
+          title="Main Catalog"
+          listings={filteredListings}
+          isAuthenticated={Boolean(user)}
+          currentUserId={user?.id}
+        />
+      )}
+
+      <ListingCarousel
+        title="Most Popular"
+        listings={mostPopularListings}
+        isAuthenticated={Boolean(user)}
+        currentUserId={user?.id}
+      />
+
+      <ListingCarousel
+        title="Seasonal"
+        listings={seasonalListings}
+        isAuthenticated={Boolean(user)}
+        currentUserId={user?.id}
+      />
+    </main>
   );
 }
