@@ -1,12 +1,6 @@
 import { api } from './api';
 import { mockListings } from '../data/mockListings';
-import {
-  getMockListings,
-  getMockListingById,
-  addMockListing,
-  updateMockListing,
-  deleteMockListing,
-} from '../data/mockListingStore';
+import { getMockListings } from '../data/mockListingStore';
 
 export const listingService = {
 
@@ -19,16 +13,19 @@ export const listingService = {
     } catch (err) {
       console.warn('Real listings API failed, using mock catalog only:', err.message);
     }
-    return [...mockListings, ...realArray, ...localListings];
+    return [...realArray, ...localListings, ...mockListings];
   },
 
   getListingById: async (id) => {
-    const local = getMockListingById(id);
-    if (local) return local;
     try {
       return await api.get(`/listings/${id}`);
     } catch (err) {
-      return mockListings.find((listing) => String(listing.id) === String(id)) || null;
+      const localListings = getMockListings();
+      return (
+        localListings.find((listing) => String(listing.id) === String(id)) ||
+        mockListings.find((listing) => String(listing.id) === String(id)) ||
+        null
+      );
     }
   },
 
@@ -37,15 +34,14 @@ export const listingService = {
   },
 
   createListing: async (listingData) => {
-    return addMockListing(listingData);
+    return api.post('/listings', listingData);
   },
 
   updateListing: async (id, listingData) => {
-    return updateMockListing(id, listingData);
+    return api.put(`/listings/${id}`, listingData);
   },
 
   deleteListing: async (id) => {
-    deleteMockListing(id);
-    return { success: true };
+    return api.delete(`/listings/${id}`);
   },
 };

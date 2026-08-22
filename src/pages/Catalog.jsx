@@ -24,7 +24,7 @@ export default function Catalog() {
   }, [fetchListings]);
 
   const sourceListings = useMemo(() => {
-    const combined = [...mockListings, ...(listings || [])];
+    const combined = [...(listings || []), ...mockListings];
     const seen = new Set();
 
     const mapped = combined
