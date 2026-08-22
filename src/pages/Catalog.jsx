@@ -15,8 +15,8 @@ export default function Catalog() {
   const [filters, setFilters] = useState({
     search: "",
     category: "",
-    availability: "",
-    availabilityOption: "",
+    availabilityStart: "",
+    availabilityEnd: "",
   });
 
   useEffect(() => {
@@ -51,10 +51,10 @@ export default function Catalog() {
 
   const filteredListings = useMemo(() => {
     // There's no per-date booking data yet, so the availability filter is a
-    // stand-in: requesting a date or picking "Flexible Rates and Dates" just
-    // narrows to listings marked available. Replace once real date-based
-    // availability exists on the backend.
-    const wantsAvailable = Boolean(filters.availability) || Boolean(filters.availabilityOption);
+    // stand-in: requesting a date range just narrows to listings marked
+    // available. Replace once real date-based availability exists on the
+    // backend.
+    const wantsAvailable = Boolean(filters.availabilityStart) || Boolean(filters.availabilityEnd);
 
     return sourceListings.filter((listing) => {
       const matchesSearch = listing.title?.toLowerCase().includes(filters.search.toLowerCase());
