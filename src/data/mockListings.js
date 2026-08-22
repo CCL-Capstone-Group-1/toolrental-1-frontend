@@ -15,7 +15,10 @@ const toolImageSets = {
   cordlessDrill: 'https://images.pexels.com/photos/1249610/pexels-photo-1249610.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
   circularSaw: 'https://images.pexels.com/photos/8820180/pexels-photo-8820180.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
   tableSaw: 'https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
-  router: 'https://placehold.co/800x600?text=Router+%231',
+  // NOTE: no clean "wood router" photo exists on Pexels (searches are
+  // dominated by WiFi routers) — using a real, generic power-tool photo
+  // as a stand-in until the team photographs an actual router.
+  router: 'https://images.pexels.com/photos/1659749/pexels-photo-1659749.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
   airCompressor: 'https://placehold.co/800x600?text=Air+Compressor+%231',
   miterSaw: 'https://images.pexels.com/photos/8447855/pexels-photo-8447855.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
   socketSet: 'https://images.pexels.com/photos/4792482/pexels-photo-4792482.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
