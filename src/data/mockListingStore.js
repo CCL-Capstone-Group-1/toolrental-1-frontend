@@ -1,8 +1,3 @@
-// src/data/mockListingStore.js
-// Mirrors the pattern already used in mockLoanStore.js — listings are
-// simulated client-side (localStorage) since there's no live backend
-// write path wired up yet for this demo.
-
 const STORAGE_KEY = "mockListings";
 
 function readAll() {
