@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLoans } from "../hooks/useLoans";
+import { useListings } from "../hooks/useListings";
 import { getMockLoans } from "../data/mockLoanStore";
 import Modal from "../components/Modal";
 import ChatBox from "../components/ChatBox";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import ImageUpload from "../components/ImageUpload";
 import "./UserAccount.css";
 
 function initialsFor(name) {
@@ -17,9 +21,21 @@ function initialsFor(name) {
     .join("");
 }
 
-function LoanGrid({ loans, emptyMessage, onOpenChat }) {
+function LoanGrid({ loans, emptyMessage, emptyCta, onOpenChat }) {
   if (loans.length === 0) {
-    return <p className="account-page__empty">{emptyMessage}</p>;
+    return (
+      <p className="account-page__empty">
+        {emptyMessage}
+        {emptyCta && (
+          <>
+            {" "}
+            <Link to={emptyCta.to} className="account-page__empty-link">
+              {emptyCta.label}
+            </Link>
+          </>
+        )}
+      </p>
+    );
   }
 
   return (
@@ -61,16 +77,104 @@ function LoanGrid({ loans, emptyMessage, onOpenChat }) {
   );
 }
 
+function ListingGrid({ listings, emptyMessage, emptyCta, onToggleActive }) {
+  if (listings.length === 0) {
+    return (
+      <p className="account-page__empty">
+        {emptyMessage}
+        {emptyCta && (
+          <>
+            {" "}
+            <Link to={emptyCta.to} className="account-page__empty-link">
+              {emptyCta.label}
+            </Link>
+          </>
+        )}
+      </p>
+    );
+  }
+
+  return (
+    <div className="account-page__loan-grid">
+      {listings.map((listing) => (
+        <div key={listing.id} className="account-page__loan-card">
+          <Link to={`/tools/${listing.id}`} className="account-page__loan-card-link">
+            <div className="account-page__loan-card-content">
+              <div className="account-page__loan-thumb">
+                {listing.imageUrl ? (
+                  <img src={listing.imageUrl} alt={listing.title} />
+                ) : (
+                  <span>Tool Picture</span>
+                )}
+              </div>
+              <span className="account-page__loan-name">{listing.title}</span>
+              <span className="account-page__loan-owner">${listing.pricePerDay}/day</span>
+            </div>
+          </Link>
+          <div className="account-page__listing-actions">
+            <Link to={`/listings/${listing.id}/edit`} className="account-page__listing-edit-btn">
+              Edit
+            </Link>
+            <button
+              type="button"
+              className="account-page__listing-toggle-btn"
+              onClick={() => onToggleActive(listing)}
+            >
+              {listing.isActive === false ? "Reactivate" : "Deactivate"}
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function UserAccount() {
-  const { user, isLoading: isAuthLoading } = useAuth();
+  const { user, isLoading: isAuthLoading, updateUser } = useAuth();
   const { loans, isLoading, error, fetchUserLoans } = useLoans();
+  const {
+    listings,
+    isLoading: isListingsLoading,
+    fetchListings,
+    updateListing,
+  } = useListings();
+
   const [activeChatLoan, setActiveChatLoan] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editValues, setEditValues] = useState({
+    firstName: "",
+    lastName: "",
+    homeAddress: "",
+    city: "",
+    state: "",
+  });
+  const [editPhotoUrl, setEditPhotoUrl] = useState(null);
+  const [editError, setEditError] = useState(null);
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
+
   const location = useLocation();
   const newLoans = location.state?.newLoans?.length ? location.state.newLoans : null;
 
   useEffect(() => {
     fetchUserLoans();
   }, [fetchUserLoans]);
+
+  useEffect(() => {
+    if (fetchListings) fetchListings();
+  }, [fetchListings]);
+
+  useEffect(() => {
+    if (user) {
+      setEditValues({
+        firstName: user.firstName || user.name?.split(" ")[0] || "",
+        lastName: user.lastName || user.name?.split(" ").slice(1).join(" ") || "",
+        homeAddress: user.homeAddress || "",
+        city: user.city || "",
+        state: user.state || "",
+      });
+      setEditPhotoUrl(user.avatarUrl || null);
+    }
+  }, [user]);
 
   if (isAuthLoading) {
     return <p className="account-page__empty">Loading account…</p>;
@@ -80,21 +184,95 @@ export default function UserAccount() {
     return <p className="account-page__empty">No authenticated user found.</p>;
   }
 
-  // No live backend yet — fall back to locally-stored dev loans (created via
-  // the "Skip Payment (Dev)" button on the Rental page) so history isn't
-  // empty. Remove once loanService.getUserLoans() has a real API to hit.
   const sourceLoans = error ? getMockLoans() : loans;
-
   const rented = sourceLoans.filter((loan) => loan.borrowerId === user.id || loan.role === "borrower");
   const lentOut = sourceLoans.filter((loan) => loan.ownerId === user.id || loan.role === "owner");
+
+  const myListings = (listings || []).filter(
+    (listing) => listing.ownerId === user.id || listing.userId === user.id
+  );
+
+  const activeRentalsCount = lentOut.filter((loan) => !loan.returnedAt).length;
+  const totalEarned = lentOut.reduce(
+    (sum, loan) => sum + (Number(loan.totalPrice) || Number(loan.price) || 0),
+    0
+  );
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    setEditError(null);
+    setIsSavingEdit(true);
+    try {
+      await updateUser({
+        firstName: editValues.firstName,
+        lastName: editValues.lastName,
+        name: `${editValues.firstName} ${editValues.lastName}`.trim(),
+        homeAddress: editValues.homeAddress,
+        city: editValues.city,
+        state: editValues.state,
+        avatarUrl: editPhotoUrl,
+      });
+      setIsEditOpen(false);
+    } catch (err) {
+      setEditError(err.message || "Unable to save changes.");
+    } finally {
+      setIsSavingEdit(false);
+    }
+  };
+
+  const handleToggleListingActive = async (listing) => {
+    if (!updateListing) return;
+    try {
+      await updateListing(listing.id, { isActive: listing.isActive === false });
+      fetchListings?.();
+    } catch (err) {
+      console.error("Failed to toggle listing:", err);
+    }
+  };
 
   return (
     <main className="account-page">
       <div className="account-page__header">
-        <span className="account-page__avatar">{initialsFor(user.name || user.email)}</span>
+        {user.avatarUrl ? (
+          <img src={user.avatarUrl} alt={user.name || "Profile"} className="account-page__avatar-photo" />
+        ) : (
+          <span className="account-page__avatar">{initialsFor(user.name || user.email)}</span>
+        )}
         <div>
           <h1>{user.name || user.email}</h1>
           {user.homeAddress && <p className="account-page__address">{user.homeAddress}</p>}
+        </div>
+        <div className="account-page__header-actions">
+          <button
+            type="button"
+            className="account-page__edit-btn"
+            onClick={() => setIsEditOpen(true)}
+          >
+            Edit Profile
+          </button>
+          <Link to="/listings/new" className="account-page__list-tool-btn">
+            + List a Tool
+          </Link>
+        </div>
+      </div>
+
+      <div className="account-page__stats">
+        <div className="account-page__stat">
+          <span className="account-page__stat-number">{myListings.length}</span>
+          <span className="account-page__stat-label">tools listed</span>
+        </div>
+        <div className="account-page__stat">
+          <span className="account-page__stat-number">{activeRentalsCount}</span>
+          <span className="account-page__stat-label">active rentals</span>
+        </div>
+        <div className="account-page__stat">
+          <span className="account-page__stat-number">${totalEarned.toFixed(0)}</span>
+          <span className="account-page__stat-label">earned</span>
         </div>
       </div>
 
@@ -124,6 +302,20 @@ export default function UserAccount() {
       )}
 
       <section className="account-page__section">
+        <h2>My Listings</h2>
+        {isListingsLoading ? (
+          <p className="account-page__empty">Loading…</p>
+        ) : (
+          <ListingGrid
+            listings={myListings}
+            emptyMessage="You haven't listed any tools yet."
+            emptyCta={{ to: "/listings/new", label: "List your first tool →" }}
+            onToggleActive={handleToggleListingActive}
+          />
+        )}
+      </section>
+
+      <section className="account-page__section">
         <h2>Previous Tools Rented</h2>
         {isLoading ? (
           <p className="account-page__empty">Loading…</p>
@@ -131,6 +323,7 @@ export default function UserAccount() {
           <LoanGrid
             loans={rented}
             emptyMessage="You haven't rented any tools yet."
+            emptyCta={{ to: "/catalog", label: "Browse the catalog →" }}
             onOpenChat={setActiveChatLoan}
           />
         )}
@@ -141,7 +334,11 @@ export default function UserAccount() {
         {isLoading ? (
           <p className="account-page__empty">Loading…</p>
         ) : (
-          <LoanGrid loans={lentOut} emptyMessage="You haven't lent out any tools yet." />
+          <LoanGrid
+            loans={lentOut}
+            emptyMessage="You haven't lent out any tools yet."
+            emptyCta={{ to: "/listings/new", label: "List a tool →" }}
+          />
         )}
       </section>
 
@@ -152,6 +349,65 @@ export default function UserAccount() {
         className="modal--chat"
       >
         {activeChatLoan && <ChatBox loanId={activeChatLoan.id} />}
+      </Modal>
+
+      <Modal
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        title="Edit Profile"
+      >
+        <form onSubmit={handleEditSubmit}>
+          <ImageUpload
+            label="Profile photo"
+            existingUrl={editPhotoUrl}
+            onUploaded={setEditPhotoUrl}
+          />
+
+          <div className="account-edit__row">
+            <Input
+              label="First Name"
+              name="firstName"
+              value={editValues.firstName}
+              onChange={handleEditChange}
+            />
+            <Input
+              label="Last Name"
+              name="lastName"
+              value={editValues.lastName}
+              onChange={handleEditChange}
+            />
+          </div>
+
+          <Input
+            label="Home Address"
+            name="homeAddress"
+            value={editValues.homeAddress}
+            onChange={handleEditChange}
+          />
+
+          <div className="account-edit__row">
+            <Input
+              label="City"
+              name="city"
+              value={editValues.city}
+              onChange={handleEditChange}
+            />
+            <Input
+              label="State"
+              name="state"
+              value={editValues.state}
+              onChange={handleEditChange}
+            />
+          </div>
+
+          {editError && <p className="account-page__empty" style={{ color: "var(--color-danger)" }}>{editError}</p>}
+
+          <div className="account-edit__actions">
+            <Button type="submit" disabled={isSavingEdit}>
+              {isSavingEdit ? "Saving…" : "Save Changes"}
+            </Button>
+          </div>
+        </form>
       </Modal>
     </main>
   );

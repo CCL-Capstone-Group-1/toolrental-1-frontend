@@ -7,7 +7,6 @@ const USER_STORAGE_KEY = 'user';
 function getStoredUser() {
   const stored = localStorage.getItem(USER_STORAGE_KEY);
   if (!stored) return null;
-
   try {
     return JSON.parse(stored);
   } catch {
@@ -26,7 +25,6 @@ function persistAuth(token, user) {
   } else {
     localStorage.removeItem(TOKEN_STORAGE_KEY);
   }
-
   if (user) {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
   } else {
@@ -36,7 +34,6 @@ function persistAuth(token, user) {
 
 function extractAuthPayload(response) {
   if (!response) return {};
-
   const token = response.token || response.accessToken || response.access_token || response.access_token;
   const user = response.user || response.profile || response;
   return { token, user };
@@ -69,16 +66,13 @@ export function useAuth() {
       setIsLoading(false);
       return;
     }
-
-    // Skip profile fetch for demo token (offline mode)
-    if (currentToken === 'demo-token-toolbnb') {
+    // Skip profile fetch for any simulated/demo token (offline mode)
+    if (currentToken.startsWith('demo-token-')) {
       setIsLoading(false);
       return;
     }
-
     setIsLoading(true);
     setError(null);
-
     try {
       const profile = await authService.getProfile();
       setUser(profile);
@@ -102,7 +96,6 @@ export function useAuth() {
   const login = useCallback(async (credentials) => {
     setIsLoading(true);
     setError(null);
-
     try {
       const response = await authService.login(credentials);
       syncAuth(response);
@@ -118,7 +111,6 @@ export function useAuth() {
   const register = useCallback(async (userData) => {
     setIsLoading(true);
     setError(null);
-
     try {
       const response = await authService.register(userData);
       syncAuth(response);
@@ -130,6 +122,25 @@ export function useAuth() {
       setIsLoading(false);
     }
   }, [syncAuth]);
+
+  // Merges a partial update (e.g. from an "Edit Profile" form) into the
+  // current user, persists it, and updates state — without needing a
+  // real backend call, matching the rest of this demo's auth flow.
+  const updateUser = useCallback(async (patch) => {
+    setError(null);
+    try {
+      const updated = await authService.updateProfile(patch);
+      setUser((prev) => {
+        const nextUser = { ...prev, ...updated };
+        persistAuth(getStoredToken(), nextUser);
+        return nextUser;
+      });
+      return updated;
+    } catch (err) {
+      setError(err.message || 'Unable to update profile.');
+      throw err;
+    }
+  }, []);
 
   const logout = useCallback(() => {
     clearAuth();
@@ -150,6 +161,7 @@ export function useAuth() {
     error,
     login,
     register,
+    updateUser,
     logout,
     loadProfile,
     clearAuth,
