@@ -50,3 +50,14 @@
   justify-content: flex-end;
   margin-top: var(--space-lg);
 }
+.signin-page__signup-prompt {
+  margin-top: var(--space-md);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.signin-page__signup-prompt a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}

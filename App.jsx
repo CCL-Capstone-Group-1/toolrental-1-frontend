@@ -2,18 +2,15 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "./src/context/AuthContext";
 import Navbar from "./src/components/Navbar";
 import Footer from "./src/components/Footer";
-
 const AUTH_MODE_BY_PATH = {
   "/catalog": "hidden",
   "/": "hideSignUp",
-  "/login": "promptSignUp",
+  "/login": "hidden",
   "/register": "promptSignIn",
 };
-
 export default function App() {
   const { user, logout } = useAuth();
   const { pathname } = useLocation();
-
   return (
     <div className="app-shell">
       <Navbar
