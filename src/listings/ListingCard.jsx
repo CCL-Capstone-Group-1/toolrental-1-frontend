@@ -4,7 +4,7 @@ import { resolveImageUrl } from "../services/api";
 import "./ListingCard.css";
 
 export default function ListingCard({ listing, isAuthenticated = false }) {
-  const { id, title, category, pricePerDay, ownerName, rating } = listing;
+  const { id, title, category, pricePerDay, ownerName, rating, rentalCount } = listing;
   const imageUrl = resolveImageUrl(
     listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image
   );
@@ -30,7 +30,6 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
             <div className="listing-card__image-placeholder">No Image</div>
           )}
         </div>
-
         <div className="listing-card__body">
           <h3 className="listing-card__title">{title}</h3>
           {category && <span className="listing-card__category">{category}</span>}
@@ -42,6 +41,9 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
                 </span>
               ))}
               <span className="listing-card__rating-number">{rating.toFixed(1)}</span>
+              {typeof rentalCount === "number" && (
+                <span className="listing-card__rating-count">({rentalCount})</span>
+              )}
             </div>
           )}
           <div className="listing-card__meta">
@@ -50,10 +52,9 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
           </div>
         </div>
       </Link>
-
       <div className="listing-card__footer">
         <button type="button" className="listing-card__add-btn" onClick={handleAddToCart}>
-          {inCart ? "In Cart" : "Add To Cart"}
+          {inCart ? "Added to Trip" : "Rent This Tool"}
         </button>
       </div>
     </div>

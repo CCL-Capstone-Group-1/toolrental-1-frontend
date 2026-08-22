@@ -111,3 +111,8 @@
 .listing-card__add-btn:hover {
   background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
+.listing-card__rating-count {
+  margin-left: 4px;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
