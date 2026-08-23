@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { mockListings } from "../data/mockListings";
 import FilterDropdown from "../listings/FilterDropdown";
 import ListingCarousel from "../listings/ListingCarousel";
+import Button from "../components/Button";
 import "../listings/ListingGrid.css";
 import "./Catalog.css";
 
@@ -140,6 +141,25 @@ export default function Catalog() {
         <h1>Browse Tools</h1>
         <Link to="/listings/new">+ List a Tool</Link>
       </div>
+
+      {!user && (
+        <div className="catalog__auth-banner">
+          <div>
+            <h2>Get full access</h2>
+            <p>Sign up or sign in to rent tools, message owners, and list your own.</p>
+          </div>
+          <div className="catalog__auth-banner-actions">
+            <Link to="/register">
+              <Button type="button">Sign Up</Button>
+            </Link>
+            <Link to="/login">
+              <Button type="button" variant="secondary">
+                Sign In
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
 
       <FilterDropdown
         categories={categories}
