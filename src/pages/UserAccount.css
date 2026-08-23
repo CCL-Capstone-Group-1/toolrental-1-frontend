@@ -115,6 +115,12 @@
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-sm);
   overflow: hidden;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.account-page__loan-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 .account-page__loan-card-content {
