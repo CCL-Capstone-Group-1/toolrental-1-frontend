@@ -26,7 +26,7 @@ export default function ListingCard({ listing, isAuthenticated = false, currentU
 
   return (
     <div className="listing-card">
-      <Link to={isAuthenticated ? `/tools/${id}` : "/login"} className="listing-card__link">
+      <Link to={isAuthenticated ? `/tools/${id}` : "/login"} className="listing-card__link" viewTransition>
         <div className="listing-card__image-wrap">
           {imageUrl ? (
             <img src={imageUrl} alt={title} className="listing-card__image" />

@@ -107,7 +107,7 @@ export default function Landing() {
       >
         <div className="landing__hero-box">
           <h1>Your next project tool might be two doors down.</h1>
-          <Link to="/register" className="landing__hero-signup">
+          <Link to="/register" className="landing__hero-signup" viewTransition>
             <Button variant="secondary">Sign Up</Button>
           </Link>
         </div>
@@ -118,7 +118,7 @@ export default function Landing() {
           <span className="landing__callout-text">
             Turn your idle tools into extra cash.
           </span>
-          <Link to="/listings/new" className="landing__callout-browse">
+          <Link to="/listings/new" className="landing__callout-browse" viewTransition>
             <Button variant="secondary">List Your Tools</Button>
           </Link>
         </div>
@@ -134,7 +134,7 @@ export default function Landing() {
           <span className="landing__callout-text">
             Got a project? Someone nearby already has the tool for it.
           </span>
-          <Link to="/catalog" className="landing__callout-browse">
+          <Link to="/catalog" className="landing__callout-browse" viewTransition>
             <Button variant="secondary">Browse Tools</Button>
           </Link>
         </div>
@@ -183,7 +183,7 @@ export default function Landing() {
       </section>
 
       <section className="landing__closing landing__reveal" ref={registerReveal}>
-        <Link to="/catalog" className="landing__closing-browse">
+        <Link to="/catalog" className="landing__closing-browse" viewTransition>
           <span className="landing__closing-browse-icon">
             <svg
               viewBox="0 0 24 24"

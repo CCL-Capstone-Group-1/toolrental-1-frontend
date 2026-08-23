@@ -82,4 +82,14 @@ button {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* The page-to-page crossfade (react-router's `viewTransition` on Links)
+     renders through the browser's ::view-transition-* pseudo-element tree,
+     which the `*` rule above never reaches since it's outside the regular
+     DOM. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.001ms !important;
+  }
 }

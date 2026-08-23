@@ -50,7 +50,7 @@ export default function Navbar({
 
   return (
     <header className="navbar">
-      <NavLink to="/" className="navbar__brand" onClick={() => setMenuOpen(false)}>
+      <NavLink to="/" className="navbar__brand" onClick={() => setMenuOpen(false)} viewTransition>
         <img src={logo} alt="toolbnb" className="navbar__logo" />
       </NavLink>
 
@@ -76,6 +76,7 @@ export default function Navbar({
             `navbar__link navbar__browse-link${isActive ? " navbar__link--active" : ""}`
           }
           aria-label="Browse Tools"
+          viewTransition
         >
           <svg
             className="navbar__browse-icon"
@@ -97,7 +98,7 @@ export default function Navbar({
 
         {isAuthenticated ? (
           <>
-            <NavLink to="/cart" className="navbar__cart" aria-label="Cart">
+            <NavLink to="/cart" className="navbar__cart" aria-label="Cart" viewTransition>
               <svg
                 className="navbar__cart-icon"
                 viewBox="0 0 24 24"
@@ -139,6 +140,7 @@ export default function Navbar({
                     to="/account"
                     className="navbar__user-dropdown-item"
                     onClick={() => setProfileMenuOpen(false)}
+                    viewTransition
                   >
                     Account
                   </NavLink>
@@ -159,27 +161,27 @@ export default function Navbar({
         ) : authMode === "hidden" ? null : authMode === "promptSignUp" ? (
           <>
             <span className="navbar__prompt">Not a member yet?</span>
-            <NavLink to="/register" className="navbar__link navbar__link--cta">
+            <NavLink to="/register" className="navbar__link navbar__link--cta" viewTransition>
               Sign Up
             </NavLink>
           </>
         ) : authMode === "promptSignIn" ? (
           <>
             <span className="navbar__prompt">Already a member?</span>
-            <NavLink to="/login" className="navbar__link navbar__link--cta">
+            <NavLink to="/login" className="navbar__link navbar__link--cta" viewTransition>
               Sign In
             </NavLink>
           </>
         ) : authMode === "hideSignUp" ? (
-          <NavLink to="/login" className="navbar__link navbar__link--cta">
+          <NavLink to="/login" className="navbar__link navbar__link--cta" viewTransition>
             Sign In
           </NavLink>
         ) : (
           <>
-            <NavLink to="/login" className="navbar__link navbar__link--cta">
+            <NavLink to="/login" className="navbar__link navbar__link--cta" viewTransition>
               Sign In
             </NavLink>
-            <NavLink to="/register" className="navbar__link navbar__link--cta">
+            <NavLink to="/register" className="navbar__link navbar__link--cta" viewTransition>
               Sign Up
             </NavLink>
           </>

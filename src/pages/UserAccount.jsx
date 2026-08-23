@@ -29,7 +29,7 @@ function LoanGrid({ loans, emptyMessage, emptyCta, onOpenChat }) {
         {emptyCta && (
           <>
             {" "}
-            <Link to={emptyCta.to} className="account-page__empty-link">
+            <Link to={emptyCta.to} className="account-page__empty-link" viewTransition>
               {emptyCta.label}
             </Link>
           </>
@@ -55,7 +55,7 @@ function LoanGrid({ loans, emptyMessage, emptyCta, onOpenChat }) {
         return (
           <div key={loan.id} className="account-page__loan-card">
             {toolId ? (
-              <Link to={`/tools/${toolId}`} className="account-page__loan-card-link">
+              <Link to={`/tools/${toolId}`} className="account-page__loan-card-link" viewTransition>
                 {cardContent}
               </Link>
             ) : (
@@ -85,7 +85,7 @@ function ListingGrid({ listings, emptyMessage, emptyCta, onToggleActive }) {
         {emptyCta && (
           <>
             {" "}
-            <Link to={emptyCta.to} className="account-page__empty-link">
+            <Link to={emptyCta.to} className="account-page__empty-link" viewTransition>
               {emptyCta.label}
             </Link>
           </>
@@ -98,7 +98,7 @@ function ListingGrid({ listings, emptyMessage, emptyCta, onToggleActive }) {
     <div className="account-page__loan-grid">
       {listings.map((listing) => (
         <div key={listing.id} className="account-page__loan-card">
-          <Link to={`/tools/${listing.id}`} className="account-page__loan-card-link">
+          <Link to={`/tools/${listing.id}`} className="account-page__loan-card-link" viewTransition>
             <div className="account-page__loan-card-content">
               <div className="account-page__loan-thumb">
                 {listing.imageUrl ? (
@@ -112,7 +112,7 @@ function ListingGrid({ listings, emptyMessage, emptyCta, onToggleActive }) {
             </div>
           </Link>
           <div className="account-page__listing-actions">
-            <Link to={`/listings/${listing.id}/edit`} className="account-page__listing-edit-btn">
+            <Link to={`/listings/${listing.id}/edit`} className="account-page__listing-edit-btn" viewTransition>
               Edit
             </Link>
             <button
@@ -256,7 +256,7 @@ export default function UserAccount() {
           >
             Edit Profile
           </button>
-          <Link to="/listings/new" className="account-page__list-tool-btn">
+          <Link to="/listings/new" className="account-page__list-tool-btn" viewTransition>
             + List a Tool
           </Link>
         </div>
@@ -289,7 +289,7 @@ export default function UserAccount() {
           {lentOut.length === 0 ? (
             <p className="account-page__empty">
               You haven't earned anything yet.{" "}
-              <Link to="/listings/new" className="account-page__empty-link">
+              <Link to="/listings/new" className="account-page__empty-link" viewTransition>
                 List your first tool →
               </Link>
             </p>

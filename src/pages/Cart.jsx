@@ -36,7 +36,7 @@ export default function Cart() {
           <ul className="cart-items">
             {items.map((item) => (
               <li key={item.id} className="cart-item">
-                <Link to={`/tools/${item.id}`} className="cart-item__link">
+                <Link to={`/tools/${item.id}`} className="cart-item__link" viewTransition>
                   <div className="cart-item__thumb">
                     {item.imageUrl ? (
                       <img src={item.imageUrl} alt={item.title} />
@@ -87,7 +87,7 @@ export default function Cart() {
               return (
                 <div key={loan.id} className="cart-page__loan-card">
                   {toolId ? (
-                    <Link to={`/tools/${toolId}`} className="cart-page__loan-card-link">
+                    <Link to={`/tools/${toolId}`} className="cart-page__loan-card-link" viewTransition>
                       {cardContent}
                     </Link>
                   ) : (

@@ -44,7 +44,7 @@ export default function SignIn() {
       </form>
       {(formError || error) && <p className="signin-page__error">{formError || error}</p>}
       <p className="signin-page__signup-prompt">
-        Not a member yet? <Link to="/register">Sign up</Link>
+        Not a member yet? <Link to="/register" viewTransition>Sign up</Link>
       </p>
       <div className="signin-page__actions">
         <Button type="submit" form="signin-form" disabled={isLoading}>

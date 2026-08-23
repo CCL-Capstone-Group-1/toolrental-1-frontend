@@ -139,7 +139,7 @@ export default function Catalog() {
     <main className="catalog">
       <div className="catalog__header">
         <h1>Browse Tools</h1>
-        <Link to="/listings/new">+ List a Tool</Link>
+        <Link to="/listings/new" viewTransition>+ List a Tool</Link>
       </div>
 
       {!user && (
@@ -149,10 +149,10 @@ export default function Catalog() {
             <p>Sign up or sign in to rent tools, message owners, and list your own.</p>
           </div>
           <div className="catalog__auth-banner-actions">
-            <Link to="/register">
+            <Link to="/register" viewTransition>
               <Button type="button">Sign Up</Button>
             </Link>
-            <Link to="/login">
+            <Link to="/login" viewTransition>
               <Button type="button" variant="secondary">
                 Sign In
               </Button>

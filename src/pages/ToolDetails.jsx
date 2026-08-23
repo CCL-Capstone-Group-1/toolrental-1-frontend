@@ -102,7 +102,7 @@ export default function ToolDetails() {
             ))}
           </ul>
         )}
-        <Link to={`/review/${listing.id}`} className="tool-details__leave-review">
+        <Link to={`/review/${listing.id}`} className="tool-details__leave-review" viewTransition>
           <Button type="button" variant="primary">
             Leave a review
           </Button>
