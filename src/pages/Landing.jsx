@@ -68,8 +68,7 @@ export default function Landing() {
         style={{ backgroundImage: `url(${heroImage})` }}
       >
         <div className="landing__hero-box">
-          <h1>Welcome to toolbnb</h1>
-          <p>Your next project tool might be two doors down.</p>
+          <h1>Your next project tool might be two doors down.</h1>
           <Link to="/register" className="landing__hero-signup">
             <Button variant="secondary">Sign Up</Button>
           </Link>
