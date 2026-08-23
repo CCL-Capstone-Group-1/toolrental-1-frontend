@@ -68,8 +68,8 @@ export default function Landing() {
         style={{ backgroundImage: `url(${heroImage})` }}
       >
         <div className="landing__hero-box">
-          <h1>Your next project tool might be two doors down.</h1>
-          <p>a peer-to-peer tool lending library for you and your neighbors</p>
+          <h1>Welcome to toolbnb</h1>
+          <p>Your next project tool might be two doors down.</p>
           <Link to="/register" className="landing__hero-signup">
             <Button variant="secondary">Sign Up</Button>
           </Link>
@@ -79,8 +79,11 @@ export default function Landing() {
       <div className="landing__feature">
         <div className="landing__callout">
           <span className="landing__callout-text">
-            Borrow tools for less. Lend your tools to your neighbors. Make some extra cash.
+            Turn your idle tools into extra cash.
           </span>
+          <Link to="/listings/new" className="landing__callout-browse">
+            <Button variant="secondary">List Your Tools</Button>
+          </Link>
         </div>
         <div
           className="landing__feature-image"
@@ -92,8 +95,11 @@ export default function Landing() {
       <div className="landing__feature landing__feature--last">
         <div className="landing__callout">
           <span className="landing__callout-text">
-            Rent the tools you need from your local neighbors.
+            Got a project? Someone nearby already has the tool for it.
           </span>
+          <Link to="/catalog" className="landing__callout-browse">
+            <Button variant="secondary">Browse Tools</Button>
+          </Link>
         </div>
         <div
           className="landing__feature-image"
@@ -134,9 +140,8 @@ export default function Landing() {
         </div>
 
         <p className="landing__trust-copy">
-          Every renter agrees to platform-wide rental terms at signup — covering deposits, late fees,
-          damage, and loss — so both sides of the transaction know exactly what's expected before a tool
-          changes hands.
+          You're covered. Every rental includes a clear agreement on deposits, late fees, and damage,
+          so nothing's left to guess.
         </p>
       </section>
 

@@ -1,21 +1,18 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import "./SignIn.css";
-
 export default function SignIn() {
   const navigate = useNavigate();
   const { login, devLogin, error, isLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState(null);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormError(null);
-
     try {
       await login({ email, password });
       navigate("/account", { replace: true });
@@ -23,12 +20,10 @@ export default function SignIn() {
       setFormError(err.message || "Unable to sign in.");
     }
   };
-
   return (
     <main className="signin-page">
       <h1>Sign In</h1>
       <p>Demo login: user@email.com / toolbnb</p>
-
       <form id="signin-form" className="signin-card" onSubmit={handleSubmit}>
         <Input
           label="Email"
@@ -47,9 +42,10 @@ export default function SignIn() {
           required
         />
       </form>
-
       {(formError || error) && <p className="signin-page__error">{formError || error}</p>}
-
+      <p className="signin-page__signup-prompt">
+        Not a member yet? <Link to="/register">Sign up</Link>
+      </p>
       <div className="signin-page__actions">
         <Button type="submit" form="signin-form" disabled={isLoading}>
           {isLoading ? "Signing in…" : "Submit"}

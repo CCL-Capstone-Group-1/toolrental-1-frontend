@@ -4,12 +4,13 @@ import "./FilterDropdown.css";
 
 export default function FilterDropdown({ categories = [], onFilterChange }) {
   const [product, setProduct] = useState("");
-  const [availability, setAvailability] = useState("");
+  const [availabilityStart, setAvailabilityStart] = useState("");
+  const [availabilityEnd, setAvailabilityEnd] = useState("");
   const [category, setCategory] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onFilterChange?.({ search: product, category, availability });
+    onFilterChange?.({ search: product, category, availabilityStart, availabilityEnd });
   };
 
   return (
@@ -24,7 +25,6 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
           onChange={(e) => setProduct(e.target.value)}
         />
       </div>
-
       <div className="search-filters__chip-row">
         <CustomSelect
           triggerClassName="search-filters__chip"
@@ -37,17 +37,25 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
             ...categories.map((c) => ({ value: c, label: c })),
           ]}
         />
-
         <label className="search-filters__chip search-filters__chip--date">
-          <span className="search-filters__chip-label">Availability</span>
+          <span className="search-filters__chip-label">From</span>
           <input
             type="date"
             className="search-filters__date-input"
-            value={availability}
-            onChange={(e) => setAvailability(e.target.value)}
+            value={availabilityStart}
+            onChange={(e) => setAvailabilityStart(e.target.value)}
           />
         </label>
-
+        <label className="search-filters__chip search-filters__chip--date">
+          <span className="search-filters__chip-label">Until</span>
+          <input
+            type="date"
+            className="search-filters__date-input"
+            value={availabilityEnd}
+            onChange={(e) => setAvailabilityEnd(e.target.value)}
+            min={availabilityStart || undefined}
+          />
+        </label>
         <button type="submit" className="search-filters__search-btn">
           Search
         </button>

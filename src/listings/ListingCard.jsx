@@ -1,20 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
 import { resolveImageUrl } from "../services/api";
-import { isOwnListing } from "../utils/listingOwnership";
 import "./ListingCard.css";
 
-export default function ListingCard({ listing, isAuthenticated = false }) {
-  const { id, title, category, pricePerDay, ownerName, rating } = listing;
+export default function ListingCard({ listing, isAuthenticated = false, currentUserId = null }) {
+  const { id, title, category, pricePerDay, ownerName, rating, rentalCount, ownerId, userId } = listing;
   const imageUrl = resolveImageUrl(
     listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image
   );
   const navigate = useNavigate();
   const { items, addItem } = useCart();
-  const { user } = useAuth();
   const inCart = items.some((item) => item.id === id);
-  const isOwn = isOwnListing(listing, user);
+
+  const isOwnListing =
+    currentUserId != null &&
+    (String(ownerId) === String(currentUserId) || String(userId) === String(currentUserId));
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
@@ -34,7 +34,6 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
             <div className="listing-card__image-placeholder">No Image</div>
           )}
         </div>
-
         <div className="listing-card__body">
           <h3 className="listing-card__title">{title}</h3>
           {category && <span className="listing-card__category">{category}</span>}
@@ -46,6 +45,9 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
                 </span>
               ))}
               <span className="listing-card__rating-number">{rating.toFixed(1)}</span>
+              {typeof rentalCount === "number" && (
+                <span className="listing-card__rating-count">({rentalCount})</span>
+              )}
             </div>
           )}
           <div className="listing-card__meta">
@@ -54,13 +56,12 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
           </div>
         </div>
       </Link>
-
       <div className="listing-card__footer">
-        {isOwn ? (
-          <span className="listing-card__own-label">Your listing</span>
+        {isOwnListing ? (
+          <span className="listing-card__own-badge">Your listing</span>
         ) : (
           <button type="button" className="listing-card__add-btn" onClick={handleAddToCart}>
-            {inCart ? "In Cart" : "Add To Cart"}
+            {inCart ? "Added to Trip" : "Rent This Tool"}
           </button>
         )}
       </div>

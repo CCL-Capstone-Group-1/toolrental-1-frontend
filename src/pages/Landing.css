@@ -231,3 +231,7 @@
     max-width: 280px;
   }
 }
+.landing__callout-browse {
+  display: inline-block;
+  margin-top: 12px;
+}
