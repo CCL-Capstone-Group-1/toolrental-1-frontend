@@ -112,4 +112,31 @@
   .search-filters__search-btn {
     margin-left: 0;
   }
+
+  /* Center each chip's text on the smallest screens, and pin its trailing
+     icon (dropdown arrow / calendar icon) to the right edge instead of
+     letting it crowd the text. */
+  .search-filters__chip {
+    position: relative;
+    justify-content: center;
+    padding-right: calc(var(--space-lg) * 2);
+  }
+
+  .custom-select__trigger.search-filters__chip {
+    justify-content: center;
+  }
+
+  .custom-select__arrow {
+    position: absolute;
+    right: var(--space-lg);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .search-filters__date-input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: var(--space-lg);
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
