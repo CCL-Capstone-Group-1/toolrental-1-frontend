@@ -46,7 +46,7 @@
   top: 0;
   right: 0;
   bottom: var(--space-sm);
-  width: 64px;
+  width: 36px;
   background: linear-gradient(to right, transparent, var(--color-bg));
   pointer-events: none;
 }
