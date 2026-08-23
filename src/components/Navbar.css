@@ -39,6 +39,7 @@
 
 .navbar__link-label {
   display: inline;
+  margin-left: var(--space-sm);
 }
 
 .navbar__link:hover,
@@ -136,6 +137,12 @@
     width: 24px;
     height: 24px;
     flex-shrink: 0;
+  }
+
+  /* The mobile row already spaces children via gap, so drop the label's
+     own margin to avoid double spacing next to the icon. */
+  .navbar__actions .navbar__link-label {
+    margin-left: 0;
   }
 
   .navbar__user-menu {
