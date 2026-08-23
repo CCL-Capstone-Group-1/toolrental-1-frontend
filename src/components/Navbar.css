@@ -38,7 +38,7 @@
 }
 
 .navbar__link-label {
-  display: none;
+  display: inline;
 }
 
 .navbar__link:hover,
@@ -87,7 +87,7 @@
   gap: var(--space-md);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 860px) {
   .navbar__hamburger {
     display: flex;
   }

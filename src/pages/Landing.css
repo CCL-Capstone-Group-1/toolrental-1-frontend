@@ -35,7 +35,8 @@
 }
 
 .landing__hero h1 {
-  font-size: 2.5rem;
+  font-size: 2.15rem;
+  max-width: 640px;
 }
 
 .landing__hero p {
@@ -163,40 +164,44 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-md) 0 60px;
+  padding: var(--space-xl) 0 72px;
 }
 
 .landing__closing-browse {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: var(--space-sm);
-  color: var(--color-text);
+  color: #eaeae2;
+  background: var(--color-primary, var(--color-text));
+  padding: var(--space-md) calc(var(--space-xl) * 1.25);
+  border-radius: 999px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .landing__closing-browse-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: var(--color-text);
-  color: #eaeae2;
+  width: 28px;
+  height: 28px;
+  color: inherit;
 }
 
 .landing__closing-browse-icon svg {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 .landing__closing-browse-label {
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
-.landing__closing-browse:hover .landing__closing-browse-icon {
-  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
+.landing__closing-browse:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
 
 @media (max-width: 640px) {

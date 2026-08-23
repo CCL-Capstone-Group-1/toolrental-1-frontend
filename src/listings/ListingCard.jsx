@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { resolveImageUrl } from "../services/api";
+import { isOwnListing } from "../utils/listingOwnership";
 import "./ListingCard.css";
 
 export default function ListingCard({ listing, isAuthenticated = false }) {
@@ -10,7 +12,9 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
   );
   const navigate = useNavigate();
   const { items, addItem } = useCart();
+  const { user } = useAuth();
   const inCart = items.some((item) => item.id === id);
+  const isOwn = isOwnListing(listing, user);
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
@@ -52,9 +56,13 @@ export default function ListingCard({ listing, isAuthenticated = false }) {
       </Link>
 
       <div className="listing-card__footer">
-        <button type="button" className="listing-card__add-btn" onClick={handleAddToCart}>
-          {inCart ? "In Cart" : "Add To Cart"}
-        </button>
+        {isOwn ? (
+          <span className="listing-card__own-label">Your listing</span>
+        ) : (
+          <button type="button" className="listing-card__add-btn" onClick={handleAddToCart}>
+            {inCart ? "In Cart" : "Add To Cart"}
+          </button>
+        )}
       </div>
     </div>
   );

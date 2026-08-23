@@ -44,6 +44,24 @@ export default function Catalog() {
         return { ...listing, imageUrl };
       });
 
+  // Newest listings first. Real backend rows carry a timestamp; fall back to
+  // id (assumed to increase with insertion order) when one isn't present so
+  // a listing you just created still lands at the top of the feed.
+  const newestFirstListings = useMemo(() => {
+    const timeOf = (listing) => {
+      const raw = listing.createdAt || listing.created_at;
+      const parsed = raw ? new Date(raw).getTime() : NaN;
+      return Number.isNaN(parsed) ? null : parsed;
+    };
+
+    return [...sourceListings].sort((a, b) => {
+      const aTime = timeOf(a);
+      const bTime = timeOf(b);
+      if (aTime !== null && bTime !== null && aTime !== bTime) return bTime - aTime;
+      return (Number(b.id) || 0) - (Number(a.id) || 0);
+    });
+  }, [sourceListings]);
+
   const categories = useMemo(
     () => [...new Set(sourceListings.map((listing) => listing.category).filter(Boolean))],
     [sourceListings]
@@ -56,14 +74,14 @@ export default function Catalog() {
     // availability exists on the backend.
     const wantsAvailable = Boolean(filters.availability) || Boolean(filters.availabilityOption);
 
-    return sourceListings.filter((listing) => {
+    return newestFirstListings.filter((listing) => {
       const matchesSearch = listing.title?.toLowerCase().includes(filters.search.toLowerCase());
       const matchesCategory =
         !categories.includes(filters.category) || listing.category === filters.category;
       const matchesAvailability = !wantsAvailable || listing.available !== false;
       return matchesSearch && matchesCategory && matchesAvailability;
     });
-  }, [sourceListings, filters, categories]);
+  }, [newestFirstListings, filters, categories]);
 
   // rentalCount/seasonal are placeholder fields from mock data — see
   // src/data/mockListings.js. Swap for real backend-derived data once

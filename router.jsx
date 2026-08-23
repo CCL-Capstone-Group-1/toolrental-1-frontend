@@ -10,6 +10,7 @@ import ToolDetails from "./src/pages/ToolDetails";
 import Rental from "./src/pages/Rental";
 import Cart from "./src/pages/Cart";
 import Review from "./src/pages/Review";
+import Contact from "./src/pages/Contact";
 import { useAuth } from "./src/context/AuthContext";
 
 function ProtectedRoute() {
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Landing /> },
       { path: "catalog", element: <Catalog /> },
+      { path: "contact", element: <Contact /> },
       { path: "login", element: <SignIn /> },
       { path: "register", element: <SignUp /> },
       {

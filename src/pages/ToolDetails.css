@@ -76,6 +76,11 @@
   justify-content: flex-end;
 }
 
+.tool-details__own-label {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
 .tool-details__reviews {
   display: flex;
   flex-direction: column;

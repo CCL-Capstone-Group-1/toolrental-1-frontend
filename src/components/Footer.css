@@ -4,4 +4,17 @@
   padding: var(--space-lg);
   text-align: center;
   font-size: 0.85rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.footer__link {
+  opacity: 0.85;
+}
+
+.footer__link:hover {
+  opacity: 1;
+  text-decoration: underline;
 }

@@ -4,7 +4,9 @@ import { listingService } from "../services/listingService";
 import { resolveImageUrl } from "../services/api";
 import { useReviews } from "../hooks/useReviews";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { mockListings } from "../data/mockListings";
+import { isOwnListing } from "../utils/listingOwnership";
 import Button from "../components/Button";
 import "./ToolDetails.css";
 
@@ -14,6 +16,7 @@ export default function ToolDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const { reviews, fetchReviewsByTool } = useReviews();
   const { items, addItem } = useCart();
+  const { user } = useAuth();
 
   useEffect(() => {
     let isMounted = true;
@@ -50,6 +53,7 @@ export default function ToolDetails() {
     listing.imageUrl || listing.image_url || listing.photoUrl || listing.photo_url || listing.image
   );
   const inCart = items.some((item) => item.id === listing.id);
+  const isOwn = isOwnListing(listing, user);
 
   return (
     <main className="tool-details">
@@ -71,9 +75,13 @@ export default function ToolDetails() {
         </div>
 
         <div className="tool-details__actions">
-          <Button type="button" onClick={() => addItem({ ...listing, imageUrl })}>
-            {inCart ? "In Cart" : "Add To Cart"}
-          </Button>
+          {isOwn ? (
+            <span className="tool-details__own-label">This is your listing</span>
+          ) : (
+            <Button type="button" onClick={() => addItem({ ...listing, imageUrl })}>
+              {inCart ? "In Cart" : "Add To Cart"}
+            </Button>
+          )}
         </div>
       </div>
 

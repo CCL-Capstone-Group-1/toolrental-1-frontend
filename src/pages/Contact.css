@@ -1,0 +1,28 @@
+.contact-page {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg) 80px;
+  text-align: center;
+}
+
+.contact-page h1 {
+  font-size: 1.8rem;
+  margin: 0 0 var(--space-md);
+}
+
+.contact-page p {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-lg);
+}
+
+.contact-page__email {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-primary);
+}
+
+.contact-page__email:hover {
+  text-decoration: underline;
+}

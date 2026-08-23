@@ -111,3 +111,9 @@
 .listing-card__add-btn:hover {
   background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
+
+.listing-card__own-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
