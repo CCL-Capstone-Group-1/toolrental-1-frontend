@@ -21,12 +21,26 @@
 }
 
 .btn--secondary {
+  background: var(--color-secondary);
+  color: var(--color-bg);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: var(--color-secondary-dark);
+}
+
+/* On a dark surface (the landing hero overlay, the catalog's sign-in
+   banner) a filled teal button reads muddy against the dark backdrop, so
+   those keep the light-fill/teal-outline treatment instead. */
+.landing__hero-signup .btn--secondary,
+.catalog__auth-banner .btn--secondary {
   background: var(--color-bg);
   color: var(--color-secondary);
   box-shadow: 0 0 0 2px var(--color-secondary);
 }
 
-.btn--secondary:hover:not(:disabled) {
+.landing__hero-signup .btn--secondary:hover:not(:disabled),
+.catalog__auth-banner .btn--secondary:hover:not(:disabled) {
   box-shadow: 0 0 0 2px var(--color-secondary-dark);
   color: var(--color-secondary-dark);
 }
