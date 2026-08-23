@@ -20,7 +20,9 @@ export default function App() {
         authMode={AUTH_MODE_BY_PATH[pathname] || "default"}
       />
       <div className="app-shell__content">
-        <Outlet />
+        <div className="page-transition" key={pathname}>
+          <Outlet />
+        </div>
       </div>
       <Footer />
     </div>

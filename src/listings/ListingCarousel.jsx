@@ -47,8 +47,12 @@ export default function ListingCarousel({ title, listings, isAuthenticated = fal
       </div>
       <div className="listing-carousel__track-wrap">
         <div className="listing-carousel__track" ref={trackRef}>
-          {listings.map((listing) => (
-            <div className="listing-carousel__item" key={listing.id}>
+          {listings.map((listing, index) => (
+            <div
+              className="listing-carousel__item"
+              key={listing.id}
+              style={{ animationDelay: `${Math.min(index, 7) * 40}ms` }}
+            >
               <ListingCard listing={listing} isAuthenticated={isAuthenticated} currentUserId={currentUserId} />
             </div>
           ))}

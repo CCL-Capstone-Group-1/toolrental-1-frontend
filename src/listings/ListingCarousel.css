@@ -63,4 +63,16 @@
 .listing-carousel__item {
   flex: 0 0 260px;
   scroll-snap-align: start;
+  animation: listing-card-enter 0.35s ease backwards;
+}
+
+@keyframes listing-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
