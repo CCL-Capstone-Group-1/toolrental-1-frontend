@@ -54,16 +54,34 @@ export default function Catalog() {
           matchingMock?.imageUrl ||
           mockListings[index]?.imageUrl;
 
-        return { ...listing, imageUrl };
+        // rentalCount/seasonal are decorative fields that only ever lived on
+        // the local mock catalog. A real backend row that happens to share
+        // an id/title with a mock entry (e.g. a seeded duplicate) would
+        // otherwise win the dedup below and silently lose these, emptying
+        // out the Most Popular / Seasonal carousels.
+        const rentalCount =
+          typeof listing.rentalCount === "number" ? listing.rentalCount : matchingMock?.rentalCount;
+        const seasonal = listing.seasonal ?? matchingMock?.seasonal;
+
+        return { ...listing, imageUrl, rentalCount, seasonal };
       });
 
-    // Newly created listings (from "List a Tool") have a createdAt
-    // timestamp; put those first, most recent first, so a tool you just
-    // added shows up right away instead of buried at the end.
+    // Only a listing with no counterpart in the baseline mock catalog is
+    // "newly created" (via "List a Tool"). Every real backend row carries
+    // its own createdAt/created_at timestamp too, so checking for that
+    // field alone would resort the *entire* catalog by DB insert order
+    // instead of surfacing just the tools someone actually just added.
+    const isBaselineListing = (listing) =>
+      mockListings.some(
+        (mockListing) => mockListing.id === listing.id || mockListing.title === listing.title
+      );
+
     const newlyCreated = mapped
-      .filter((listing) => listing.createdAt)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    const rest = mapped.filter((listing) => !listing.createdAt);
+      .filter((listing) => (listing.createdAt || listing.created_at) && !isBaselineListing(listing))
+      .sort((a, b) => new Date(b.createdAt || b.created_at) - new Date(a.createdAt || a.created_at));
+    const rest = mapped.filter(
+      (listing) => !(listing.createdAt || listing.created_at) || isBaselineListing(listing)
+    );
 
     return [...newlyCreated, ...rest];
   }, [listings]);
