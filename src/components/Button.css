@@ -41,6 +41,7 @@
 
 .landing__hero-signup .btn--secondary:hover:not(:disabled),
 .catalog__auth-banner .btn--secondary:hover:not(:disabled) {
+  background: var(--color-bg);
   box-shadow: 0 0 0 2px var(--color-secondary-dark);
   color: var(--color-secondary-dark);
 }
