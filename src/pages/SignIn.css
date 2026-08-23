@@ -57,7 +57,7 @@
 }
 
 .signin-page__signup-prompt a {
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-weight: 600;
   text-decoration: underline;
 }

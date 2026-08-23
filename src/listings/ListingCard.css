@@ -58,7 +58,7 @@
 .listing-card__category {
   align-self: flex-start;
   font-size: 0.75rem;
-  color: var(--color-primary-dark);
+  color: var(--color-secondary);
   background: var(--color-bg-muted);
   padding: 2px var(--space-sm);
   border-radius: var(--radius-sm);
@@ -89,7 +89,7 @@
 
 .listing-card__price {
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--color-primary);
 }
 
 .listing-card__footer {
@@ -102,14 +102,14 @@
   padding: var(--space-xs) var(--space-md);
   border: none;
   border-radius: var(--radius-sm);
-  background: var(--color-text);
+  background: var(--color-primary);
   color: #eaeae2;
   font-size: 0.85rem;
   cursor: pointer;
 }
 
 .listing-card__add-btn:hover {
-  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
+  background: var(--color-primary-dark);
 }
 .listing-card__rating-count {
   margin-left: 4px;

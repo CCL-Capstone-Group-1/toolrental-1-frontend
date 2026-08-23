@@ -12,22 +12,23 @@
 }
 
 .btn--primary {
-  background: var(--color-text);
+  background: var(--color-primary);
   color: #eaeae2;
 }
 
 .btn--primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--color-text) 80%, white 20%);
+  background: var(--color-primary-dark);
 }
 
 .btn--secondary {
   background: var(--color-bg);
-  color: var(--color-text);
-  box-shadow: 0 0 0 2px var(--color-border);
+  color: var(--color-secondary);
+  box-shadow: 0 0 0 2px var(--color-secondary);
 }
 
 .btn--secondary:hover:not(:disabled) {
-  box-shadow: 0 0 0 2px var(--color-text);
+  box-shadow: 0 0 0 2px var(--color-secondary-dark);
+  color: var(--color-secondary-dark);
 }
 
 .btn--danger {

@@ -20,7 +20,7 @@
   display: inline-block;
   font-weight: 600;
   font-size: 1.05rem;
-  color: var(--color-primary);
+  color: var(--color-secondary);
 }
 
 .contact-page__email:hover {

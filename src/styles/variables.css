@@ -1,12 +1,19 @@
 :root {
-  --color-primary: #2f6f4f;
-  --color-primary-dark: #234f38;
+  /* Primary CTA buttons, highlights, price tags */
+  --color-primary: #a25324;
+  --color-primary-dark: #7c3f1a;
+  /* Links, secondary buttons, category tags */
+  --color-secondary: #42777e;
+  --color-secondary-dark: #345d63;
+  /* Headings, nav bar, body text on light backgrounds */
   --color-text: #254644;
   --color-text-muted: var(--color-text);
-  --color-border: var(--color-text);
-  --color-bg: #fbf6ea;
-  --color-bg-muted: #f6f6f4;
-  --color-card-bg: #f2e4c8;
+  /* Secondary backgrounds, borders, subtle accents */
+  --color-border: #d3c6a9;
+  /* Page backgrounds, cards, negative space */
+  --color-bg: #eaeae2;
+  --color-bg-muted: #d3c6a9;
+  --color-card-bg: #eaeae2;
   --color-danger: #b3261e;
 
   --space-xs: 0.25rem;

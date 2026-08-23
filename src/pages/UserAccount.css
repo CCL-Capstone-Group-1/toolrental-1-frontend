@@ -273,7 +273,7 @@
 }
 
 .account-page__empty-link {
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-weight: 600;
   text-decoration: underline;
 }
