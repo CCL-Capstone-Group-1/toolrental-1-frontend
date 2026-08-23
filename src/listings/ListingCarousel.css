@@ -46,8 +46,8 @@
   top: 0;
   right: 0;
   bottom: var(--space-sm);
-  width: 36px;
-  background: linear-gradient(to right, transparent, var(--color-bg));
+  width: 22px;
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-bg) 65%, transparent));
   pointer-events: none;
 }
 
