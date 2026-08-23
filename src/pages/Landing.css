@@ -235,3 +235,13 @@
   display: inline-block;
   margin-top: 12px;
 }
+
+.landing__callout-browse .btn--secondary {
+  background: var(--color-secondary);
+  color: var(--color-bg);
+}
+
+.landing__callout-browse .btn--secondary:hover:not(:disabled) {
+  background: var(--color-secondary-dark);
+  box-shadow: 0 0 0 2px var(--color-secondary-dark);
+}
