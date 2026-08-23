@@ -36,6 +36,21 @@
   background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
 
+.listing-carousel__track-wrap {
+  position: relative;
+}
+
+.listing-carousel__track-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: var(--space-sm);
+  width: 64px;
+  background: linear-gradient(to right, transparent, var(--color-bg));
+  pointer-events: none;
+}
+
 .listing-carousel__track {
   display: flex;
   gap: var(--space-lg);

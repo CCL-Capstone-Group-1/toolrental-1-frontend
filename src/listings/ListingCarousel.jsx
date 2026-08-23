@@ -45,12 +45,14 @@ export default function ListingCarousel({ title, listings, isAuthenticated = fal
           </button>
         </div>
       </div>
-      <div className="listing-carousel__track" ref={trackRef}>
-        {listings.map((listing) => (
-          <div className="listing-carousel__item" key={listing.id}>
-            <ListingCard listing={listing} isAuthenticated={isAuthenticated} currentUserId={currentUserId} />
-          </div>
-        ))}
+      <div className="listing-carousel__track-wrap">
+        <div className="listing-carousel__track" ref={trackRef}>
+          {listings.map((listing) => (
+            <div className="listing-carousel__item" key={listing.id}>
+              <ListingCard listing={listing} isAuthenticated={isAuthenticated} currentUserId={currentUserId} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
