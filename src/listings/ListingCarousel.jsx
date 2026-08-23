@@ -13,10 +13,13 @@ export default function ListingCarousel({ title, listings, isAuthenticated = fal
   // Some browsers restore a scrollable element's previous scroll offset on
   // reload/back-navigation, same as they do for the page itself. Force each
   // carousel back to its start so it doesn't open mid-scroll from a
-  // position left over from an earlier visit.
+  // position left over from an earlier visit. This has to depend on
+  // `listings` (not run once on mount) because the track doesn't exist in
+  // the DOM at all until listings finish loading — a mount-only effect
+  // fires while trackRef is still null and never gets another chance.
   useEffect(() => {
     if (trackRef.current) trackRef.current.scrollLeft = 0;
-  }, []);
+  }, [listings]);
 
   if (!listings || listings.length === 0) return null;
   return (
