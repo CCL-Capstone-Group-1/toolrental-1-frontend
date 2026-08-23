@@ -114,7 +114,7 @@
   background: var(--color-card-bg);
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-sm);
-  padding: var(--space-sm);
+  overflow: hidden;
 }
 
 .account-page__loan-card-content {
@@ -122,6 +122,7 @@
   flex-direction: column;
   gap: var(--space-xs);
   flex: 1;
+  padding-bottom: var(--space-sm);
 }
 
 .account-page__loan-card-link {
@@ -140,7 +141,7 @@
   padding: var(--space-xs) var(--space-sm);
   font-size: 0.8rem;
   cursor: pointer;
-  margin-top: var(--space-sm);
+  margin: 0 var(--space-sm) var(--space-sm);
   align-self: flex-start;
 }
 
@@ -148,10 +149,12 @@
   background: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
 
+/* Flush with the top of the card, edge-to-edge, like the catalog's
+   listing cards — no padding/border-radius of its own; the card's
+   own overflow:hidden clips its top corners to match. */
 .account-page__loan-thumb {
   aspect-ratio: 4 / 3;
   background: var(--color-bg-muted);
-  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,11 +172,14 @@
 .account-page__loan-name {
   font-weight: 600;
   font-size: 0.9rem;
+  padding: 0 var(--space-sm);
+  margin-top: var(--space-sm);
 }
 
 .account-page__loan-owner {
   font-size: 0.8rem;
   color: var(--color-text-muted);
+  padding: 0 var(--space-sm);
 }
 .account-page__list-tool-btn {
   margin-left: auto;
