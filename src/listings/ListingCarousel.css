@@ -40,6 +40,7 @@
   display: flex;
   gap: var(--space-lg);
   overflow-x: auto;
+  overflow-anchor: none;
   scroll-snap-type: x mandatory;
   padding-bottom: var(--space-sm);
 }

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import ListingCard from "./ListingCard";
 import "./ListingCarousel.css";
 
@@ -9,6 +9,15 @@ export default function ListingCarousel({ title, listings, isAuthenticated = fal
     if (!track) return;
     track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: "smooth" });
   };
+
+  // Some browsers restore a scrollable element's previous scroll offset on
+  // reload/back-navigation, same as they do for the page itself. Force each
+  // carousel back to its start so it doesn't open mid-scroll from a
+  // position left over from an earlier visit.
+  useEffect(() => {
+    if (trackRef.current) trackRef.current.scrollLeft = 0;
+  }, []);
+
   if (!listings || listings.length === 0) return null;
   return (
     <section className="listing-carousel">
