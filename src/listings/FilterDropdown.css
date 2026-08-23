@@ -119,7 +119,6 @@
   .search-filters__chip {
     position: relative;
     justify-content: center;
-    padding-right: calc(var(--space-lg) * 2);
   }
 
   .custom-select__trigger.search-filters__chip {
