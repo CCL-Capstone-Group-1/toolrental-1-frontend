@@ -24,6 +24,7 @@
 .listing-card__image-wrap {
   aspect-ratio: 4 / 3;
   background: var(--color-bg-muted);
+  overflow: hidden;
 }
 
 .listing-card__image {
@@ -31,6 +32,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.25s ease;
+}
+
+.listing-card:hover .listing-card__image {
+  transform: scale(1.05);
 }
 
 .listing-card__image-placeholder {
@@ -106,10 +112,15 @@
   color: #eaeae2;
   font-size: 0.85rem;
   cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
 .listing-card__add-btn:hover {
   background: var(--color-primary-dark);
+}
+
+.listing-card__add-btn:active {
+  transform: scale(0.97);
 }
 .listing-card__rating-count {
   margin-left: 4px;

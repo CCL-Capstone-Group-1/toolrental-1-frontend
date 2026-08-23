@@ -35,6 +35,19 @@
   box-shadow: var(--shadow-card);
   max-height: 240px;
   overflow-y: auto;
+  transform-origin: top center;
+  animation: custom-select-open 0.15s ease;
+}
+
+@keyframes custom-select-open {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .custom-select__option {

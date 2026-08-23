@@ -23,7 +23,19 @@ export default function Navbar({
   const { count } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [cartPulse, setCartPulse] = useState(false);
   const profileMenuRef = useRef(null);
+  const prevCountRef = useRef(count);
+
+  useEffect(() => {
+    if (count > prevCountRef.current) {
+      setCartPulse(true);
+      const timer = setTimeout(() => setCartPulse(false), 400);
+      prevCountRef.current = count;
+      return () => clearTimeout(timer);
+    }
+    prevCountRef.current = count;
+  }, [count]);
 
   useEffect(() => {
     if (!profileMenuOpen) return;
@@ -101,7 +113,11 @@ export default function Navbar({
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
               <span className="navbar__link-label">Cart</span>
-              {count > 0 && <span className="navbar__cart-count">{count}</span>}
+              {count > 0 && (
+                <span className={`navbar__cart-count${cartPulse ? " navbar__cart-count--pulse" : ""}`}>
+                  {count}
+                </span>
+              )}
             </NavLink>
             <div className="navbar__user-menu" ref={profileMenuRef}>
               <button

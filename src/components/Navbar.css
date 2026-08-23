@@ -204,6 +204,26 @@
   right: -6px;
 }
 
+.navbar__cart-count--pulse {
+  animation: navbar-cart-pulse 0.4s ease;
+}
+
+@keyframes navbar-cart-pulse {
+  0% {
+    transform: scale(1);
+    background: #eaeae2;
+  }
+  40% {
+    transform: scale(1.4);
+    background: var(--color-primary);
+    color: #eaeae2;
+  }
+  100% {
+    transform: scale(1);
+    background: #eaeae2;
+  }
+}
+
 .navbar__user-menu {
   position: relative;
 }
@@ -239,6 +259,19 @@
   box-shadow: var(--shadow-card);
   overflow: hidden;
   z-index: 10;
+  transform-origin: top left;
+  animation: navbar-dropdown-open 0.15s ease;
+}
+
+@keyframes navbar-dropdown-open {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .navbar__user-dropdown-item {

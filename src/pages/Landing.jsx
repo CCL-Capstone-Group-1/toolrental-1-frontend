@@ -57,8 +57,46 @@ function useScrollFrames() {
   return registerFrame;
 }
 
+// Fades/slides each registered section up into place the first time it
+// enters the viewport, instead of it just appearing.
+function useRevealOnScroll() {
+  const revealRefs = useRef([]);
+  revealRefs.current = [];
+
+  const registerReveal = (el) => {
+    if (el && !revealRefs.current.includes(el)) revealRefs.current.push(el);
+  };
+
+  useEffect(() => {
+    const els = revealRefs.current;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      els.forEach((el) => el.classList.add("is-visible"));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return registerReveal;
+}
+
 export default function Landing() {
   const registerFrame = useScrollFrames();
+  const registerReveal = useRevealOnScroll();
 
   return (
     <main className="landing">
@@ -76,7 +114,7 @@ export default function Landing() {
       </section>
 
       <div className="landing__feature">
-        <div className="landing__callout">
+        <div className="landing__callout landing__reveal" ref={registerReveal}>
           <span className="landing__callout-text">
             Turn your idle tools into extra cash.
           </span>
@@ -92,7 +130,7 @@ export default function Landing() {
       </div>
 
       <div className="landing__feature landing__feature--last">
-        <div className="landing__callout">
+        <div className="landing__callout landing__reveal" ref={registerReveal}>
           <span className="landing__callout-text">
             Got a project? Someone nearby already has the tool for it.
           </span>
@@ -107,7 +145,7 @@ export default function Landing() {
         />
       </div>
 
-      <section className="landing__trust">
+      <section className="landing__trust landing__reveal" ref={registerReveal}>
         <span className="landing__trust-eyebrow">Trust &amp; Safety</span>
         <h2>Every rental is backed by an agreement</h2>
 
@@ -144,7 +182,7 @@ export default function Landing() {
         </p>
       </section>
 
-      <section className="landing__closing">
+      <section className="landing__closing landing__reveal" ref={registerReveal}>
         <Link to="/catalog" className="landing__closing-browse">
           <span className="landing__closing-browse-icon">
             <svg
