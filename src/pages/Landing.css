@@ -175,7 +175,7 @@
   color: #eaeae2;
   background: var(--color-primary, var(--color-text));
   padding: var(--space-md) calc(var(--space-xl) * 1.25);
-  border-radius: 999px;
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
