@@ -50,7 +50,7 @@ export default function ListingCarousel({ title, listings, isAuthenticated = fal
           {listings.map((listing, index) => (
             <div
               className="listing-carousel__item"
-              key={listing.id}
+              key={listing.id ?? listing.title}
               style={{ animationDelay: `${Math.min(index, 7) * 40}ms` }}
             >
               <ListingCard listing={listing} isAuthenticated={isAuthenticated} currentUserId={currentUserId} />

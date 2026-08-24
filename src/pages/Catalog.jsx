@@ -39,10 +39,10 @@ export default function Catalog() {
         seen.add(key);
         return true;
       })
-      .map((listing, index) => {
+      .map((listing) => {
         const matchingMock = mockListings.find(
           (mockListing) =>
-            mockListing.id === listing.id ||
+            String(mockListing.id) === String(listing.id) ||
             mockListing.title === listing.title
         );
 
@@ -52,8 +52,7 @@ export default function Catalog() {
           listing.photoUrl ||
           listing.photo_url ||
           listing.image ||
-          matchingMock?.imageUrl ||
-          mockListings[index]?.imageUrl;
+          matchingMock?.imageUrl;
 
         // rentalCount/seasonal/category are decorative/optional fields that
         // only ever lived on the local mock catalog (or aren't populated by
@@ -76,7 +75,8 @@ export default function Catalog() {
     // instead of surfacing just the tools someone actually just added.
     const isBaselineListing = (listing) =>
       mockListings.some(
-        (mockListing) => mockListing.id === listing.id || mockListing.title === listing.title
+        (mockListing) =>
+          String(mockListing.id) === String(listing.id) || mockListing.title === listing.title
       );
 
     const newlyCreated = mapped

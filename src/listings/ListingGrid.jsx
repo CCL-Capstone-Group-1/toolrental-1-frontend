@@ -23,7 +23,7 @@ export default function ListingGrid({
   return (
     <div className="listing-grid">
       {listings.map((listing) => (
-        <ListingCard key={listing.id} listing={listing} isAuthenticated={isAuthenticated} />
+        <ListingCard key={listing.id ?? listing.title} listing={listing} isAuthenticated={isAuthenticated} />
       ))}
     </div>
   );
