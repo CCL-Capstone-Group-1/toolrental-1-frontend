@@ -70,7 +70,15 @@
   opacity: 0.8;
 }
 
+.search-filters__date-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 90px;
+}
+
 .search-filters__date-input {
+  width: 100%;
   border: none;
   background: transparent;
   font-family: inherit;
@@ -85,9 +93,22 @@
   outline: none;
 }
 
-.search-filters__date-input::placeholder {
+/* Real mobile browsers ignore the `placeholder` attribute on
+   type="date" inputs and render nothing until a value is picked, so
+   this JS-driven overlay stands in as the hint instead. It sits on top
+   of (and fully masks) the native empty-state rendering, but lets taps
+   pass through to the input beneath to open the native picker. */
+.search-filters__date-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  background: var(--color-text);
   color: #eaeae2;
   opacity: 0.8;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .search-filters__search-btn {

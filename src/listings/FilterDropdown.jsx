@@ -39,24 +39,36 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
         />
         <label className="search-filters__chip search-filters__chip--date">
           <span className="search-filters__chip-label">From</span>
-          <input
-            type="date"
-            className="search-filters__date-input"
-            placeholder="mm/dd/yyyy"
-            value={availabilityStart}
-            onChange={(e) => setAvailabilityStart(e.target.value)}
-          />
+          <span className="search-filters__date-wrap">
+            <input
+              type="date"
+              className="search-filters__date-input"
+              value={availabilityStart}
+              onChange={(e) => setAvailabilityStart(e.target.value)}
+            />
+            {!availabilityStart && (
+              <span className="search-filters__date-placeholder" aria-hidden="true">
+                mm/dd/yyyy
+              </span>
+            )}
+          </span>
         </label>
         <label className="search-filters__chip search-filters__chip--date">
           <span className="search-filters__chip-label">Until</span>
-          <input
-            type="date"
-            className="search-filters__date-input"
-            placeholder="mm/dd/yyyy"
-            value={availabilityEnd}
-            onChange={(e) => setAvailabilityEnd(e.target.value)}
-            min={availabilityStart || undefined}
-          />
+          <span className="search-filters__date-wrap">
+            <input
+              type="date"
+              className="search-filters__date-input"
+              value={availabilityEnd}
+              onChange={(e) => setAvailabilityEnd(e.target.value)}
+              min={availabilityStart || undefined}
+            />
+            {!availabilityEnd && (
+              <span className="search-filters__date-placeholder" aria-hidden="true">
+                mm/dd/yyyy
+              </span>
+            )}
+          </span>
         </label>
         <button type="submit" className="search-filters__search-btn">
           Search
