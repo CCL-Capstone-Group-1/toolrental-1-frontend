@@ -26,52 +26,61 @@ export default function Catalog() {
 
   const sourceListings = useMemo(() => {
     const combined = [...(listings || []), ...mockListings];
-    const seen = new Set();
 
-    const mapped = combined
-      .filter((listing) => {
-        // Title is the only identity that's meaningful across both the real
-        // backend and this static catalog - a real row's id is assigned
-        // independently, so keying on id here could dedupe two unrelated
-        // tools together (or fail to dedupe a genuine duplicate) purely by
-        // coincidence.
-        const key = listing.title || String(listing.id);
-
-        if (seen.has(key)) {
-          return false;
+    // Title is the only identity that's meaningful across the real backend,
+    // the local mock store, and this static catalog - a real row's id is
+    // assigned independently, so keying on id here could dedupe two
+    // unrelated tools together (or fail to dedupe a genuine duplicate)
+    // purely by coincidence. When two sources both have an entry for the
+    // same title, merge them field-by-field (first non-empty value wins)
+    // instead of picking one source wholesale - otherwise whichever source
+    // happens to be listed first "wins" even when the other one actually
+    // has the field (e.g. category) that this one is missing.
+    const byKey = new Map();
+    combined.forEach((listing) => {
+      const key = listing.title || String(listing.id);
+      const existing = byKey.get(key);
+      if (!existing) {
+        byKey.set(key, listing);
+        return;
+      }
+      const merged = { ...existing };
+      Object.entries(listing).forEach(([field, value]) => {
+        if (merged[field] === undefined || merged[field] === null || merged[field] === "") {
+          merged[field] = value;
         }
-
-        seen.add(key);
-        return true;
-      })
-      .map((listing) => {
-        // Match on title only - a real backend row's id is assigned
-        // independently of this static catalog's, so two unrelated tools can
-        // share an id by pure coincidence (e.g. both "id: 1") and end up
-        // wrongly matched, backfilling one tool's photo onto another.
-        const matchingMock = mockListings.find((mockListing) => mockListing.title === listing.title);
-
-        const imageUrl =
-          listing.imageUrl ||
-          listing.image_url ||
-          listing.photoUrl ||
-          listing.photo_url ||
-          listing.image ||
-          matchingMock?.imageUrl;
-
-        // rentalCount/seasonal/category are decorative/optional fields that
-        // only ever lived on the local mock catalog (or aren't populated by
-        // the backend yet). A real backend row that happens to share an
-        // id/title with a mock entry (e.g. a seeded duplicate) would
-        // otherwise win the dedup below and silently lose these, emptying
-        // out the Most Popular / Seasonal carousels and the category filter.
-        const rentalCount =
-          typeof listing.rentalCount === "number" ? listing.rentalCount : matchingMock?.rentalCount;
-        const seasonal = listing.seasonal ?? matchingMock?.seasonal;
-        const category = listing.category || matchingMock?.category;
-
-        return { ...listing, imageUrl, rentalCount, seasonal, category };
       });
+      byKey.set(key, merged);
+    });
+
+    const mapped = [...byKey.values()].map((listing) => {
+      // Match on title only - a real backend row's id is assigned
+      // independently of this static catalog's, so two unrelated tools can
+      // share an id by pure coincidence (e.g. both "id: 1") and end up
+      // wrongly matched, backfilling one tool's photo onto another.
+      const matchingMock = mockListings.find((mockListing) => mockListing.title === listing.title);
+
+      const imageUrl =
+        listing.imageUrl ||
+        listing.image_url ||
+        listing.photoUrl ||
+        listing.photo_url ||
+        listing.image ||
+        matchingMock?.imageUrl;
+
+      // rentalCount/seasonal/category are decorative/optional fields that
+      // only ever lived on the local mock catalog (or aren't populated by
+      // the backend yet). A real backend row that happens to share a title
+      // with a mock entry (e.g. a seeded duplicate) would otherwise miss
+      // these, emptying out the Most Popular / Seasonal carousels and the
+      // category filter.
+      const rentalCount =
+        typeof listing.rentalCount === "number" ? listing.rentalCount : matchingMock?.rentalCount;
+      const seasonal = listing.seasonal ?? matchingMock?.seasonal;
+      const category = listing.category || matchingMock?.category;
+
+      return { ...listing, imageUrl, rentalCount, seasonal, category };
+    });
 
     // Only a listing with no counterpart in the baseline mock catalog is
     // "newly created" (via "List a Tool"). Every real backend row carries
