@@ -60,16 +60,27 @@
 }
 
 .landing__hero-signup .btn {
-  padding: var(--space-sm) var(--space-xl);
-  font-size: 0.95rem;
+  padding: var(--space-md) calc(var(--space-xl) * 1.25);
+  font-size: 1.15rem;
+  font-weight: 700;
   border-radius: var(--radius-md);
   border: none;
   box-shadow: none;
 }
 
+.landing__hero-signup .btn--secondary {
+  background: var(--color-primary, var(--color-text));
+  color: #eaeae2;
+}
+
 .landing__hero-signup .btn:hover:not(:disabled) {
   box-shadow: none;
   opacity: 0.85;
+}
+
+.landing__hero-signup .btn--secondary:hover:not(:disabled) {
+  background: var(--color-primary, var(--color-text));
+  color: #eaeae2;
 }
 
 .landing__feature {
