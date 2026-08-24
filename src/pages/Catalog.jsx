@@ -77,7 +77,9 @@ export default function Catalog() {
       const rentalCount =
         typeof listing.rentalCount === "number" ? listing.rentalCount : matchingMock?.rentalCount;
       const seasonal = listing.seasonal ?? matchingMock?.seasonal;
-      const category = listing.category || matchingMock?.category;
+      // The real backend nests category under the related `tools` row
+      // (listing.tools.category) rather than on the listing itself.
+      const category = listing.category || listing.tools?.category || matchingMock?.category;
 
       return { ...listing, imageUrl, rentalCount, seasonal, category };
     });
