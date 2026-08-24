@@ -42,6 +42,7 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
           <input
             type="date"
             className="search-filters__date-input"
+            placeholder="mm/dd/yyyy"
             value={availabilityStart}
             onChange={(e) => setAvailabilityStart(e.target.value)}
           />
@@ -51,6 +52,7 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
           <input
             type="date"
             className="search-filters__date-input"
+            placeholder="mm/dd/yyyy"
             value={availabilityEnd}
             onChange={(e) => setAvailabilityEnd(e.target.value)}
             min={availabilityStart || undefined}

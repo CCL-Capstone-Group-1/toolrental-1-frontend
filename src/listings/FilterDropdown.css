@@ -85,6 +85,11 @@
   outline: none;
 }
 
+.search-filters__date-input::placeholder {
+  color: #eaeae2;
+  opacity: 0.8;
+}
+
 .search-filters__search-btn {
   margin-left: auto;
   height: 40px;
