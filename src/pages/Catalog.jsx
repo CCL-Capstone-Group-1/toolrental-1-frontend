@@ -30,7 +30,12 @@ export default function Catalog() {
 
     const mapped = combined
       .filter((listing) => {
-        const key = String(listing.id ?? listing.title);
+        // Title is the only identity that's meaningful across both the real
+        // backend and this static catalog - a real row's id is assigned
+        // independently, so keying on id here could dedupe two unrelated
+        // tools together (or fail to dedupe a genuine duplicate) purely by
+        // coincidence.
+        const key = listing.title || String(listing.id);
 
         if (seen.has(key)) {
           return false;
