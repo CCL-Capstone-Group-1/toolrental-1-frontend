@@ -21,16 +21,29 @@
   object-fit: cover;
 }
 
-.image-upload__input {
-  display: block;
-  font-family: var(--font-family);
+.image-upload__control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
-.image-upload__hint {
+.image-upload__control .btn {
+  box-shadow: var(--shadow-card);
+}
+
+.image-upload__control .btn:hover:not(:disabled) {
+  box-shadow: var(--shadow-card);
+  opacity: 0.85;
+}
+
+.image-upload__input {
+  display: none;
+}
+
+.image-upload__filename {
   font-family: var(--font-family);
   font-size: 13px;
   color: var(--color-text-muted);
-  margin-top: var(--space-xs);
 }
 
 .image-upload__error {

@@ -1,5 +1,6 @@
 // src/components/ImageUpload.jsx
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Button from "./Button";
 import "./ImageUpload.css";
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -25,8 +26,10 @@ async function uploadToCloudinary(file) {
 
 export default function ImageUpload({ onUploaded, existingUrl, label = "Photo" }) {
   const [preview, setPreview] = useState(existingUrl || null);
+  const [fileName, setFileName] = useState("");
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
+  const fileInputRef = useRef(null);
 
   async function handleFileChange(e) {
     const file = e.target.files[0];
@@ -43,6 +46,7 @@ export default function ImageUpload({ onUploaded, existingUrl, label = "Photo" }
       return;
     }
 
+    setFileName(file.name);
     setPreview(URL.createObjectURL(file));
     setUploading(true);
 
@@ -65,15 +69,28 @@ export default function ImageUpload({ onUploaded, existingUrl, label = "Photo" }
         <img src={preview} alt="Preview" className="image-upload__preview" />
       )}
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        disabled={uploading}
-        className="image-upload__input"
-      />
+      <div className="image-upload__control">
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          disabled={uploading}
+          className="image-upload__input"
+        />
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+        >
+          Upload photo
+        </Button>
+        {fileName && (
+          <span className="image-upload__filename">{uploading ? "Uploading..." : fileName}</span>
+        )}
+      </div>
 
-      {uploading && <p className="image-upload__hint">Uploading...</p>}
       {error && <p className="image-upload__error">{error}</p>}
     </div>
   );
