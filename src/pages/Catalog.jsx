@@ -40,11 +40,11 @@ export default function Catalog() {
         return true;
       })
       .map((listing) => {
-        const matchingMock = mockListings.find(
-          (mockListing) =>
-            String(mockListing.id) === String(listing.id) ||
-            mockListing.title === listing.title
-        );
+        // Match on title only - a real backend row's id is assigned
+        // independently of this static catalog's, so two unrelated tools can
+        // share an id by pure coincidence (e.g. both "id: 1") and end up
+        // wrongly matched, backfilling one tool's photo onto another.
+        const matchingMock = mockListings.find((mockListing) => mockListing.title === listing.title);
 
         const imageUrl =
           listing.imageUrl ||
@@ -74,10 +74,7 @@ export default function Catalog() {
     // field alone would resort the *entire* catalog by DB insert order
     // instead of surfacing just the tools someone actually just added.
     const isBaselineListing = (listing) =>
-      mockListings.some(
-        (mockListing) =>
-          String(mockListing.id) === String(listing.id) || mockListing.title === listing.title
-      );
+      mockListings.some((mockListing) => mockListing.title === listing.title);
 
     const newlyCreated = mapped
       .filter((listing) => (listing.createdAt || listing.created_at) && !isBaselineListing(listing))
