@@ -75,6 +75,7 @@
   display: flex;
   align-items: center;
   min-width: 90px;
+  padding-right: calc(var(--space-md) + 16px);
 }
 
 .search-filters__date-input {
@@ -89,8 +90,32 @@
   color-scheme: dark;
 }
 
+.search-filters__date-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #eaeae2;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
 .search-filters__date-input:focus {
   outline: none;
+}
+
+/* Hide the browser's own calendar icon (Chrome/Edge desktop render one
+   automatically) so only our custom .search-filters__date-icon shows -
+   it stays functionally clickable, just invisible, to avoid a duplicate. */
+.search-filters__date-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
 }
 
 /* Real mobile browsers ignore the `placeholder` attribute on
@@ -152,13 +177,6 @@
   }
 
   .custom-select__arrow {
-    position: absolute;
-    right: var(--space-lg);
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .search-filters__date-input::-webkit-calendar-picker-indicator {
     position: absolute;
     right: var(--space-lg);
     top: 50%;
