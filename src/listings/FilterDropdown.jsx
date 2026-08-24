@@ -33,7 +33,7 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
           value={category}
           onChange={setCategory}
           options={[
-            { value: "all", label: "All Categories" },
+            { value: "", label: "All Categories" },
             ...categories.map((c) => ({ value: c, label: c })),
           ]}
         />

@@ -55,16 +55,18 @@ export default function Catalog() {
           matchingMock?.imageUrl ||
           mockListings[index]?.imageUrl;
 
-        // rentalCount/seasonal are decorative fields that only ever lived on
-        // the local mock catalog. A real backend row that happens to share
-        // an id/title with a mock entry (e.g. a seeded duplicate) would
+        // rentalCount/seasonal/category are decorative/optional fields that
+        // only ever lived on the local mock catalog (or aren't populated by
+        // the backend yet). A real backend row that happens to share an
+        // id/title with a mock entry (e.g. a seeded duplicate) would
         // otherwise win the dedup below and silently lose these, emptying
-        // out the Most Popular / Seasonal carousels.
+        // out the Most Popular / Seasonal carousels and the category filter.
         const rentalCount =
           typeof listing.rentalCount === "number" ? listing.rentalCount : matchingMock?.rentalCount;
         const seasonal = listing.seasonal ?? matchingMock?.seasonal;
+        const category = listing.category || matchingMock?.category;
 
-        return { ...listing, imageUrl, rentalCount, seasonal };
+        return { ...listing, imageUrl, rentalCount, seasonal, category };
       });
 
     // Only a listing with no counterpart in the baseline mock catalog is
