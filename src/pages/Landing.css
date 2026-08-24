@@ -60,12 +60,28 @@
 }
 
 .landing__hero-signup .btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
   padding: var(--space-md) calc(var(--space-xl) * 1.25);
   font-size: 1.15rem;
   font-weight: 700;
   border-radius: var(--radius-md);
   border: none;
   box-shadow: none;
+}
+
+.landing__hero-signup-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.landing__hero-signup-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .landing__hero-signup .btn--secondary {
