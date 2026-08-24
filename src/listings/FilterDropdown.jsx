@@ -71,8 +71,8 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
                 mm/dd/yyyy
               </span>
             )}
-            <CalendarIcon />
           </span>
+          <CalendarIcon />
         </label>
         <label className="search-filters__chip search-filters__chip--date">
           <span className="search-filters__chip-label">Until</span>
@@ -89,8 +89,8 @@ export default function FilterDropdown({ categories = [], onFilterChange }) {
                 mm/dd/yyyy
               </span>
             )}
-            <CalendarIcon />
           </span>
+          <CalendarIcon />
         </label>
         <button type="submit" className="search-filters__search-btn">
           Search

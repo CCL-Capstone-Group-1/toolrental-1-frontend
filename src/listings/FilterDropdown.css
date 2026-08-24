@@ -75,7 +75,6 @@
   display: flex;
   align-items: center;
   min-width: 90px;
-  padding-right: calc(var(--space-md) + 16px);
 }
 
 .search-filters__date-input {
@@ -92,7 +91,7 @@
 
 .search-filters__date-icon {
   position: absolute;
-  right: 0;
+  right: var(--space-lg);
   top: 50%;
   transform: translateY(-50%);
   width: 16px;
